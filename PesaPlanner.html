@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-05FEPBJWY5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-05FEPBJWY5');
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PesaPlanner — Pesa Yako Isiwe Mystery ya Semester</title>
+<meta name="description" content="The offline-first personal finance app built for the Kenyan campus economy. Track M-Pesa, plan budgets, split debts, and always know what you can actually spend." />
+
+<!-- ============================================================
+     APP ICON / FAVICON
+     Drop your icon files in the same folder as this HTML file.
+     - icon.png        → 512×512 (main + favicon fallback)
+     - icon-192.png    → 192×192 (Android / PWA)
+     - icon-512.png    → 512×512 (PWA splash)
+     - apple-touch.png → 180×180 (iOS home screen)
+============================================================ -->
+<link rel="icon" type="image/png" href="icon.png" />
+<link rel="apple-touch-icon" href="apple-touch.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#050a18" />
+<meta property="og:image" content="icon.png" />
+<meta property="og:title" content="PesaPlanner — Pesa Yako Isiwe Mystery ya Semester" />
+<meta property="og:description" content="Offline-first personal finance for Kenyan campus life." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   TOKENS — Blue & Yellow
+============================================================ */
+:root{
+  --bg:#050a18;
+  --bg-2:#081020;
+  --surface:#0d1730;
+  --surface-2:#142140;
+  --surface-3:#1c2c52;
+  --border:rgba(96,165,250,0.12);
+  --border-2:rgba(96,165,250,0.28);
+  --text:#eef4ff;
+  --muted:#94a8c8;
+  --dim:#5b6f92;
+
+  --blue:#3b82f6;
+  --blue-bright:#60a5fa;
+  --blue-deep:#1e40af;
+  --blue-glow:rgba(59,130,246,0.35);
+  --blue-soft:rgba(59,130,246,0.14);
+
+  --yellow:#facc15;
+  --yellow-bright:#fde047;
+  --yellow-deep:#ca8a04;
+  --yellow-glow:rgba(250,204,21,0.35);
+  --yellow-soft:rgba(250,204,21,0.14);
+
+  --radius:14px;
+  --radius-lg:22px;
+  --radius-xl:32px;
+  --max:1200px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin:0}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:var(--yellow);color:#050a18}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0ms)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation:none!important}}
+
+/* ============================================================
+   NAV
+============================================================ */
+.nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(5,10,24,0.78);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:32px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.02em}
+
+/* App icon rendered from /icon.png — falls back to gradient "P" if image missing */
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;position:relative;flex:0 0 auto;
+  display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(135deg,var(--blue),var(--yellow));
+  color:#050a18;font-size:15px;font-weight:800;
+  box-shadow:0 0 22px var(--blue-glow);
+}
+.logo-mark img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+.logo-mark .fallback{position:relative;z-index:1}
+.logo-mark.has-image .fallback{display:none}
+
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{padding:8px 14px;border-radius:9px;font-size:14px;font-weight:500;color:var(--muted);transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--text);background:var(--surface-2)}
+.nav-cta{padding:9px 18px;border-radius:999px;background:var(--yellow);color:#050a18;font-size:13.5px;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px var(--yellow-glow)}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{position:relative;padding:90px 0 110px;overflow:hidden}
+.hero-glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+.hero-glow.g1{width:680px;height:680px;background:radial-gradient(circle,var(--blue-glow),transparent 70%);top:-240px;left:-180px;animation:float1 14s ease-in-out infinite}
+.hero-glow.g2{width:560px;height:560px;background:radial-gradient(circle,var(--yellow-glow),transparent 70%);top:60px;right:-200px;animation:float2 18s ease-in-out infinite}
+.hero-glow.g3{width:420px;height:420px;background:radial-gradient(circle,rgba(96,165,250,0.18),transparent 70%);bottom:-180px;left:40%}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+
+/* Big watermark icon behind hero copy */
+.hero-watermark{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(720px,90vw);opacity:0.035;pointer-events:none;z-index:0;
+}
+.hero-watermark img{width:100%;height:auto}
+
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:56px}.hero{padding:60px 0 80px}}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border-2);font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:26px}
+.eyebrow .pulse{width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 0 var(--yellow-glow);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--yellow-glow)}70%{box-shadow:0 0 0 10px rgba(250,204,21,0)}100%{box-shadow:0 0 0 0 rgba(250,204,21,0)}}
+
+.hero h1{font-size:clamp(40px,6.4vw,76px);line-height:1.02;margin-bottom:24px}
+.hero h1 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.02em}
+.hero-sub{font-size:clamp(16px,1.6vw,18.5px);color:var(--muted);max-width:54ch;line-height:1.65;margin-bottom:36px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;transition:transform .22s var(--ease),box-shadow .22s,background .22s,border-color .22s;white-space:nowrap}
+.btn-primary{background:var(--yellow);color:#050a18}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px var(--yellow-glow)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-2)}
+.btn-ghost:hover{background:var(--surface-2);transform:translateY(-2px)}
+.btn svg{width:16px;height:16px}
+
+.hero-trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;font-size:13px;color:var(--dim)}
+.hero-trust span{display:flex;align-items:center;gap:7px}
+.hero-trust svg{width:14px;height:14px;color:var(--yellow)}
+
+/* ============================================================
+   PHONE MOCKUP
+============================================================ */
+.phone-wrap{position:relative;display:flex;justify-content:center;animation:phoneFloat 7s ease-in-out infinite}
+@keyframes phoneFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-16px) rotate(-1deg)}}
+.phone{position:relative;width:min(320px,82vw);aspect-ratio:9/19.2;border-radius:46px;background:#000;border:9px solid #121a30;box-shadow:0 0 0 1px rgba(96,165,250,0.1),0 40px 90px rgba(0,0,0,0.7),0 0 90px var(--blue-glow);overflow:hidden}
+.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:80px;height:22px;border-radius:14px;background:#000;z-index:5}
+.phone-screen{position:absolute;inset:0;padding:46px 18px 18px;background:radial-gradient(120% 60% at 50% 0%,rgba(59,130,246,0.14),transparent 60%),linear-gradient(180deg,#08122a,#050a18);display:flex;flex-direction:column;gap:14px;font-size:11px}
+.ps-status{position:absolute;top:14px;left:26px;right:26px;display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--muted)}
+.ps-greet{display:flex;flex-direction:column;gap:2px;padding-top:6px}
+.ps-hi{font-size:14px;font-weight:700;letter-spacing:-0.01em}
+.ps-wk{font-size:10.5px;color:var(--dim)}
+.ps-hero{border-radius:18px;padding:16px 16px 14px;background:linear-gradient(150deg,rgba(59,130,246,0.28),rgba(250,204,21,0.12) 70%);border:1px solid rgba(96,165,250,0.32);position:relative;overflow:hidden}
+.ps-hero::after{content:'';position:absolute;top:-40%;right:-30%;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(250,204,21,0.32),transparent 70%);filter:blur(20px)}
+.ps-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--yellow)}
+.ps-amount{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:27px;font-weight:800;letter-spacing:-0.03em;margin:3px 0}
+.ps-note{font-size:9.5px;color:var(--muted)}
+.ps-cats{display:flex;flex-direction:column;gap:8px}
+.ps-cat{display:flex;flex-direction:column;gap:4px}
+.ps-cat-top{display:flex;justify-content:space-between;font-size:10px;font-weight:600}
+.ps-cat-top .amt{color:var(--muted);font-weight:500}
+.ps-bar{height:4px;border-radius:999px;background:rgba(255,255,255,0.07);overflow:hidden}
+.ps-bar i{display:block;height:100%;border-radius:999px}
+.ps-bar i.blue{background:linear-gradient(90deg,var(--blue),var(--blue-bright))}
+.ps-bar i.yellow{background:linear-gradient(90deg,var(--yellow),var(--yellow-bright))}
+.ps-bar i.mix{background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.ps-bar i.soft{background:linear-gradient(90deg,var(--blue-bright),#93c5fd)}
+.ps-txns{flex:1;display:flex;flex-direction:column;gap:9px;padding-top:10px;border-top:1px solid var(--border);margin-top:2px}
+.ps-txn{display:flex;align-items:center;gap:9px}
+.ps-ico{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;font-size:11px;background:var(--surface-2)}
+.ps-ico.out{background:var(--yellow-soft);color:var(--yellow)}
+.ps-ico.in{background:var(--blue-soft);color:var(--blue-bright)}
+.ps-txn-body{flex:1;min-width:0}
+.ps-txn-name{font-size:10.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-txn-time{font-size:9px;color:var(--dim)}
+.ps-txn-amt{font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.ps-txn-amt.out{color:var(--yellow)}
+.ps-txn-amt.in{color:var(--blue-bright)}
+
+.phone-badge{position:absolute;background:var(--surface-2);border:1px solid var(--border-2);border-radius:14px;padding:10px 14px;font-size:12px;font-weight:600;box-shadow:0 20px 50px rgba(0,0,0,0.5);backdrop-filter:blur(12px);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.phone-badge .dot{width:7px;height:7px;border-radius:50%}
+.badge-1{top:14%;left:-8%;animation:badgeFloat 6s ease-in-out infinite}
+.badge-2{bottom:20%;right:-10%;animation:badgeFloat 7s ease-in-out infinite reverse}
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.badge-1 .dot{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.badge-2 .dot{background:var(--yellow);box-shadow:0 0 12px var(--yellow)}
+@media(max-width:520px){.badge-1{left:-4%;top:10%;font-size:11px;padding:8px 11px}.badge-2{right:-4%;font-size:11px;padding:8px 11px}}
+
+/* ============================================================
+   MARQUEE
+============================================================ */
+.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-2);padding:20px 0;overflow:hidden;position:relative}
+.marquee::before,.marquee::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--bg-2),transparent)}
+.marquee::after{right:0;background:linear-gradient(270deg,var(--bg-2),transparent)}
+.marquee-track{display:flex;gap:52px;width:max-content;animation:scroll 46s linear infinite}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.marquee-item{display:flex;align-items:center;gap:52px;font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;color:var(--dim);white-space:nowrap}
+.marquee-item em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--yellow);opacity:.92}
+.marquee-item .star{color:var(--blue);font-size:14px}
+
+/* ============================================================
+   SECTION HEADS
+============================================================ */
+section{position:relative}
+.sec{padding:110px 0}
+@media(max-width:820px){.sec{padding:80px 0}}
+.sec-head{max-width:760px;margin-bottom:64px}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.16em;color:var(--yellow);margin-bottom:18px}
+.sec-eyebrow::before{content:'';width:22px;height:1.5px;background:var(--yellow);border-radius:2px}
+.sec-head h2{font-size:clamp(30px,4.6vw,52px);margin-bottom:20px}
+.sec-head h2 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.sec-head p{font-size:clamp(15px,1.5vw,17.5px);color:var(--muted);line-height:1.7;max-width:62ch}
+
+/* ============================================================
+   PROBLEM
+============================================================ */
+.problem{background:linear-gradient(180deg,var(--bg),var(--bg-2))}
+.problem-intro{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:56px;align-items:end}
+@media(max-width:820px){.problem-intro{grid-template-columns:1fr;gap:24px}}
+.problem-intro .quote{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--text);border-left:2px solid var(--yellow);padding-left:22px}
+.problem-intro .side-note{color:var(--muted);font-size:15px;line-height:1.7}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:920px){.problem-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.problem-grid{grid-template-columns:1fr}}
+.p-card{position:relative;padding:26px 24px 24px;border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--surface),rgba(13,23,48,0.5));border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .3s var(--ease),background .3s}
+.p-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue-bright),transparent);opacity:0;transition:opacity .3s}
+.p-card:hover{border-color:rgba(96,165,250,0.35);transform:translateY(-4px);background:linear-gradient(180deg,var(--surface-2),rgba(13,23,48,0.6))}
+.p-card:hover::before{opacity:1}
+.p-card .num{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;color:var(--blue-bright);letter-spacing:0.08em;display:block;margin-bottom:16px}
+.p-card h3{font-size:18px;font-weight:700;line-height:1.25;letter-spacing:-0.015em;margin-bottom:10px}
+.p-card p{font-size:14px;color:var(--muted);line-height:1.65}
+.p-card .tag{display:inline-block;margin-top:16px;font-size:11.5px;font-weight:600;color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-size:14px;line-height:1.4}
+
+/* ============================================================
+   SOLUTION
+============================================================ */
+.solution{background:radial-gradient(80% 60% at 50% 0%,var(--blue-soft),transparent 70%),var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.solution-inner{text-align:center;max-width:840px;margin:0 auto}
+.solution-inner h2{font-size:clamp(32px,5vw,58px);margin-bottom:24px}
+.solution-inner h2 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.solution-inner > p{font-size:clamp(16px,1.7vw,18.5px);color:var(--muted);line-height:1.7;max-width:64ch;margin:0 auto 44px}
+.solution-inner > p strong{color:var(--text);font-weight:600}
+.four-q{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:left}
+@media(max-width:820px){.four-q{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.four-q{grid-template-columns:1fr}}
+.q-item{padding:20px 20px 18px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);transition:border-color .3s,transform .3s var(--ease)}
+.q-item:hover{border-color:var(--yellow);transform:translateY(-3px)}
+.q-item .q-num{font-family:'Bricolage Grotesque',sans-serif;font-size:11px;font-weight:700;color:var(--dim);letter-spacing:0.1em;display:block;margin-bottom:12px}
+.q-item p{font-size:14.5px;font-weight:600;line-height:1.4;color:var(--text)}
+
+/* ============================================================
+   VIDEO SHOWCASE  ← NEW SECTION
+============================================================ */
+/* ============================================================
+   VIDEO SHOWCASE — Portrait / 9:16
+============================================================ */
+.video-showcase{
+  background:
+    radial-gradient(70% 50% at 50% 0%,var(--yellow-soft),transparent 70%),
+    var(--bg);
+  border-top:1px solid var(--border);
+}
+
+/* ---------- FEATURED: phone on left, meta on right ---------- */
+.video-featured{
+  display:grid;
+  grid-template-columns:minmax(0,320px) 1fr;
+  gap:64px;
+  align-items:center;
+  margin-bottom:80px;
+  padding:0;
+  background:transparent;
+  border:none;
+}
+@media(max-width:820px){
+  .video-featured{
+    grid-template-columns:1fr;
+    gap:44px;
+    text-align:center;
+  }
+}
+
+/* Phone shell for the featured video */
+.video-phone{
+  position:relative;
+  width:100%;
+  max-width:320px;
+  margin:0 auto;
+  aspect-ratio:9/19;
+  border-radius:46px;
+  background:#000;
+  border:10px solid #121a30;
+  box-shadow:
+    0 0 0 1px rgba(96,165,250,0.18),
+    0 40px 90px rgba(0,0,0,0.7),
+    0 0 90px var(--blue-glow);
+  overflow:hidden;
+  animation:phoneFloat 7s ease-in-out infinite;
+}
+.video-phone::before{
+  content:'';
+  position:absolute;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:80px;height:20px;border-radius:14px;
+  background:rgba(0,0,0,0.85);
+  z-index:5;
+  pointer-events:none;
+}
+
+/* Video frame (used inside phone shell + inside cards) */
+.video-frame{
+  position:relative;
+  background:#000;
+  overflow:hidden;
+}
+.video-phone .video-frame{
+  position:absolute;
+  inset:0;
+}
+
+.video-frame iframe,
+.video-frame video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  object-fit:cover;
+  background:#000;
+}
+
+/* Poster placeholder */
+.video-poster{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 30% 25%,rgba(59,130,246,0.38),transparent 55%),
+    radial-gradient(circle at 75% 75%,rgba(250,204,21,0.30),transparent 55%),
+    linear-gradient(160deg,#0a1428,#081020);
+  cursor:pointer;
+  padding:20px;
+}
+.video-poster::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(96,165,250,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(96,165,250,0.07) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(circle at center,#000 30%,transparent 75%);
+}
+
+.video-poster .poster-label{
+  position:relative;
+  z-index:1;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(15px,1.5vw,19px);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  color:var(--text);
+  text-align:center;
+  padding:0 10px;
+  line-height:1.25;
+  max-width:20ch;
+}
+.video-poster .poster-label em{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;
+  font-weight:400;
+  color:var(--yellow);
+}
+
+/* Play button */
+.play-btn{
+  position:absolute;
+  z-index:2;
+  width:60px;height:60px;
+  border-radius:50%;
+  background:var(--yellow);
+  color:#050a18;
+  display:grid;
+  place-items:center;
+  box-shadow:0 14px 36px var(--yellow-glow);
+  transition:transform .28s var(--ease),box-shadow .28s;
+  cursor:pointer;
+}
+.play-btn:hover{transform:scale(1.08)}
+.play-btn svg{width:22px;height:22px;margin-left:4px}
+.play-btn.pulse{animation:playPulse 2.4s ease-in-out infinite}
+@keyframes playPulse{
+  0%,100%{box-shadow:0 14px 36px var(--yellow-glow),0 0 0 0 rgba(250,204,21,0.4)}
+  50%{box-shadow:0 14px 36px var(--yellow-glow),0 0 0 20px rgba(250,204,21,0)}
+}
+
+/* Featured meta panel */
+.video-featured .video-meta{padding:0}
+@media(max-width:820px){
+  .video-featured .video-meta{padding:0 12px}
+}
+.video-meta .v-eyebrow{
+  font-size:11.5px;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--yellow);
+  display:inline-block;margin-bottom:16px;
+}
+.video-meta h3{
+  font-size:clamp(24px,2.6vw,34px);
+  letter-spacing:-0.02em;line-height:1.15;
+  margin-bottom:16px;
+}
+.video-meta p{
+  font-size:15px;color:var(--muted);line-height:1.7;
+  max-width:56ch;margin-bottom:22px;
+}
+@media(max-width:820px){.video-meta p{margin-left:auto;margin-right:auto}}
+.video-meta .v-duration{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:600;color:var(--blue-bright);
+  padding:6px 13px;border-radius:999px;
+  background:var(--blue-soft);border:1px solid rgba(96,165,250,0.24);
+}
+.video-meta .v-duration svg{width:13px;height:13px}
+
+/* ---------- VIDEO GRID (portrait cards) ---------- */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px 18px;
+}
+@media(max-width:1000px){.video-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.video-grid{grid-template-columns:repeat(2,1fr);gap:20px 14px}}
+@media(max-width:440px){.video-grid{grid-template-columns:1fr}}
+
+.video-card{
+  display:flex;
+  flex-direction:column;
+  cursor:pointer;
+  transition:transform .3s var(--ease);
+}
+.video-card:hover{transform:translateY(-6px)}
+
+.video-card .video-frame{
+  aspect-ratio:9/16;
+  border-radius:20px;
+  border:1px solid var(--border-2);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(96,165,250,0.06);
+  transition:border-color .3s,box-shadow .3s;
+}
+.video-card:hover .video-frame{
+  border-color:rgba(96,165,250,0.45);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(96,165,250,0.22),
+    0 0 44px var(--blue-glow);
+}
+.video-card .play-btn{width:52px;height:52px}
+.video-card .play-btn svg{width:18px;height:18px}
+
+.video-card .v-body{
+  padding:14px 4px 0;
+}
+.video-card .v-tag{
+  font-size:10.5px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--blue-bright);
+  margin-bottom:6px;
+}
+.video-card h4{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:-0.015em;
+  line-height:1.3;margin-bottom:6px;
+}
+.video-card .v-desc{
+  font-size:12.5px;color:var(--muted);line-height:1.55;
+}
+.video-card .v-duration-sm{
+  display:inline-block;margin-top:8px;
+  font-size:11px;font-weight:600;color:var(--dim);
+}
+/* ============================================================
+   FEATURES — Bento
+============================================================ */
+.features{background:var(--bg)}
+.feat-bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.f-card{position:relative;grid-column:span 4;padding:28px 26px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:transform .35s var(--ease),border-color .35s,background .35s}
+.f-card:hover{transform:translateY(-4px);border-color:var(--border-2)}
+.f-card .f-ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;margin-bottom:20px;background:var(--surface-3);border:1px solid var(--border-2);color:var(--blue-bright);transition:transform .35s var(--ease),background .35s}
+.f-card:hover .f-ico{transform:scale(1.06) rotate(-4deg);background:var(--blue-soft)}
+.f-card .f-ico svg{width:21px;height:21px}
+.f-card h3{font-size:17px;font-weight:700;letter-spacing:-0.015em;margin-bottom:9px}
+.f-card p{font-size:14px;color:var(--muted);line-height:1.65}
+.f-card .f-tag{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:11px;font-weight:600;color:var(--yellow);padding:4px 10px;border-radius:999px;background:var(--yellow-soft);border:1px solid rgba(250,204,21,0.24)}
+.f-card .f-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--yellow)}
+.f-card.yellow .f-ico{color:var(--yellow)}
+.f-card.yellow:hover .f-ico{background:var(--yellow-soft)}
+.f-card.yellow .f-tag{color:var(--blue-bright);background:var(--blue-soft);border-color:rgba(96,165,250,0.24)}
+.f-card.yellow .f-tag::before{background:var(--blue-bright)}
+.f-card.hero-7{grid-column:span 7}
+.f-card.hero-5{grid-column:span 5}
+.f-card.hero-8{grid-column:span 8}
+.f-card.hero-4{grid-column:span 4}
+.f-card.buddy{grid-column:span 8;background:radial-gradient(120% 100% at 100% 0%,var(--yellow-soft),transparent 55%),radial-gradient(120% 100% at 0% 100%,var(--blue-soft),transparent 55%),var(--surface);border-color:rgba(96,165,250,0.3)}
+.f-card.buddy .f-ico{background:linear-gradient(135deg,var(--blue),var(--yellow));color:#050a18;border-color:transparent}
+.f-card.buddy .f-ico svg{width:22px;height:22px}
+.f-card.offline{grid-column:span 7;background:radial-gradient(120% 100% at 0% 0%,var(--blue-soft),transparent 60%),var(--surface);border-color:rgba(96,165,250,0.28)}
+@media(max-width:1024px){.f-card{grid-column:span 6}.f-card.hero-7,.f-card.hero-5,.f-card.hero-8,.f-card.hero-4{grid-column:span 6}.f-card.buddy,.f-card.offline{grid-column:span 12}}
+@media(max-width:640px){.f-card,.f-card.hero-7,.f-card.hero-5,.f-card.hero-8,.f-card.hero-4{grid-column:span 12}}
+.f-topic{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:var(--yellow);margin-bottom:18px}
+.f-topic::before{content:'';width:16px;height:1.5px;background:var(--yellow);border-radius:2px}
+
+/* ============================================================
+   DIFFERENTIATORS
+============================================================ */
+.different{background:linear-gradient(180deg,var(--bg-2),var(--bg));border-top:1px solid var(--border)}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.diff-grid{grid-template-columns:1fr}}
+.diff-card{padding:28px 26px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);position:relative;overflow:hidden;transition:border-color .3s,transform .3s var(--ease)}
+.diff-card:hover{border-color:var(--border-2);transform:translateY(-3px)}
+.diff-card .d-num{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;color:var(--blue-bright);margin-bottom:14px;display:block}
+.diff-card h3{font-size:19px;font-weight:700;letter-spacing:-0.015em;line-height:1.25;margin-bottom:10px}
+.diff-card p{font-size:14.5px;color:var(--muted);line-height:1.7}
+.diff-card .rule{display:inline-block;margin-top:16px;font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;color:var(--yellow);line-height:1.4}
+
+/* ============================================================
+   PERSONAS
+============================================================ */
+.personas{background:radial-gradient(80% 60% at 50% 100%,var(--blue-soft),transparent 70%),var(--bg);border-top:1px solid var(--border)}
+.persona-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1000px){.persona-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.persona-grid{grid-template-columns:1fr}}
+.persona{padding:24px 22px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);transition:border-color .3s,transform .3s var(--ease),background .3s}
+.persona:hover{border-color:rgba(250,204,21,0.32);transform:translateY(-4px);background:var(--surface-2)}
+.persona .p-emoji{font-size:22px;line-height:1;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;background:var(--surface-3);border:1px solid var(--border-2)}
+.persona h3{font-size:15.5px;font-weight:700;letter-spacing:-0.015em;margin-bottom:8px}
+.persona p{font-size:13.5px;color:var(--muted);line-height:1.65}
+
+/* ============================================================
+   VISION
+============================================================ */
+.vision{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vision-inner{max-width:820px;margin:0 auto;text-align:center}
+.vision-inner .belief{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,3.4vw,38px);line-height:1.2;letter-spacing:-0.03em;margin-bottom:32px}
+.vision-inner .belief em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--yellow)}
+.vision-inner p{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.vision-close{margin-top:44px;padding-top:36px;border-top:1px solid var(--border)}
+.vision-close .line{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(20px,2.4vw,26px);letter-spacing:-0.02em;line-height:1.3;color:var(--text);margin-bottom:12px}
+.vision-close .line.blue{color:var(--blue-bright)}
+.vision-close .line.yellow{color:var(--yellow)}
+
+/* ============================================================
+   CTA
+============================================================ */
+.cta{position:relative;padding:120px 0;overflow:hidden;border-top:1px solid var(--border)}
+.cta-glow{position:absolute;width:900px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--yellow-glow),transparent 65%);filter:blur(80px);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-glow-2{position:absolute;width:640px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--blue-glow),transparent 65%);filter:blur(80px);top:20%;left:20%;pointer-events:none}
+.cta-inner{position:relative;text-align:center;max-width:760px;margin:0 auto}
+.cta h2{font-size:clamp(34px,5.4vw,64px);margin-bottom:22px}
+.cta h2 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.cta p{font-size:clamp(16px,1.7vw,18px);color:var(--muted);line-height:1.7;max-width:56ch;margin:0 auto 40px}
+.cta p strong{color:var(--text);font-weight:600}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta-note{margin-top:28px;font-size:13px;color:var(--dim)}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer{border-top:1px solid var(--border);background:var(--bg-2);padding:52px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+@media(max-width:820px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:520px){.footer-grid{grid-template-columns:1fr}}
+.footer-brand p{margin-top:16px;font-size:14px;color:var(--muted);line-height:1.65;max-width:36ch}
+.footer-brand .tagline{font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;color:var(--yellow);margin-top:12px}
+.footer-col h5{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin:0 0 18px}
+.footer-col a{display:block;font-size:14px;color:var(--muted);padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--blue-bright)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--border);font-size:13px;color:var(--dim)}
+.footer-bottom .made{display:flex;align-items:center;gap:8px}
+.footer-bottom .flag{display:inline-flex;gap:2px}
+.footer-bottom .flag span{display:block;width:14px;height:3px;border-radius:2px}
+.footer-bottom .flag span:nth-child(1){background:#000}
+.footer-bottom .flag span:nth-child(2){background:#bb0a1e}
+.footer-bottom .flag span:nth-child(3){background:#006600}
+
+/* ============================================================
+   VIDEO SHOWCASE — PORTRAIT / 9:16 OVERRIDES
+   (Appended so it wins the CSS cascade)
+============================================================ */
+
+/* --- Featured: phone on left, meta on right --- */
+.video-featured{
+  display:grid;
+  grid-template-columns:minmax(0,320px) 1fr;
+  gap:64px;
+  align-items:center;
+  margin-bottom:80px;
+  padding:0;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  overflow:visible;
+}
+@media(max-width:820px){
+  .video-featured{grid-template-columns:1fr;gap:44px;text-align:center}
+}
+
+.video-phone{
+  position:relative;
+  width:100%;
+  max-width:320px;
+  margin:0 auto;
+  aspect-ratio:9/19;
+  border-radius:46px;
+  background:#000;
+  border:10px solid #121a30;
+  box-shadow:
+    0 0 0 1px rgba(96,165,250,0.18),
+    0 40px 90px rgba(0,0,0,0.7),
+    0 0 90px var(--blue-glow);
+  overflow:hidden;
+  animation:phoneFloat 7s ease-in-out infinite;
+}
+.video-phone::before{
+  content:'';
+  position:absolute;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:80px;height:20px;border-radius:14px;
+  background:rgba(0,0,0,0.85);
+  z-index:5;
+  pointer-events:none;
+}
+.video-phone .video-frame{
+  position:absolute;
+  inset:0;
+}
+
+/* --- Video frame base (used by phone + cards) --- */
+.video-frame{
+  position:relative;
+  background:#000;
+  overflow:hidden;
+}
+.video-frame iframe,
+.video-frame video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  object-fit:cover;
+  background:#000;
+}
+
+.video-poster{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 30% 25%,rgba(59,130,246,0.38),transparent 55%),
+    radial-gradient(circle at 75% 75%,rgba(250,204,21,0.30),transparent 55%),
+    linear-gradient(160deg,#0a1428,#081020);
+  cursor:pointer;
+  padding:20px;
+}
+.video-poster::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(96,165,250,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(96,165,250,0.07) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(circle at center,#000 30%,transparent 75%);
+}
+.video-poster .poster-label{
+  position:relative;z-index:1;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(15px,1.5vw,19px);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  color:var(--text);
+  text-align:center;
+  padding:0 10px;
+  line-height:1.25;
+  max-width:20ch;
+}
+.video-poster .poster-label em{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;font-weight:400;
+  color:var(--yellow);
+}
+
+.play-btn{
+  position:absolute;z-index:2;
+  width:60px;height:60px;
+  border-radius:50%;
+  background:var(--yellow);color:#050a18;
+  display:grid;place-items:center;
+  box-shadow:0 14px 36px var(--yellow-glow);
+  transition:transform .28s var(--ease);
+  cursor:pointer;
+}
+.play-btn:hover{transform:scale(1.08)}
+.play-btn svg{width:22px;height:22px;margin-left:4px}
+.play-btn.pulse{animation:playPulse 2.4s ease-in-out infinite}
+@keyframes playPulse{
+  0%,100%{box-shadow:0 14px 36px var(--yellow-glow),0 0 0 0 rgba(250,204,21,0.4)}
+  50%{box-shadow:0 14px 36px var(--yellow-glow),0 0 0 20px rgba(250,204,21,0)}
+}
+
+/* --- Featured meta panel --- */
+.video-featured .video-meta{padding:0}
+@media(max-width:820px){.video-featured .video-meta{padding:0 12px}}
+.video-meta .v-eyebrow{
+  font-size:11.5px;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--yellow);
+  display:inline-block;margin-bottom:16px;
+}
+.video-meta h3{
+  font-size:clamp(24px,2.6vw,34px);
+  letter-spacing:-0.02em;line-height:1.15;
+  margin-bottom:16px;
+}
+.video-meta p{
+  font-size:15px;color:var(--muted);line-height:1.7;
+  max-width:56ch;margin-bottom:22px;
+}
+@media(max-width:820px){.video-meta p{margin-left:auto;margin-right:auto}}
+.video-meta .v-duration{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:600;color:var(--blue-bright);
+  padding:6px 13px;border-radius:999px;
+  background:var(--blue-soft);border:1px solid rgba(96,165,250,0.24);
+}
+.video-meta .v-duration svg{width:13px;height:13px}
+
+/* --- Grid: portrait 9:16 cards --- */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px 18px;
+}
+@media(max-width:1000px){.video-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.video-grid{grid-template-columns:repeat(2,1fr);gap:20px 14px}}
+@media(max-width:440px){.video-grid{grid-template-columns:1fr}}
+
+.video-card{
+  display:flex;
+  flex-direction:column;
+  cursor:pointer;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  overflow:visible;
+  transition:transform .3s var(--ease);
+}
+.video-card:hover{transform:translateY(-6px)}
+.video-card .video-frame{
+  aspect-ratio:9/16;
+  border-radius:20px;
+  border:1px solid var(--border-2);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(96,165,250,0.06);
+  transition:border-color .3s,box-shadow .3s;
+}
+.video-card:hover .video-frame{
+  border-color:rgba(96,165,250,0.45);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(96,165,250,0.22),
+    0 0 44px var(--blue-glow);
+}
+.video-card .play-btn{width:52px;height:52px}
+.video-card .play-btn svg{width:18px;height:18px}
+.video-card .v-body{padding:14px 4px 0}
+.video-card .v-tag{
+  font-size:10.5px;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--blue-bright);margin-bottom:6px;
+}
+.video-card h4{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:15px;font-weight:700;
+  letter-spacing:-0.015em;line-height:1.3;
+  margin-bottom:6px;
+}
+.video-card .v-desc{
+  font-size:12.5px;color:var(--muted);line-height:1.55;
+}
+.video-card .v-duration-sm{
+  display:inline-block;margin-top:8px;
+  font-size:11px;font-weight:600;color:var(--dim);
+}
+
+/* --- Modal: portrait phone shell --- */
+.video-modal-inner{
+  position:relative;
+  width:min(400px,92vw);
+  max-height:88vh;
+  aspect-ratio:9/16;
+  border-radius:42px;
+  overflow:hidden;
+  background:#000;
+  border:9px solid #121a30;
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.9),
+    0 0 80px var(--blue-glow);
+}
+.video-modal-inner::before{
+  content:'';
+  position:absolute;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:80px;height:20px;border-radius:14px;
+  background:rgba(0,0,0,0.85);
+  z-index:5;
+  pointer-events:none;
+}
+.video-modal-inner .video-frame{
+  position:absolute;
+  inset:0;
+}
+/* ============================================================
+   VIDEO THUMBNAILS — first frame as poster
+============================================================ */
+
+/* The video element that becomes the thumbnail */
+.video-thumb{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#000;
+  z-index:1;
+}
+
+/* Once a video has loaded its first frame, hide the placeholder
+   gradient/grid, but keep a soft bottom gradient so the label
+   stays readable and the play button stays visible. */
+.video-poster.has-thumbnail{
+  background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 45%) !important;
+}
+.video-poster.has-thumbnail::before{
+  display:none;
+}
+.video-poster.has-thumbnail .poster-label{
+  text-shadow:0 2px 12px rgba(0,0,0,0.9),0 0 24px rgba(0,0,0,0.6);
+}
+
+/* When playing, hide the poster overlay entirely */
+.video-frame.is-playing .video-poster{
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top">
+      <!-- APP ICON — replace icon.png with your file -->
+      <span class="logo-mark">
+        <img src="icon.png" alt="" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
+        <span class="fallback">P</span>
+      </span>
+      PesaPlanner
+    </a>
+    <div class="nav-links">
+      <a href="#problem">The Problem</a>
+      <a href="#demo">Watch</a>
+      <a href="#features">Features</a>
+      <a href="#different">Why Different</a>
+      <a href="#personas">Who It's For</a>
+      <a href="#vision">Vision</a>
+    </div>
+    <a class="nav-cta" href="#cta">Get Early Access</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-glow g1"></div>
+  <div class="hero-glow g2"></div>
+  <div class="hero-glow g3"></div>
+
+  <!-- Big watermark icon behind hero content -->
+  <div class="hero-watermark" aria-hidden="true">
+    <img src="icon.png" alt="" onerror="this.style.display='none'" />
+  </div>
+
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="pulse"></span>Offline-first · Built for Kenyan campus</span>
+        <h1>Pesa yako.<br>Isiwe <span class="accent">mystery</span><br>ya semester.</h1>
+        <p class="hero-sub">
+          PesaPlanner is the personal finance app built for the Kenyan campus economy.
+          Import your M-Pesa history, plan budgets, track debts, and always know
+          what you can <em class="serif" style="color:var(--blue-bright)">actually</em> spend —
+          not just what your balance says.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#cta">
+            Get early access
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#demo">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Watch the demo
+          </a>
+        </div>
+        <div class="hero-trust">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No bank login</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Works offline</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your data stays yours</span>
+        </div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone-badge badge-1"><span class="dot"></span>Rent covered</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="ps-status"><span>9:41</span><span>●●●●</span></div>
+            <div class="ps-greet"><span class="ps-hi">Habari, Comrade</span><span class="ps-wk">Semester 2 · Week 7</span></div>
+            <div class="ps-hero">
+              <span class="ps-label">Safe to spend</span>
+              <span class="ps-amount">KSh 2,340</span>
+              <span class="ps-note">Balance KSh 5,000 · Committed KSh 2,660</span>
+            </div>
+            <div class="ps-cats">
+              <div class="ps-cat"><div class="ps-cat-top"><span>Food</span><span class="amt">62%</span></div><div class="ps-bar"><i class="blue" style="width:62%"></i></div></div>
+              <div class="ps-cat"><div class="ps-cat-top"><span>Fare</span><span class="amt">45%</span></div><div class="ps-bar"><i class="mix" style="width:45%"></i></div></div>
+              <div class="ps-cat"><div class="ps-cat-top"><span>Data</span><span class="amt">78%</span></div><div class="ps-bar"><i class="yellow" style="width:78%"></i></div></div>
+              <div class="ps-cat"><div class="ps-cat-top"><span>Savings</span><span class="amt">30%</span></div><div class="ps-bar"><i class="soft" style="width:30%"></i></div></div>
+            </div>
+            <div class="ps-txns">
+              <div class="ps-txn"><div class="ps-ico in">↓</div><div class="ps-txn-body"><div class="ps-txn-name">HELB Upkeep</div><div class="ps-txn-time">Today · 08:12</div></div><div class="ps-txn-amt in">+4,500</div></div>
+              <div class="ps-txn"><div class="ps-ico out">↑</div><div class="ps-txn-body"><div class="ps-txn-name">Kibanda Lunch</div><div class="ps-txn-time">Today · 13:04</div></div><div class="ps-txn-amt out">−180</div></div>
+              <div class="ps-txn"><div class="ps-ico out">↑</div><div class="ps-txn-body"><div class="ps-txn-name">Matatu · Route 23</div><div class="ps-txn-time">Today · 07:30</div></div><div class="ps-txn-amt out">−50</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-badge badge-2"><span class="dot"></span>Fuliza-free week</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item">
+      <span>Wah! Sai maisha ni <em>soft</em></span><span class="star">✦</span>
+      <span>Hii semester <em>tutafunga</em> nayo</span><span class="star">✦</span>
+      <span>Wapi <em>ilienda?</em></span><span class="star">✦</span>
+      <span>Nitakurudishia <em>kesho</em></span><span class="star">✦</span>
+      <span>Si ni <em>mia tu</em></span><span class="star">✦</span>
+      <span>Fuliza haijui <em>jokes</em></span><span class="star">✦</span>
+      <span>Unga inasubiri <em>big moment</em></span><span class="star">✦</span>
+    </div>
+    <div class="marquee-item" aria-hidden="true">
+      <span>Wah! Sai maisha ni <em>soft</em></span><span class="star">✦</span>
+      <span>Hii semester <em>tutafunga</em> nayo</span><span class="star">✦</span>
+      <span>Wapi <em>ilienda?</em></span><span class="star">✦</span>
+      <span>Nitakurudishia <em>kesho</em></span><span class="star">✦</span>
+      <span>Si ni <em>mia tu</em></span><span class="star">✦</span>
+      <span>Fuliza haijui <em>jokes</em></span><span class="star">✦</span>
+      <span>Unga inasubiri <em>big moment</em></span><span class="star">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROBLEM ============ -->
+<section class="sec problem" id="problem">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">The Problem · 01</span>
+      <h2>Campus life is expensive.<br>Being broke is a <span class="accent">full-time course.</span></h2>
+      <p>Being a university student in Kenya is an adventure. You attend lectures, chase CAT marks, submit assignments at 11:59 p.m., survive group work where one member disappears like the 11th digit of an M-Pesa code, and somehow attempt to eat three meals a day. Then there is money.</p>
+    </div>
+    <div class="problem-intro reveal">
+      <div class="quote">"Wah! Sai maisha ni soft. Hii semester tutafunga nayo!"</div>
+      <p class="side-note">Five minutes ago, you were feeling like a CEO. Now you're calculating whether walking to campus counts as both exercise and financial planning. Welcome to the Kenyan campus economy, where your M-Pesa balance can look rich while your actual financial situation is holding a crisis meeting.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="p-card reveal" style="--d:0ms"><span class="num">PROBLEM 01</span><h3>Your M-Pesa messages are an archaeological site</h3><p>Hundreds of messages. Deposits, payments, withdrawals, transfers, fees, airtime, food, fare. Everything is there — somewhere between last week's shopping and that suspicious transaction you cannot remember making.</p><span class="tag">"Your Honour, Exhibit A: KSh 150."</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">PROBLEM 02</span><h3>Budgeting sounds amazing until you have to do it</h3><p>Monday: financially responsible. Tuesday: you record lunch. Wednesday: you forget fare. Thursday: "Nitarekodi baadaye." Friday: your budget is a beautiful work of fiction.</p><span class="tag">Manually tracking takes effort.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">PROBLEM 03</span><h3>Your balance is not your spending allowance</h3><p>Having KSh 5,000 does not necessarily mean you can spend KSh 5,000. Rent needs money. Food needs money. Transport needs money. Bills are waiting. That friend you borrowed from has suddenly developed excellent communication skills.</p><span class="tag">"Niko na ngapi?"</span></article>
+      <article class="p-card reveal" style="--d:0ms"><span class="num">PROBLEM 04</span><h3>Small expenses have suspicious teamwork</h3><p>One snack is affordable. One fare is manageable. One data bundle is necessary. But combine snacks, lunch, random shopping, airtime, transport and those "si ni mia tu" moments across a month — and your money starts doing disappearing acts.</p><span class="tag">Wapi ilienda? Who escorted it?</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">PROBLEM 05</span><h3>Unexpected bills destroy peaceful weeks</h3><p>Rent deadlines, electricity tokens, academic supplies, a broken charger, an emergency trip home — life has a talent for introducing expenses when your account is least prepared. Your budget said everything was under control. Life replied: "Sawa, watch this."</p><span class="tag">The charger chose violence.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">PROBLEM 06</span><h3>Friends' debts need their own investigation department</h3><p>You lend someone KSh 500. "Bro, nitakurudishia kesho." Tomorrow becomes next week. Next week becomes next month. By the time the semester ends, your money has apparently graduated without you.</p><span class="tag">Witness protection, apparently.</span></article>
+      <article class="p-card reveal" style="--d:0ms"><span class="num">PROBLEM 07</span><h3>Food is both survival and a budget decision</h3><p>Should you cook or buy food? Do you already have unga? How much will today's meals cost? Is that cheap meal actually cheap when you buy it five times a week? Meanwhile, the unga is waiting patiently for its opportunity to contribute to the household economy.</p><span class="tag">Cook vs. buy.</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">PROBLEM 08</span><h3>University expenses don't follow one pattern</h3><p>Commuters, cooks, HELB recipients, hustlers, freelancers. A student who walks to campus has different transport costs. One generic budget cannot perfectly describe every comrade's life.</p><span class="tag">Different strokes, different folks.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">PROBLEM 09</span><h3>Financial confusion steals time and peace of mind</h3><p>You should be thinking about your degree, your projects, your future. Instead, you're reconstructing last month's spending, remembering who owes you, calculating fare for next week, and guessing whether you can afford a purchase.</p><span class="tag">A unit with three CATs. No supp.</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTION ============ -->
+<section class="sec solution">
+  <div class="wrap">
+    <div class="solution-inner reveal">
+      <span class="sec-eyebrow" style="display:inline-flex">The Solution · 02</span>
+      <h2>Meet <span class="accent">PesaPlanner.</span><br>Your personal finance plug.</h2>
+      <p><strong>PesaPlanner is an offline-first personal finance and campus-life management app</strong> designed around the everyday financial realities of Kenyan university students. Think of it as that financially organised friend who knows the difference between having money and having money that is actually available to spend.</p>
+      <p style="margin-top:-24px">Except this friend can organise your transactions, help you monitor commitments, track debts, structure budgets, support meal planning, and give you a clearer picture of your finances without demanding a daily consultation fee.</p>
+    </div>
+    <div class="four-q reveal">
+      <div class="q-item"><span class="q-num">QUESTION 01</span><p>Where is my money coming from?</p></div>
+      <div class="q-item"><span class="q-num">QUESTION 02</span><p>Where is it going?</p></div>
+      <div class="q-item"><span class="q-num">QUESTION 03</span><p>What have I already committed to spending?</p></div>
+      <div class="q-item"><span class="q-num">QUESTION 04</span><p>What can I realistically afford next?</p></div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:56px;max-width:760px;margin-left:auto;margin-right:auto">
+      <p style="font-size:16.5px;color:var(--muted);line-height:1.75">PesaPlanner is not a bank, a lender, or a replacement for M-Pesa. It is a personal financial management tool. And unlike a financial system that assumes everyone lives the same way, PesaPlanner is being built with Kenyan campus realities in mind: <span style="color:var(--blue-bright);font-weight:600">HELB, upkeep, rent, matatu fare, hostels, kibandas, side hustles, Fuliza, informal debts</span>, and the legendary struggle of making money last until the next inflow.</p>
+      <p class="serif" style="font-size:22px;color:var(--yellow);margin-top:32px">PesaPlanner: Because "nitajipanga" deserves an actual plan.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ VIDEO SHOWCASE ============ -->
+<!-- ============ VIDEO SHOWCASE ============ -->
+<section class="sec video-showcase" id="demo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">See It In Action · 02.5</span>
+      <h2>Watch PesaPlanner <span class="accent">actually work.</span></h2>
+      <p>Start with the full 4-minute walkthrough, then dive into the short ads we've produced for the launch — each one built around a real moment in Kenyan campus money life.</p>
+    </div>
+
+       <!-- Featured video — full walkthrough -->
+    <div class="video-featured reveal" data-video="pesaplanner-explainer.mp4" data-thumb-time="8" style="--d:0ms">
+      <div class="video-phone">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn pulse">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="poster-label">Full walkthrough — <em>4 min 53 sec</em></div>
+          </div>
+        </div>
+      </div>
+      <div class="video-meta">
+        <span class="v-eyebrow">Featured · Full walkthrough</span>
+        <h3>Everything PesaPlanner does</h3>
+        <p>A complete tour of the app — M-Pesa import, safe-to-spend, budgets, debt tracking, meal planning, PesaBuddy, and the offline-first engine that keeps it all local.</p>
+        <span class="v-duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          4:53
+        </span>
+      </div>
+    </div>
+
+    <!-- Video grid -->
+    <div class="video-grid">
+
+           <article class="video-card reveal" data-video="ad1-pesa-iko-wapi.mp4" style="--d:0ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Pesa <em>iko wapi?</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Launch ad</div>
+          <h4>Pesa iko wapi?</h4>
+          <p class="v-desc">The launch ad. Every semester, money disappears — PesaPlanner knows where.</p>
+          <span class="v-duration-sm">0:30</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad5-niulize-pesabuddy.mp4" style="--d:0ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Niulize <em>PesaBuddy</em></div>
+          </div>
+        </div>
+
+        <div class="v-body">
+          <div class="v-tag">PesaBuddy</div>
+          <h4>Niulize PesaBuddy</h4>
+          <p class="v-desc">Ask your money anything — even whether the weekend plans are actually affordable.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad3-menu-ya-ksh264.mp4" style="--d:60ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Menu ya <em>KSh 264</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Budgets</div>
+          <h4>Menu ya KSh 264</h4>
+          <p class="v-desc">What a "cheap" lunch really costs when you eat it five times a week.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad2-trevor-lipa.mp4" style="--d:120ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Trevor, <em>lipa!</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Debts</div>
+          <h4>Trevor, lipa!</h4>
+          <p class="v-desc">"Bro, nitakurudishia kesho." The debt tracker exists because kesho is not a database.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad4-umekula-nini-leo.mp4" style="--d:180ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Umekula <em>nini leo?</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Meals & kitchen</div>
+          <h4>Umekula nini leo?</h4>
+          <p class="v-desc">Cook, buy, or check what's already in the cupboard. Meal planning meets kitchen stock.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad6-siku-ya-helb.mp4" style="--d:0ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Siku ya <em>HELB</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Income</div>
+          <h4>Siku ya HELB</h4>
+          <p class="v-desc">The day upkeep lands and you feel like a shareholder. PesaPlanner makes it last the semester.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad7-nani-huyu.mp4" style="--d:60ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Nani <em>huyu?</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Personalised context</div>
+          <h4>Nani huyu?</h4>
+          <p class="v-desc">Every comrade has different economics. PesaPlanner fits your life, not a template.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+      <article class="video-card reveal" data-video="ad8-sheng-mode.mp4" style="--d:120ms">
+        <div class="video-frame">
+          <div class="video-poster" data-play>
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="poster-label">Sheng <em>Mode</em></div>
+          </div>
+        </div>
+        <div class="v-body">
+          <div class="v-tag">Language</div>
+          <h4>Sheng Mode</h4>
+          <p class="v-desc">PesaBuddy speaks English, Kiswahili, and Sheng — including the mix.</p>
+          <span class="v-duration-sm">0:15</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+<!-- ============ FEATURES ============ -->
+<section class="sec features" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Features · 03</span>
+      <h2>What PesaPlanner <span class="accent">actually does.</span></h2>
+      <p>Eighteen core capabilities — from M-Pesa import to PesaBuddy — that turn scattered messages and half-remembered debts into a clear picture of your financial life.</p>
+    </div>
+
+    <div class="feat-bento">
+
+      <article class="f-card hero-7 reveal" style="--d:0ms">
+        <span class="f-topic">Feature A · Import</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3>M-Pesa History Import — Your Financial Past, Finally Organised</h3>
+        <p>Your M-Pesa messages already contain a lot of information about your financial life. PesaPlanner helps turn supported transaction messages into a structured financial record. Instead of entering every transaction manually, the app processes recognised messages and organises the information into useful records.</p>
+        <p style="margin-top:14px">Scanning supported SMS history · parsing recognised messages · organising by date, amount, type, category, merchant · recognising income, spending, transfers, withdrawals · duplicate detection · pending-review workflow · supporting shared transaction text and statement-import workflows where implemented · searching and reviewing recorded transactions.</p>
+        <span class="f-tag">Reduce repetitive bookkeeping</span>
+      </article>
+
+      <article class="f-card yellow hero-5 reveal" style="--d:80ms">
+        <span class="f-topic">Feature C · Guidance</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9 8 10 4.6-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Safe-to-Spend Guidance</h3>
+        <p>Your M-Pesa balance might look encouraging. Unfortunately, rent has not agreed to disappear just because the number looks nice. PesaPlanner distinguishes your recorded financial position from money that may be available for discretionary spending — using recorded transactions, configured budgets, and upcoming obligations.</p>
+        <span class="f-tag">Context, not just confidence.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:0ms">
+        <span class="f-topic">Feature B</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></div>
+        <h3>Financial Dashboard</h3>
+        <p>A central view of your recorded financial position: income, expenditure, budgets, upcoming commitments, insights and alerts. One place to start — instead of opening multiple screens to figure out what's happening.</p>
+        <span class="f-tag">"Niko sawa, ama ni balance?"</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:60ms">
+        <span class="f-topic">Feature D</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+        <h3>Budgets & Spending Plans</h3>
+        <p>Organise spending across rent, food, transport, airtime and data, academic supplies, personal purchases, bills and savings. A budget doesn't mean no fun — it means you know whether the chips are coming from the snack budget or the rent budget.</p>
+        <span class="f-tag">Give every shilling a job.</span>
+      </article>
+
+      <article class="f-card yellow reveal" style="--d:120ms">
+        <span class="f-topic">Feature E</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></div>
+        <h3>Smart Financial Insights</h3>
+        <p>Understand patterns across categories and trends. Realise that transport costs more than expected, or that frequent small purchases collectively consume a substantial portion of your budget. Replace "I don't know where the money went" with a clearer picture.</p>
+        <span class="f-tag">Your money left clues.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:0ms">
+        <span class="f-topic">Feature F</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="m6 9 6-6 6 6"/></svg></div>
+        <h3>Income Tracking</h3>
+        <p>HELB upkeep, support from home, freelancing, small businesses, casual work, online gigs. See money coming in and how it relates to your financial position — instead of treating every increase as unexplained financial magic.</p>
+        <span class="f-tag">HELB imeingia? Nice.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:60ms">
+        <span class="f-topic">Feature G</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div>
+        <h3>Bills & Reminders</h3>
+        <p>Rent, electricity tokens, internet or data, subscriptions, school-related payments, other obligations. Make deadlines visible before they become urgent. Because discovering rent is due tomorrow when you thought it was next week is an unnecessary plot twist.</p>
+        <span class="f-tag">Rent shouldn't be a surprise.</span>
+      </article>
+
+      <article class="f-card yellow reveal" style="--d:120ms">
+        <span class="f-topic">Feature H</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Debt Tracking</h3>
+        <p>Record money you've lent and money you owe. Outstanding amounts, repayment progress, details. That KSh 500 you lent your friend has not disappeared from the history of humanity — you can keep a record of it. PesaPlanner records and organises debts; it cannot guarantee repayment.</p>
+        <span class="f-tag">"Nitakulipa kesho" ≠ database.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:0ms">
+        <span class="f-topic">Feature I</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Savings Goals</h3>
+        <p>Buying a laptop. Replacing your phone. Preparing for a semester expense. Building an emergency reserve. Saving for accommodation or a move. Make your goals visible instead of waiting to see whether money somehow remains at the end of the month.</p>
+        <span class="f-tag">Future you says thanks.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:60ms">
+        <span class="f-topic">Feature J</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Net Worth</h3>
+        <p>Look beyond your immediate cash balance. Where information is available, PesaPlanner brings recorded assets and liabilities into a broader financial summary — adding perspective to day-to-day money management.</p>
+        <span class="f-tag">The bigger picture.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:120ms">
+        <span class="f-topic">Feature K</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Transaction Search & Reports</h3>
+        <p>Locate individual transactions, review financial activity and understand spending across a selected period. No need to start a family WhatsApp investigation just to establish what happened to KSh 800.</p>
+        <span class="f-tag">Investigative comrade mode.</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:0ms">
+        <span class="f-topic">Feature L</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>
+        <h3>Meal Planner</h3>
+        <p>Food is not an optional lifestyle subscription. It is a recurring requirement, and its cost matters. Organise meals and consider food expenses alongside your wider budget — cook or buy, cheap or cheaper, planned or impulsive.</p>
+        <span class="f-tag">Feed the body and the brain.</span>
+      </article>
+
+      <article class="f-card yellow reveal" style="--d:60ms">
+        <span class="f-topic">Feature M</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Kitchen Stock & Belongings</h3>
+        <p>Track recorded food supplies and ingredients — support meal planning and consider what's already available before purchasing more. Also organise recorded personal items. Before buying more unga, check whether the unga from last week is still patiently waiting for its big moment.</p>
+        <span class="f-tag">What do you already have?</span>
+      </article>
+
+      <article class="f-card reveal" style="--d:120ms">
+        <span class="f-topic">Feature N</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <h3>University & Semester Planning</h3>
+        <p>Accommodation, transport, food, academic supplies, travel home, personal purchases, unexpected costs. Connect money management with your educational context — because finishing the semester should be an academic achievement, not an endurance challenge.</p>
+        <span class="f-tag">Think beyond today.</span>
+      </article>
+
+      <article class="f-card hero-4 reveal" style="--d:0ms">
+        <span class="f-topic">Feature O</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3>Personalised Student Context</h3>
+        <p>Walking vs. commuting. Cooking vs. buying meals. Parents vs. HELB vs. hustles. PesaPlanner accounts for accommodation arrangements, funding patterns, family support, personal routines and priorities. A budget should fit your life — not assume every student lives in the same hostel.</p>
+        <span class="f-tag">Different economics for every comrade.</span>
+      </article>
+
+      <article class="f-card buddy hero-8 reveal" style="--d:80ms">
+        <span class="f-topic">Feature P · Signature</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 14s1.5 1 3 1 3-1 3-1"/></svg></div>
+        <h3>PesaBuddy — The Financial Plug in Your Pocket</h3>
+        <p>Meet PesaBuddy, PesaPlanner's conversational financial companion. Instead of manually navigating every screen, ask about your money and the information available in the app.</p>
+        <p style="margin-top:14px"><strong style="color:var(--text)">Planned experience:</strong> English, Kiswahili and Sheng (including mixed-language conversations) · context-aware follow-up handling · conversation memory for continuity · financial explanations based on available app information · a more approachable, locally relevant personality.</p>
+        <p style="margin-top:14px">Yes — it should understand that <em class="serif" style="color:var(--yellow)">"Niko na thao tano, lakini niko broke"</em> is not necessarily a mathematical contradiction. It may mean that the money already has five appointments.</p>
+        <p style="margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.24);color:var(--text);font-size:13.5px"><strong style="color:var(--yellow)">The important rule:</strong> PesaBuddy should explain the financial information, not invent it. PesaPlanner's ledger and deterministic financial engine remain the source of truth.</p>
+        <span class="f-tag">Conversational, local, yours.</span>
+      </article>
+
+      <article class="f-card offline hero-7 reveal" style="--d:0ms">
+        <span class="f-topic">Feature Q</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></div>
+        <h3>Offline-First Operation — Internet Ikikataa, Panga Pesa Bado</h3>
+        <p>PesaPlanner is designed around offline-first operation. The purpose is to keep ordinary money management useful without making a constant internet connection a prerequisite.</p>
+        <p style="margin-top:14px">Local financial records · local transaction processing · no mandatory cloud account for ordinary core use · no requirement for paid AI APIs in the intended offline assistant architecture · reduced dependence on network availability · user control over financial information · data-management features including export or deletion where implemented.</p>
+        <p style="margin-top:14px">The intended direction for PesaBuddy is local processing rather than automatically sending a student's private financial history to an online AI service.</p>
+        <span class="f-tag">Your money. Your data. Your device.</span>
+      </article>
+
+      <article class="f-card hero-5 reveal" style="--d:60ms">
+        <span class="f-topic">Feature R</span>
+        <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>
+        <h3>Notifications, Widgets & Personalisation</h3>
+        <p>Reminders, background work and home-screen widgets make useful information more accessible and support scheduled tasks without requiring you to open the app constantly. Plus settings for language, appearance and data management.</p>
+        <span class="f-tag">A practical everyday companion.</span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIFFERENTIATORS ============ -->
+<section class="sec different" id="different">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Why Different · 04</span>
+      <h2>There are plenty of ways to<br>record expenses. <span class="accent">This is different.</span></h2>
+      <p>PesaPlanner's wider ambition is to connect the pieces of student financial life so that the information becomes more useful.</p>
+    </div>
+    <div class="diff-grid">
+      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">01</span><h3>It starts with financial activity you already have.</h3><p>Supported M-Pesa messages provide a starting point for building a transaction history, reducing the need to manually reconstruct every payment.</p><span class="rule">Reduce repetitive bookkeeping.</span></article>
+      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">02</span><h3>It looks beyond the balance.</h3><p>PesaPlanner is designed to help users consider spending alongside budgets and relevant financial commitments — so "KSh 5,000" is not mistaken for "KSh 5,000 to spend."</p><span class="rule">Context over confidence.</span></article>
+      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">03</span><h3>It understands Kenyan campus realities.</h3><p>HELB, upkeep, rent, matatu fare, hostels, kibandas, Fuliza, informal debts and irregular inflows belong to the environment it is designed around.</p><span class="rule">Built for the real semester.</span></article>
+      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">04</span><h3>It connects money with everyday life.</h3><p>Food, kitchen stock, semester planning, savings and bills all have financial implications. PesaPlanner brings these related concerns into the wider experience.</p><span class="rule">Beyond the transaction ledger.</span></article>
+      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">05</span><h3>It makes financial information more approachable.</h3><p>PesaBuddy is intended to help users explore their records conversationally, with support for English, Kiswahili and Sheng.</p><span class="rule">Ask, don't scroll.</span></article>
+      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">06</span><h3>It prioritises local operation.</h3><p>The offline-first approach reduces dependence on network availability for ordinary financial management — because financial information is personal.</p><span class="rule">Your data stays with you.</span></article>
+    </div>
+    <div class="reveal" style="margin-top:56px;max-width:820px;margin-left:auto;margin-right:auto;text-align:center">
+      <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--text)">PesaPlanner is not promising to make a small budget unlimited. It is trying to help you understand that budget <span style="color:var(--yellow)">before it starts acting mysterious.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERSONAS ============ -->
+<section class="sec personas" id="personas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Who It's For · 05</span>
+      <h2>Every comrade has<br><span class="accent">different economics.</span></h2>
+      <p>If you've ever wondered where your money went, you're in the right place. PesaPlanner is built for the many shapes of Kenyan student life.</p>
+    </div>
+    <div class="persona-grid">
+      <article class="persona reveal" style="--d:0ms"><div class="p-emoji">📚</div><h3>The HELB comrade</h3><p>Your upkeep arrives, and you need to make it cover the period ahead. PesaPlanner helps organise your financial picture around your recorded commitments.</p></article>
+      <article class="persona reveal" style="--d:60ms"><div class="p-emoji">🏠</div><h3>The hostel survivor</h3><p>Juggling rent, food, electricity tokens, essentials and the occasional unexpected expense. Bring those financial concerns into one place.</p></article>
+      <article class="persona reveal" style="--d:120ms"><div class="p-emoji">🚌</div><h3>The commuter</h3><p>Matatu fare is part of your daily routine. Account for transport alongside your other recorded spending and priorities.</p></article>
+      <article class="persona reveal" style="--d:180ms"><div class="p-emoji">🍳</div><h3>The campus chef</h3><p>Cook or buy? Meal planning and kitchen-stock tracking help you organise those choices while keeping spending under control.</p></article>
+      <article class="persona reveal" style="--d:0ms"><div class="p-emoji">💼</div><h3>The side-hustle entrepreneur</h3><p>Freelance work, a small business, occasional gigs. Organise recorded inflows and understand how they relate to expenditure and goals.</p></article>
+      <article class="persona reveal" style="--d:60ms"><div class="p-emoji">🤝</div><h3>The friend who lends money</h3><p>Happy to help — but you'd also appreciate remembering who owes what. Debt tracking keeps a record without relying entirely on memory.</p></article>
+      <article class="persona reveal" style="--d:120ms"><div class="p-emoji">🔎</div><h3>The financially curious student</h3><p>Understand spending patterns, plan ahead, build savings, become more confident managing your finances. All the tools in one experience.</p></article>
+      <article class="persona reveal" style="--d:180ms"><div class="p-emoji">🌱</div><h3>The young adult learning independence</h3><p>Designed around university life — but its approach to transactions, budgets, bills, savings and debt is relevant to any young adult managing money independently.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISION ============ -->
+<section class="sec vision" id="vision">
+  <div class="wrap">
+    <div class="vision-inner reveal">
+      <span class="sec-eyebrow" style="display:inline-flex">The Bigger Vision · 06</span>
+      <p class="belief">Financial management should help people make better decisions, not merely show them <em>what they already spent.</em></p>
+      <p>For a university student, money affects almost every part of daily life: where you live, what you eat, how you travel, how you manage unexpected expenses and how much attention you can give to your education and ambitions.</p>
+      <p>PesaPlanner aims to reduce the confusion by bringing financial activity together, making recorded commitments more visible, organising spending, supporting planning and providing a more accessible way to understand the result.</p>
+      <p>It is not about judging every purchase or telling students that enjoying life is forbidden. Comrades deserve to have fun. They also deserve to know whether the weekend plans are financially reasonable before Monday arrives with a rent reminder and a personal vendetta.</p>
+      <p>The ambition is to help students become more informed about their money, more intentional about their choices, and better equipped to plan with the information available to them.</p>
+      <div class="vision-close">
+        <p class="line">One organised transaction at a time.</p>
+        <p class="line blue">One visible commitment at a time.</p>
+        <p class="line yellow">One less "Wueh, pesa ilienda wapi?" at a time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-glow-2"></div>
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2>See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span></h2>
+      <p>Join the early access list and be first to know when PesaPlanner lands. Because seeing your balance is one thing — <strong>kujua kama unaweza afford maisha yako ni story ingine.</strong> 😂💸</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="#top">Get early access<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost" href="#demo">Watch demos</a>
+      </div>
+      <p class="cta-note">No spam. No bank login. Just a heads-up when we launch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="#top">
+          <span class="logo-mark">
+            <img src="icon.png" alt="" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
+            <span class="fallback">P</span>
+          </span>
+          PesaPlanner
+        </a>
+        <p>Your money. Your campus life. Your control.</p>
+        <p class="tagline">"Pesa yako isiwe mystery ya semester."</p>
+      </div>
+      <div class="footer-col"><h5>Product</h5><a href="#features">Features</a><a href="#demo">Demos</a><a href="#different">Why Different</a><a href="#personas">Who It's For</a><a href="#vision">Vision</a></div>
+      <div class="footer-col"><h5>The App</h5><a href="#problem">The Problem</a><a href="#features">M-Pesa Import</a><a href="#features">PesaBuddy</a><a href="#features">Offline-First</a></div>
+      <div class="footer-col"><h5>Legal</h5><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Data Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PesaPlanner. Built for Kenyan campus.</span>
+      <span class="made">Made with <span class="flag"><span></span><span></span><span></span></span> in Kenya</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     VIDEO MODAL — auto-generated, plays your videos inline
+============================================================ -->
+<div class="video-modal" id="videoModal" aria-hidden="true" role="dialog">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoModalClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="video-frame" id="videoModalFrame"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+(function () {
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+})();
+
+/* ============================================================
+   SMOOTH ANCHOR OFFSET
+============================================================ */
+(function () {
+  const navHeight = 70;
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const id = link.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+})();
+
+/* ============================================================
+   VIDEO SYSTEM — first frame as thumbnail + inline playback
+   ------------------------------------------------------------
+   For every card with a `data-video`:
+     1. Inject a muted, paused <video> element into the frame
+     2. Seek to a fraction in (skips black intro frames)
+     3. When the seek completes, mark the poster so the placeholder
+        gradient disappears and the frame shows through
+     4. On click: hide the poster, unmute, and play in place
+============================================================ */
+(function () {
+
+  document.querySelectorAll('.video-featured, .video-card').forEach((card) => {
+    const url = card.getAttribute('data-video');
+    if (!url) return;
+
+    const frame = card.querySelector('.video-frame');
+    const poster = frame ? frame.querySelector('.video-poster') : null;
+    if (!frame || !poster) return;
+
+    // --- 1. Create the thumbnail video -------------------------
+    const thumb = document.createElement('video');
+    thumb.className = 'video-thumb';
+    thumb.src = url;
+    thumb.muted = true;
+    thumb.playsInline = true;
+    thumb.preload = 'metadata';
+    thumb.setAttribute('aria-hidden', 'true');
+    frame.insertBefore(thumb, frame.firstChild);
+
+    // --- 2. Seek a bit in so the first frame isn't blank --------
+    thumb.addEventListener('loadedmetadata', () => {
+      // Target ~0.5s, or 3% in for very short clips
+      const custom = parseFloat(card.getAttribute('data-thumb-time'));
+const target = !isNaN(custom)
+  ? Math.min(custom, (thumb.duration || 1) * 0.9)
+  : Math.min(0.5, (thumb.duration || 1) * 0.03);
+      try { thumb.currentTime = target; } catch (_) {}
+    }, { once: true });
+
+    // --- 3. Once seeked, the video is showing a real frame ------
+    thumb.addEventListener('seeked', () => {
+      poster.classList.add('has-thumbnail');
+    }, { once: true });
+
+    // --- 4. Click → play in place -------------------------------
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;            // ignore link clicks
+      if (e.target.closest('video[controls]')) return; // ignore clicks on controls
+      if (frame.classList.contains('is-playing')) return;
+
+      frame.classList.add('is-playing');
+
+      // Reuse the thumbnail video as the player — no double loading
+      thumb.muted = false;
+      thumb.controls = true;
+      thumb.loop = true;
+      thumb.preload = 'auto';
+
+      thumb.play().catch(() => {
+        // Autoplay-with-sound blocked → fall back to muted playback
+        thumb.muted = true;
+        thumb.play().catch(() => {});
+      });
+    });
+  });
+
+})();
+
+</script>
+</body>
+</html>
