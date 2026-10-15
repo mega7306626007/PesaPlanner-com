@@ -615,6 +615,22 @@ section{position:relative}
 .vision-close .line.yellow{color:var(--yellow)}
 
 /* ============================================================
+   REVIEW SPOTLIGHT
+============================================================ */
+.review-spotlight{padding:88px 0;background:linear-gradient(180deg,var(--bg),var(--bg-2));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.review-spotlight-inner{position:relative;overflow:hidden;max-width:980px;margin:0 auto;padding:clamp(32px,7vw,68px) 24px;text-align:center;border:1px solid var(--border-2);border-radius:var(--radius-xl);background:radial-gradient(ellipse at 50% 0%,var(--blue-soft),transparent 66%),linear-gradient(135deg,#101d37,#0b1428);box-shadow:0 24px 70px #0005}
+.review-spotlight-inner:before{content:'';position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(180deg,var(--yellow),var(--blue-bright))}
+.review-stars{color:var(--yellow);font-size:clamp(28px,4vw,42px);letter-spacing:.16em;line-height:1;margin-bottom:22px}
+.review-spotlight .sec-eyebrow{margin-bottom:14px;color:var(--blue-bright);font-weight:700;letter-spacing:.16em}
+.review-spotlight h2{font-size:clamp(32px,5vw,54px);margin-bottom:18px}
+.review-spotlight h2 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.review-copy{max-width:58ch;margin:0 auto 26px;color:var(--muted);font-size:clamp(15px,1.7vw,18px);line-height:1.7}
+.review-spotlight .btn{min-height:54px;padding:15px 28px;font-size:16px}
+.review-note{margin:18px 0 0;color:var(--dim);font-size:13px}
+@media(max-width:600px){.review-spotlight{padding:60px 0}.review-spotlight-inner{padding:34px 20px;border-radius:var(--radius-lg)}}
+
+
+/* ============================================================
    CTA
 ============================================================ */
 .cta{position:relative;padding:120px 0;overflow:hidden;border-top:1px solid var(--border)}
@@ -1478,6 +1494,20 @@ section{position:relative}
   </div>
 </section>
 
+<!-- ============ REVIEW SPOTLIGHT ============ -->
+<section class="review-spotlight" id="reviews">
+  <div class="wrap">
+    <div class="review-spotlight-inner reveal">
+      <div class="review-stars" aria-hidden="true">★★★★★</div>
+      <p class="sec-eyebrow">SAUTI YAKO NI MUHIMU</p>
+      <h2>PesaFlow imekuwork? <span class="accent">Tuachie review.</span></h2>
+      <p class="review-copy">Share your honest rating and feedback. It helps us improve PesaFlow and helps others know what to expect.</p>
+      <a class="btn btn-primary" href="reviews.html">Write a review</a>
+      <p class="review-note">Star rating required · Written review and reply email optional</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CTA ============ -->
 <section class="cta" id="cta">
   <div class="cta-glow"></div>
@@ -1653,7 +1683,7 @@ const target = !isNaN(custom)
     demoLabel: '.video-showcase .sec-eyebrow', demoTitle: '.video-showcase h2', demoIntro: '.video-showcase .sec-head > p',
     featuresLabel: '.features .sec-eyebrow', featuresTitle: '.features h2', featuresIntro: '.features .sec-head > p',
     differenceLabel: '.different .sec-eyebrow', differenceTitle: '.different h2', audienceLabel: '.personas .sec-eyebrow', audienceTitle: '.personas h2',
-    visionLabel: '.vision .sec-eyebrow', ctaTitle: '.cta h2', ctaNote: '.cta-note'
+    visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', ctaTitle: '.cta h2', ctaNote: '.cta-note'
   };
   const locales = {
     en: {
@@ -1664,7 +1694,7 @@ const target = !isNaN(custom)
       demoLabel:'SEE IT IN ACTION · 02.5',demoTitle:'See PesaPlanner <span class="accent">in action.</span>',demoIntro:'Watch the full walkthrough and short demos about everyday money moments on campus.',
       featuresLabel:'FEATURES · 03',featuresTitle:'What PesaPlanner <span class="accent">can help you do.</span>',featuresIntro:'Explore tools for organising transactions, budgets, bills, savings, meals and other parts of your financial life.',
       differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'More than a way to<br>record expenses.',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'Different people.<br><span class="accent">Different money lives.</span>',
-      visionLabel:'THE BIGGER VISION · 06',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
+      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaFlow? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaFlow and help others know what to expect.',reviewButton:'Write a review',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
     },
     sw: {
       navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Pata Habari za Uzinduzi',
@@ -1674,7 +1704,7 @@ const target = !isNaN(custom)
       demoLabel:'ITAZAME IKIFANYA KAZI · 02.5',demoTitle:'Tazama PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Tazama maelezo kamili na video fupi kuhusu hali za kawaida za matumizi ya pesa chuoni.',
       featuresLabel:'VIPENGELE · 03',featuresTitle:'PesaPlanner <span class="accent">inakusaidia kufanya nini?</span>',featuresIntro:'Gundua zana za kupanga miamala, bajeti, bili, akiba, chakula na sehemu nyingine za maisha yako ya kifedha.',
       differenceLabel:'TOFAUTI YAKE · 04',differenceTitle:'Zaidi ya kurekodi<br>matumizi ya pesa.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Maisha tofauti ya pesa.</span>',
-      visionLabel:'DIRA KUBWA · 06',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
+      visionLabel:'DIRA KUBWA · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Acha tathmini.</span>',reviewCopy:'Maoni yako ya kweli husaidia kuboresha PesaFlow na kuwasaidia wengine kujua cha kutarajia.',reviewButton:'Andika tathmini',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
     },
     sheng: {
       navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Nijulishe Ikizinduliwa',
@@ -1684,7 +1714,7 @@ const target = !isNaN(custom)
       demoLabel:'ANGALIA IKIACTION · 02.5',demoTitle:'Angalia PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Watch full walkthrough na demos fupi za mambo ya doh campus.',
       featuresLabel:'FEATURES · 03',featuresTitle:'PesaPlanner <span class="accent">inaweza kusaidia aje?</span>',featuresIntro:'Angalia tools za kupanga transactions, budget, bills, savings, food na vitu zingine za finances zako.',
       differenceLabel:'MBONA NI TOFAUTI · 04',differenceTitle:'Si kurecord tu<br>venye doh imetoka.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Doh inaenda tofauti.</span>',
-      visionLabel:'BIG VISION · 06',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
+      visionLabel:'BIG VISION · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Wacha review.</span>',reviewCopy:'Maoni yako ya ukweli inasaidia PesaFlow ikuwe better na wengine wajue venye iko.',reviewButton:'Wacha review',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
     },
     fr: {
       navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Être informé du lancement',
@@ -1694,7 +1724,7 @@ const target = !isNaN(custom)
       demoLabel:'EN ACTION · 02.5',demoTitle:'Découvrez PesaPlanner <span class="accent">en action.</span>',demoIntro:'Regardez la présentation complète et de courtes vidéos sur les dépenses quotidiennes sur le campus.',
       featuresLabel:'FONCTIONNALITÉS · 03',featuresTitle:'Ce que PesaPlanner <span class="accent">peut vous aider à faire.</span>',featuresIntro:'Découvrez des outils pour organiser transactions, budgets, factures, épargne, repas et autres aspects de vos finances.',
       differenceLabel:'CE QUI CHANGE · 04',differenceTitle:'Bien plus qu’un outil pour<br>noter ses dépenses.',audienceLabel:'POUR QUI ? · 05',audienceTitle:'Des personnes différentes.<br><span class="accent">Des réalités financières différentes.</span>',
-      visionLabel:'UNE VISION PLUS LARGE · 06',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
+      visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
     }
   };
   const original = {};
