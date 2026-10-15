@@ -645,6 +645,47 @@ section{position:relative}
 
 
 /* ============================================================
+   PLANS + INSTALL — separate warm palette from the app UI
+============================================================ */
+.plans-section{--plan-bg:#f5f2e9;--plan-card:#fffdf8;--plan-ink:#252832;--plan-muted:#676c70;--plan-line:#dedbd1;--plan-green:#1c765e;--plan-green-soft:#e2f0e9;--plan-plum:#49375e;--plan-coral:#a84d42;position:relative;padding:88px 0;background:var(--plan-bg);color:var(--plan-ink);border-block:1px solid var(--plan-line)}
+.plans-section .wrap{max-width:1120px}
+.plans-head{max-width:760px;margin:0 auto 34px;text-align:center}
+.plans-kicker{display:inline-flex;margin-bottom:13px;color:var(--plan-green);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.plans-head h2{font-size:clamp(34px,5vw,58px);margin-bottom:16px;color:var(--plan-ink)}
+.plans-head p{color:var(--plan-muted);font-size:clamp(15px,1.5vw,18px);line-height:1.7}
+.plans-status{display:flex;gap:12px;align-items:flex-start;max-width:900px;margin:0 auto 26px;padding:16px 18px;border:1px solid #d7b7a6;border-left:5px solid var(--plan-coral);border-radius:14px;background:#fff8f1;color:#49352f}
+.plans-status strong{display:block;margin-bottom:3px}
+.plans-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.plan-card{position:relative;display:flex;flex-direction:column;gap:14px;padding:24px;border:1px solid var(--plan-line);border-radius:20px;background:var(--plan-card);box-shadow:0 12px 30px #292b2a0b}
+.plan-card.plus{border:2px solid var(--plan-green);box-shadow:0 16px 40px #1c765e18}
+.plan-card.max{border-color:#bdb0cb}
+.plan-badge{align-self:flex-start;padding:5px 10px;border-radius:999px;background:#eeece6;color:#4f5052;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.plan-card.plus .plan-badge{background:var(--plan-green-soft);color:var(--plan-green)}
+.plan-card.max .plan-badge{background:#eee8f3;color:var(--plan-plum)}
+.plan-card h3{font-size:27px;color:var(--plan-ink)}
+.plan-price{font-size:16px;font-weight:800;color:var(--plan-green)}
+.plan-summary{min-height:3.1em;color:var(--plan-muted);font-size:14px}
+.plan-card ul{display:grid;gap:9px;margin:0;padding-left:20px;color:#3d4243;font-size:14px;line-height:1.55}
+.plan-card li::marker{color:var(--plan-green)}
+.plan-action{display:inline-flex;justify-content:center;align-items:center;min-height:46px;margin-top:auto;padding:10px 16px;border:1px solid var(--plan-line);border-radius:11px;background:#f5f3ed;color:#65666a;font-size:13px;font-weight:750;text-align:center;cursor:not-allowed}
+.plan-card.plus .plan-action{border-color:#b8d7c7;background:var(--plan-green-soft);color:#285c49}
+.plan-card.max .plan-action{border-color:#cbbfd5;background:#f1edf4;color:#57456a}
+.plans-footnote{margin:17px auto 0;text-align:center;color:var(--plan-muted);font-size:12px;line-height:1.6}
+.plans-details{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px}
+.plan-guide{padding:24px;border:1px solid var(--plan-line);border-radius:18px;background:var(--plan-card)}
+.plan-guide h3{margin-bottom:8px;font-size:24px;color:var(--plan-ink)}
+.plan-guide-intro{margin-bottom:17px;color:var(--plan-muted);font-size:14px;line-height:1.6}
+.plan-steps{display:grid;gap:12px;margin:0;padding:0;list-style:none;counter-reset:guide}
+.plan-steps li{position:relative;min-height:34px;padding-left:42px;color:#414448;font-size:13.5px;line-height:1.55;counter-increment:guide}
+.plan-steps li::before{content:counter(guide);position:absolute;left:0;top:0;display:grid;width:28px;height:28px;place-items:center;border-radius:50%;background:var(--plan-green-soft);color:var(--plan-green);font-weight:800}
+.plan-guide.payment .plan-steps li::before{background:#eee8f3;color:var(--plan-plum)}
+.plan-guide-note{margin-top:16px;padding:12px;border-radius:10px;background:#f5f3ed;color:#66696d;font-size:12px;line-height:1.55}
+.plan-guide-note strong{color:var(--plan-ink)}
+.install-availability{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:8px;background:#f7e9e4;color:#823d34;font-size:12px;font-weight:750}
+@media(max-width:850px){.plans-grid{grid-template-columns:1fr}.plan-summary{min-height:0}.plans-details{grid-template-columns:1fr}.plans-section{padding:66px 0}}
+@media(max-width:600px){.plan-card,.plan-guide{padding:19px}.plans-status{padding:13px}.plans-head{margin-bottom:24px}}
+
+/* ============================================================
    CTA
 ============================================================ */
 .cta{position:relative;padding:120px 0;overflow:hidden;border-top:1px solid var(--border)}
@@ -981,6 +1022,7 @@ section{position:relative}
       <a href="#different">Why Different</a>
       <a href="#personas">Who It's For</a>
       <a href="#vision">Vision</a>
+      <a href="#plans" data-copy-key="navPlans">Plans &amp; download</a>
       <a class="mobile-nav-cta" href="#cta">Get Early Access</a>
     </div>
     <a class="nav-cta" href="#cta">Get Early Access</a>
@@ -1518,6 +1560,99 @@ section{position:relative}
   </div>
 </section>
 
+<!-- ============ PLANS, PAYMENT + APK INSTALL ============ -->
+<section class="plans-section" id="plans">
+  <div class="wrap">
+    <header class="plans-head">
+      <span class="plans-kicker" data-copy-key="plansKicker">Plans · built around how you use PesaPlanner</span>
+      <h2 data-copy-key="plansTitle">Choose the level that fits your money life.</h2>
+      <p data-copy-key="plansIntro">Start free. If paid options launch, the comparison will show clearly what each lower plan does not include—while your everyday records remain yours.</p>
+    </header>
+
+    <aside class="plans-status" role="status">
+      <span aria-hidden="true">ⓘ</span>
+      <div><strong data-copy-key="plansStatusTitle">Plans and M-Pesa checkout are still being prepared.</strong><span data-copy-key="plansStatusText">Prices are not set and payment is not open. Please do not send money to a Buy Goods number for a subscription yet.</span></div>
+    </aside>
+
+    <div class="plans-grid" aria-label="Proposed subscription levels">
+      <article class="plan-card free">
+        <span class="plan-badge" data-copy-key="freeBadge">Always available</span>
+        <h3>Free</h3>
+        <p class="plan-price" data-copy-key="freePrice">KSh 0 · core tools</p>
+        <p class="plan-summary" data-copy-key="freeSummary">For keeping day-to-day money organised without a subscription.</p>
+        <ul>
+          <li data-copy-key="freeFeature1">Record income, spending, debts and commitments</li>
+          <li data-copy-key="freeFeature2">Use everyday budgets and transaction review</li>
+          <li data-copy-key="freeFeature3">Continue using core tools offline</li>
+          <li data-copy-key="freeFeature4">Keep access to, export and delete your own records</li>
+        </ul>
+        <p class="plan-guide-note"><strong data-copy-key="freeMissLabel">What Free does not include:</strong> <span data-copy-key="freeMiss">the proposed deeper reports, extended forecasts and business workspace in higher plans.</span></p>
+        <button class="plan-action" type="button" disabled data-copy-key="freeAction">Included with the app</button>
+      </article>
+
+      <article class="plan-card plus">
+        <span class="plan-badge" data-copy-key="plusBadge">For personal planning</span>
+        <h3>Plus</h3>
+        <p class="plan-price" data-copy-key="plusPrice">Price to be announced</p>
+        <p class="plan-summary" data-copy-key="plusSummary">For students and individuals who want a longer view of their money.</p>
+        <ul>
+          <li data-copy-key="plusFeature1">Deeper spending reports and patterns</li>
+          <li data-copy-key="plusFeature2">Longer cash-flow and semester forecasts</li>
+          <li data-copy-key="plusFeature3">More planning options for goals, bills and recurring costs</li>
+          <li data-copy-key="plusFeature4">Prepaid access; renew only when you choose</li>
+        </ul>
+        <p class="plan-guide-note"><strong data-copy-key="plusMissLabel">What Plus does not include:</strong> <span data-copy-key="plusMiss">the proposed business workspace, stock tracking and expanded receivables tools in Max.</span></p>
+        <button class="plan-action" type="button" disabled data-copy-key="plusAction">Subscriptions not open yet</button>
+      </article>
+
+      <article class="plan-card max">
+        <span class="plan-badge" data-copy-key="maxBadge">For power users and small businesses</span>
+        <h3>Max</h3>
+        <p class="plan-price" data-copy-key="maxPrice">Price to be announced</p>
+        <p class="plan-summary" data-copy-key="maxSummary">A proposed broader toolkit for people managing more moving parts.</p>
+        <ul>
+          <li data-copy-key="maxFeature1">Business-oriented cash-flow views and multiple budgets</li>
+          <li data-copy-key="maxFeature2">Stock or belongings tracking</li>
+          <li data-copy-key="maxFeature3">Expanded debt, customer balance and receivables views</li>
+          <li data-copy-key="maxFeature4">Richer reports and export options</li>
+        </ul>
+        <p class="plan-guide-note"><strong data-copy-key="maxStatusLabel">Still being designed:</strong> <span data-copy-key="maxStatus">shared team access and cloud sync are not promised in this plan.</span></p>
+        <button class="plan-action" type="button" disabled data-copy-key="maxAction">Subscriptions not open yet</button>
+      </article>
+    </div>
+    <p class="plans-footnote" data-copy-key="plansFootnote">These are proposed feature groups, not a live offer. Exact features and KSh prices will be published before checkout opens. A lower plan will not erase or block access to your saved financial records.</p>
+
+    <div class="plans-details">
+      <section class="plan-guide payment" aria-labelledby="paymentStepsTitle">
+        <h3 id="paymentStepsTitle" data-copy-key="paymentTitle">How subscription payment will work</h3>
+        <p class="plan-guide-intro" data-copy-key="paymentIntro">When plans are ready, M-Pesa payment will require an internet connection and your approval for each prepaid period.</p>
+        <ol class="plan-steps">
+          <li data-copy-key="paymentStep1">Choose Free, Plus or Max and review the exact total and access period before paying.</li>
+          <li data-copy-key="paymentStep2">Enter the Safaricom M-Pesa number that should receive the payment prompt.</li>
+          <li data-copy-key="paymentStep3">Review the Safaricom STK prompt and enter your M-Pesa PIN only in the M-Pesa prompt.</li>
+          <li data-copy-key="paymentStep4">Wait while the secure service verifies the payment; the app should show Pending until Safaricom confirms it.</li>
+          <li data-copy-key="paymentStep5">Save your recovery key, then check or restore your subscription from the app when online.</li>
+        </ol>
+        <p class="plan-guide-note"><strong data-copy-key="paymentSafetyLabel">Payment safety:</strong> <span data-copy-key="paymentSafety">No automatic renewal is planned. Never give your M-Pesa PIN to PesaPlanner support, and do not treat an SMS screenshot as subscription confirmation.</span></p>
+      </section>
+
+      <section class="plan-guide install" id="install" aria-labelledby="installStepsTitle">
+        <h3 id="installStepsTitle" data-copy-key="installTitle">How to install the Android app</h3>
+        <p class="plan-guide-intro" data-copy-key="installIntro">The APK link will appear here after a release is ready. Install only the file linked from this official website.</p>
+        <ol class="plan-steps">
+          <li data-copy-key="installStep1">Use the official APK download link on this page when it becomes available; avoid forwarded or re-uploaded files.</li>
+          <li data-copy-key="installStep2">Open the downloaded APK from your browser’s Downloads list or the phone’s Files app.</li>
+          <li data-copy-key="installStep3">If Android asks, allow this download app to install unknown apps just for the installation, then return and continue.</li>
+          <li data-copy-key="installStep4">Review the install prompt and requested permissions. SMS access is only needed for the optional M-Pesa message import feature.</li>
+          <li data-copy-key="installStep5">Before uninstalling or resetting your phone, export your records and store the backup safely; local records may not return with a reinstall.</li>
+        </ol>
+        <span class="install-availability" data-copy-key="installPending">APK download is not available yet</span>
+        <p class="plan-guide-note"><strong data-copy-key="installHelpLabel">If Android blocks installation:</strong> <span data-copy-key="installHelp">check that the APK came from this website and that the phone allows installs from the app you used to download it. Turn that permission off again afterward.</span></p>
+      </section>
+    </div>
+  </div>
+</section>
+
 <!-- ============ REVIEW SPOTLIGHT ============ -->
 <section class="review-spotlight" id="reviews">
   <div class="wrap">
@@ -1773,6 +1908,40 @@ const target = !isNaN(custom)
       visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',reviewLegend:'Votre note <span aria-hidden="true">· obligatoire</span>',reviewRatingHint:'1 = à améliorer · 5 = excellent',reviewTextLabel:'Votre avis <span class="optional">(facultatif)</span>',reviewPlaceholder:'Dites-nous ce qui vous a plu ou ce que nous pouvons améliorer…',reviewEmailLabel:'E-mail <span class="optional review-email-hint">(facultatif, pour recevoir une réponse)</span>',reviewEmailHint:'(facultatif, pour recevoir une réponse)',reviewSubmit:'Envoyer mon avis',reviewFormNote:'Votre nom n’est pas nécessaire. N’incluez pas de données financières ou M-Pesa privées.',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
     }
   };
+  const planLocales = {
+    en: {
+      navPlans:'Plans & download',plansKicker:'Plans · built around how you use PesaPlanner',plansTitle:'Choose the level that fits your money life.',plansIntro:'Start free. Compare what each lower plan does not include; your everyday records remain yours.',plansStatusTitle:'Plans and M-Pesa checkout are still being prepared.',plansStatusText:'Prices are not set and payment is not open. Please do not send money for a subscription yet.',
+      freeBadge:'Always available',freePrice:'KSh 0 · core tools',freeSummary:'Keep day-to-day money organised without a subscription.',freeFeature1:'Record income, spending, debts and commitments',freeFeature2:'Use everyday budgets and review transactions',freeFeature3:'Continue using core tools offline',freeFeature4:'Access, export and delete your own records',freeMissLabel:'What Free does not include:',freeMiss:'proposed deeper reports, extended forecasts and the business workspace.',freeAction:'Included with the app',
+      plusBadge:'For personal planning',plusPrice:'Price to be announced',plusSummary:'For students and individuals who want a longer view of their money.',plusFeature1:'Deeper spending reports and patterns',plusFeature2:'Longer cash-flow and semester forecasts',plusFeature3:'More options for goals, bills and recurring costs',plusFeature4:'Prepaid access; renew only when you choose',plusMissLabel:'What Plus does not include:',plusMiss:'the proposed business workspace, stock tracking and expanded receivables tools in Max.',plusAction:'Subscriptions not open yet',
+      maxBadge:'For power users and small businesses',maxPrice:'Price to be announced',maxSummary:'A proposed broader toolkit for people managing more moving parts.',maxFeature1:'Business cash-flow views and multiple budgets',maxFeature2:'Stock or belongings tracking',maxFeature3:'Expanded debt, customer balance and receivables views',maxFeature4:'Richer reports and export options',maxStatusLabel:'Still being designed:',maxStatus:'shared team access and cloud sync are not promised.',maxAction:'Subscriptions not open yet',
+      plansFootnote:'Proposed feature groups, not a live offer. Exact features and KSh prices will be published before checkout opens. Lower plans will not erase or block access to your saved records.',paymentTitle:'How subscription payment will work',paymentIntro:'When plans are ready, payment needs internet and your approval for each prepaid period.',paymentStep1:'Choose a plan and review the exact total and access period before paying.',paymentStep2:'Enter the Safaricom M-Pesa number that should receive the payment prompt.',paymentStep3:'Review the Safaricom STK prompt. Enter your M-Pesa PIN only there.',paymentStep4:'Wait for secure payment verification; the app shows Pending until Safaricom confirms.',paymentStep5:'Save your recovery key, then check or restore your subscription in the app.',paymentSafetyLabel:'Payment safety:',paymentSafety:'No automatic renewal is planned. Never give your M-Pesa PIN to support or trust a screenshot as confirmation.',
+      installTitle:'How to install the Android app',installIntro:'The APK link will appear here when a release is ready. Install only the file linked from this official website.',installStep1:'Use the official APK link on this page; avoid forwarded or re-uploaded files.',installStep2:'Open the downloaded APK from Downloads in your browser or Files app.',installStep3:'If asked, allow this download app to install unknown apps, then return and continue.',installStep4:'Review the install prompt and permissions. SMS access is only for optional M-Pesa message import.',installStep5:'Before uninstalling or resetting your phone, export and safely store your records; local data may not return after reinstall.',installPending:'APK download is not available yet',installHelpLabel:'If Android blocks installation:',installHelp:'confirm the APK came from this website and allow installs from the download app. Turn that permission off afterward.'
+    },
+    sw: {
+      navPlans:'Mipango na upakuaji',plansKicker:'Mipango · kulingana na matumizi yako ya PesaPlanner',plansTitle:'Chagua kiwango kinachokufaa.',plansIntro:'Anza bila malipo. Linganisha visivyopatikana kwenye mpango wa chini; kumbukumbu zako zinabaki zako.',plansStatusTitle:'Mipango na malipo ya M-Pesa bado yanaandaliwa.',plansStatusText:'Bei hazijaamuliwa na malipo hayajaanza. Tafadhali usitume pesa za usajili bado.',
+      freeBadge:'Inapatikana kila wakati',freePrice:'KSh 0 · zana za msingi',freeSummary:'Panga pesa zako za kila siku bila usajili.',freeFeature1:'Rekodi mapato, matumizi, madeni na majukumu',freeFeature2:'Tumia bajeti za kawaida na kagua miamala',freeFeature3:'Endelea kutumia zana za msingi bila intaneti',freeFeature4:'Fikia, hamisha na ufute kumbukumbu zako',freeMissLabel:'Free haina:',freeMiss:'ripoti za kina, utabiri mrefu na sehemu ya biashara zinazopendekezwa.',freeAction:'Pamoja na programu',
+      plusBadge:'Kwa mipango binafsi',plusPrice:'Bei itatangazwa',plusSummary:'Kwa wanafunzi na watu wanaotaka kuona hali ya pesa kwa muda mrefu.',plusFeature1:'Ripoti na mienendo ya matumizi kwa kina',plusFeature2:'Utabiri mrefu wa mtiririko wa pesa na muhula',plusFeature3:'Chaguo zaidi za malengo, bili na gharama za kawaida',plusFeature4:'Malipo ya muda maalum; ongeza muda ukichagua',plusMissLabel:'Plus haina:',plusMiss:'sehemu ya biashara, ufuatiliaji wa bidhaa na madai mapana ya Max.',plusAction:'Usajili bado haujafunguliwa',
+      maxBadge:'Kwa watumiaji wa kina na biashara ndogo',maxPrice:'Bei itatangazwa',maxSummary:'Zana pana zinazopendekezwa kwa anayesimamia mambo mengi.',maxFeature1:'Mwonekano wa mtiririko wa pesa na bajeti nyingi',maxFeature2:'Ufuatiliaji wa bidhaa au vitu',maxFeature3:'Mwonekano mpana wa madeni na salio za wateja',maxFeature4:'Ripoti na njia zaidi za kuhamisha data',maxStatusLabel:'Bado tunabuni:',maxStatus:'matumizi ya pamoja na timu na kusawazisha data mtandaoni havijaahidiwa.',maxAction:'Usajili bado haujafunguliwa',
+      plansFootnote:'Haya ni mapendekezo, si ofa ya sasa. Vipengele na bei kamili za KSh zitawekwa kabla ya malipo. Mpango wa chini hautafuta wala kufunga kumbukumbu zako.',paymentTitle:'Jinsi malipo ya usajili yatakavyofanya kazi',paymentIntro:'Mipango ikikamilika, utahitaji intaneti na uthibitishe kila malipo ya muda maalum.',paymentStep1:'Chagua mpango na uhakiki jumla na muda wa matumizi kabla ya kulipa.',paymentStep2:'Weka nambari ya Safaricom M-Pesa itakayopokea ombi la malipo.',paymentStep3:'Kagua ombi la Safaricom STK. Weka PIN yako ya M-Pesa hapo pekee.',paymentStep4:'Subiri uthibitisho salama; programu itaonyesha Pending hadi Safaricom ithibitishe.',paymentStep5:'Hifadhi recovery key yako, kisha kagua au rudisha usajili mtandaoni.',paymentSafetyLabel:'Usalama wa malipo:',paymentSafety:'Hakuna malipo ya kujirudia yanayopangwa. Usimpe mtu PIN yako au kuamini picha ya SMS kama uthibitisho.',
+      installTitle:'Jinsi ya kusakinisha programu ya Android',installIntro:'Kiungo cha APK kitawekwa toleo likiwa tayari. Pakua faili kupitia tovuti hii rasmi pekee.',installStep1:'Tumia kiungo rasmi cha APK hapa; epuka faili zilizotumwa au kupakiwa upya.',installStep2:'Fungua APK uliyopakua kupitia Downloads au programu ya Files.',installStep3:'Ukiombwa, ruhusu programu ya upakuaji kusakinisha programu zisizojulikana, kisha urudi uendelee.',installStep4:'Kagua ruhusa kabla ya kusakinisha. SMS inahitajika tu kwa uingizaji wa hiari wa ujumbe wa M-Pesa.',installStep5:'Kabla ya kufuta programu au kuweka upya simu, hamisha kumbukumbu zako na uzihifadhi salama; data ya simu inaweza isipatikane tena.',installPending:'Upakuaji wa APK bado haupatikani',installHelpLabel:'Android ikizuia usakinishaji:',installHelp:'hakikisha APK imetoka kwenye tovuti hii na uruhusu usakinishaji kutoka programu ya upakuaji. Zima ruhusa hiyo baadaye.'
+    },
+    sheng: {
+      navPlans:'Mipango na download',plansKicker:'Mipango · kulingana na vile unatumia PesaPlanner',plansTitle:'Chagua level ina-fit life yako ya pesa.',plansIntro:'Anza Free. Angalia vitu plan ya chini haina; records zako bado ni zako.',plansStatusTitle:'Mipango na M-Pesa checkout bado zinawekwa sawa.',plansStatusText:'Bei bado hazijawekwa na malipo hazijafunguliwa. Usitume doh ya subscription bado.',
+      freeBadge:'Iko kila time',freePrice:'KSh 0 · basic tools',freeSummary:'Panga doh ya kila siku bila kulipia subscription.',freeFeature1:'Record income, matumizi, madeni na commitments',freeFeature2:'Tumia budget za kawaida na review transactions',freeFeature3:'Basic tools bado zinawork bila net',freeFeature4:'Access, export na delete records zako',freeMissLabel:'Free haina:',freeMiss:'reports za deep, forecasts za long na business workspace inayopangwa.',freeAction:'Iko na app',
+      plusBadge:'Kwa kupanga doh yako',plusPrice:'Bei itatangazwa',plusSummary:'Kwa comrades na watu wanataka kuona mbele ya finances.',plusFeature1:'Reports na spending patterns deep',plusFeature2:'Longer cash-flow na semester forecasts',plusFeature3:'Options zaidi za goals, bills na costs za kurudia',plusFeature4:'Prepaid tu; renew ukichagua',plusMissLabel:'Plus haina:',plusMiss:'business workspace, stock tracking na receivables za Max.',plusAction:'Subscription bado haijaopen',
+      maxBadge:'Kwa power users na biashara ndogo',maxPrice:'Bei itatangazwa',maxSummary:'Zana zaidi kwa mtu anamanage mambo mingi.',maxFeature1:'Business cash-flow views na budgets mingi',maxFeature2:'Track stock ama belongings',maxFeature3:'Views za customer balances na receivables',maxFeature4:'Reports na export options zaidi',maxStatusLabel:'Bado inadesigniwa:',maxStatus:'team sharing na cloud sync hazijaahidiwa.',maxAction:'Subscription bado haijaopen',
+      plansFootnote:'Hizi ni ideas za feature groups, si offer ya sasa. Features na bei za KSh zitawekwa wazi checkout ikikaribia. Plan ya chini haitafuta ama lock records zako.',paymentTitle:'Payment ya subscription itawork aje',paymentIntro:'Plans zikiwa ready, utahitaji net na kuapprove kila prepaid period.',paymentStep1:'Chagua plan, uone total exact na period kabla ya kulipa.',paymentStep2:'Weka Safaricom M-Pesa number ipokee payment prompt.',paymentStep3:'Check Safaricom STK prompt. Weka PIN yako ya M-Pesa hapo tu.',paymentStep4:'Subiri secure verification; app itaonyesha Pending Safaricom ikiconfirm.',paymentStep5:'Save recovery key yako, ucheck ama restore subscription ukiwa online.',paymentSafetyLabel:'Usalama wa payment:',paymentSafety:'Hakuna auto-renew imepangwa. Usishare PIN na support wala kuamini screenshot ya SMS kama confirmation.',
+      installTitle:'Kusakinisha Android app',installIntro:'APK link itawekwa release ikiwa ready. Download file kutoka official website hii pekee.',installStep1:'Tumia official APK link hapa; usiinstall file ya WhatsApp ama re-upload.',installStep2:'Fungua APK kwa Downloads ya browser ama Files app.',installStep3:'Ukiombwa, ruhusu download app kuinstall unknown apps, then rudi uendelee.',installStep4:'Review install prompt na permissions. SMS ni optional kwa M-Pesa message import pekee.',installStep5:'Kabla ya ku-uninstall ama reset phone, export records na uziweke safe; local data inaweza isipatikane tena.',installPending:'APK bado haijapatikana',installHelpLabel:'Android ikiblock install:',installHelp:'confirm APK imetoka hapa na ruhusu install kutoka app uliodownload nayo. Zima ruhusa hiyo baadaye.'
+    },
+    fr: {
+      navPlans:'Offres et téléchargement',plansKicker:'Offres · selon votre usage de PesaPlanner',plansTitle:'Choisissez l’offre adaptée à vos finances.',plansIntro:'Commencez gratuitement. Comparez les limites de chaque niveau; vos données quotidiennes restent les vôtres.',plansStatusTitle:'Les offres et le paiement M-Pesa sont en préparation.',plansStatusText:'Les prix ne sont pas fixés et le paiement n’est pas ouvert. N’envoyez pas d’argent pour un abonnement.',
+      freeBadge:'Toujours disponible',freePrice:'0 KSh · outils essentiels',freeSummary:'Organisez vos finances quotidiennes sans abonnement.',freeFeature1:'Enregistrer revenus, dépenses, dettes et engagements',freeFeature2:'Utiliser les budgets simples et vérifier les opérations',freeFeature3:'Continuer à utiliser les outils essentiels hors ligne',freeFeature4:'Accéder à vos données, les exporter ou les supprimer',freeMissLabel:'Free ne comprend pas :',freeMiss:'les rapports détaillés, prévisions étendues et l’espace professionnel proposés.',freeAction:'Inclus avec l’application',
+      plusBadge:'Pour vos finances personnelles',plusPrice:'Prix à annoncer',plusSummary:'Pour les étudiants et particuliers qui veulent mieux anticiper.',plusFeature1:'Rapports détaillés et tendances de dépenses',plusFeature2:'Prévisions de trésorerie et de semestre plus longues',plusFeature3:'Plus d’options pour objectifs, factures et dépenses récurrentes',plusFeature4:'Accès prépayé; renouvellement à votre initiative',plusMissLabel:'Plus ne comprend pas :',plusMiss:'l’espace professionnel, le stock et les créances étendues de Max.',plusAction:'Abonnements non disponibles',
+      maxBadge:'Pour utilisateurs avancés et petites entreprises',maxPrice:'Prix à annoncer',maxSummary:'Une boîte à outils proposée pour gérer davantage d’activités.',maxFeature1:'Vues de trésorerie professionnelle et plusieurs budgets',maxFeature2:'Suivi des stocks ou des biens',maxFeature3:'Suivi étendu des dettes et soldes clients',maxFeature4:'Rapports et options d’export plus complets',maxStatusLabel:'Encore en conception :',maxStatus:'le partage en équipe et la synchronisation cloud ne sont pas promis.',maxAction:'Abonnements non disponibles',
+      plansFootnote:'Groupes de fonctionnalités proposés, sans offre active. Les fonctions et prix exacts en KSh seront affichés avant le paiement. Une offre inférieure ne supprimera ni ne bloquera vos données.',paymentTitle:'Comment fonctionnera le paiement',paymentIntro:'Une fois les offres prêtes, une connexion internet et votre accord seront nécessaires à chaque période prépayée.',paymentStep1:'Choisissez une offre et vérifiez le montant total et la durée avant de payer.',paymentStep2:'Saisissez le numéro Safaricom M-Pesa qui recevra la demande de paiement.',paymentStep3:'Vérifiez la demande STK Safaricom. Saisissez votre code PIN M-Pesa uniquement dans cette demande.',paymentStep4:'Attendez la vérification sécurisée; l’application indiquera Pending jusqu’à la confirmation Safaricom.',paymentStep5:'Conservez votre clé de récupération, puis vérifiez ou restaurez l’abonnement en ligne.',paymentSafetyLabel:'Sécurité des paiements :',paymentSafety:'Aucun renouvellement automatique prévu. Ne communiquez jamais votre PIN et ne prenez pas une capture SMS pour preuve.',
+      installTitle:'Installer l’application Android',installIntro:'Le lien APK sera ajouté lorsqu’une version sera prête. Téléchargez uniquement depuis ce site officiel.',installStep1:'Utilisez le lien APK officiel de cette page; évitez les fichiers transférés ou republiés.',installStep2:'Ouvrez l’APK téléchargé depuis Téléchargements ou l’application Fichiers.',installStep3:'Si demandé, autorisez cette application de téléchargement à installer des applications inconnues, puis revenez.',installStep4:'Vérifiez les permissions. L’accès aux SMS sert uniquement à l’import M-Pesa facultatif.',installStep5:'Avant de désinstaller ou réinitialiser le téléphone, exportez et sauvegardez vos données; elles peuvent ne pas être restaurées.',installPending:'Téléchargement APK pas encore disponible',installHelpLabel:'Si Android bloque l’installation :',installHelp:'vérifiez que l’APK vient de ce site et autorisez l’installation depuis l’application utilisée. Désactivez ensuite cette autorisation.'
+    }
+  };
   const original = {};
   Object.entries(targets).forEach(([key, selector]) => {
     const nodes = document.querySelectorAll(selector);
@@ -1795,6 +1964,11 @@ const target = !isNaN(custom)
           node.innerHTML = value;
         }
       });
+    });
+    document.querySelectorAll('[data-copy-key]').forEach(node => {
+      const key = node.dataset.copyKey;
+      if (!node.dataset.defaultText) node.dataset.defaultText = node.textContent;
+      node.textContent = (planLocales[language] && planLocales[language][key]) || node.dataset.defaultText;
     });
     document.documentElement.lang = language === 'sw' ? 'sw-KE' : language === 'fr' ? 'fr' : language === 'sheng' ? 'en-KE' : 'en-KE';
     picker.value = language;
