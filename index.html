@@ -129,6 +129,15 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .nav-cta{padding:9px 18px;border-radius:999px;background:var(--yellow);color:#050a18;font-size:13.5px;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px var(--yellow-glow)}
 @media(max-width:900px){.nav-links{display:none}}
+.language-picker{display:flex;align-items:center;gap:7px;flex:0 0 auto;border:1px solid var(--border-2);border-radius:999px;padding:0 10px;background:var(--surface);color:var(--muted)}
+.language-icon{font-size:15px;color:var(--yellow)}
+.language-picker select{max-width:178px;border:0;outline:0;padding:9px 2px;background:transparent;color:var(--text);font:500 12px Inter, sans-serif;cursor:pointer}
+.language-picker select option{background:var(--surface);color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:900px){.nav-inner{gap:10px;padding:10px 14px}.language-picker{margin-left:auto}.language-picker select{max-width:148px}.nav-cta{padding:9px 12px;font-size:12px}}
+@media(max-width:420px){.language-picker select{max-width:115px;font-size:11px}.language-icon{display:none}.nav-cta{font-size:11px;padding:8px 10px}.nav-inner{gap:7px}.logo{font-size:15px}}
+
+
 
 /* ============================================================
    HERO
@@ -921,6 +930,7 @@ section{position:relative}
       <a href="#vision">Vision</a>
     </div>
     <a class="nav-cta" href="#cta">Get Early Access</a>
+    <label class="language-picker" for="siteLanguage"><span class="language-icon" aria-hidden="true">文</span><span class="sr-only">Choose language</span><select id="siteLanguage" aria-label="Choose language"><option value="mix">Original · English + Kiswahili + Sheng</option><option value="en">English</option><option value="sw">Kiswahili</option><option value="sheng">Sheng</option><option value="fr">Français</option></select></label>
   </div>
 </nav>
 
@@ -1614,6 +1624,94 @@ const target = !isNaN(custom)
 
 })();
 
+</script>
+<script>
+/* Language options preserve the original mixed-language page as the default. */
+(function () {
+  const picker = document.getElementById('siteLanguage');
+  if (!picker) return;
+  const targets = {
+    navProblem: '.nav-links a:nth-child(1)', navWatch: '.nav-links a:nth-child(2)', navFeatures: '.nav-links a:nth-child(3)', navDifference: '.nav-links a:nth-child(4)', navAudience: '.nav-links a:nth-child(5)', navVision: '.nav-links a:nth-child(6)', navCta: '.nav-cta',
+    heroEyebrow: '.hero .eyebrow', heroTitle: '.hero h1', heroDescription: '.hero-sub', heroPrimary: '.hero-actions .btn-primary', heroWatch: '.hero-actions .btn-ghost', heroTrust: '.hero-trust span',
+    problemLabel: '.problem .sec-eyebrow', problemTitle: '.problem h2', problemIntro: '.problem .sec-head > p',
+    solutionLabel: '.solution .sec-eyebrow', solutionTitle: '.solution h2', solutionIntro: '.solution-inner > p:first-of-type',
+    demoLabel: '.video-showcase .sec-eyebrow', demoTitle: '.video-showcase h2', demoIntro: '.video-showcase .sec-head > p',
+    featuresLabel: '.features .sec-eyebrow', featuresTitle: '.features h2', featuresIntro: '.features .sec-head > p',
+    differenceLabel: '.different .sec-eyebrow', differenceTitle: '.different h2', audienceLabel: '.personas .sec-eyebrow', audienceTitle: '.personas h2',
+    visionLabel: '.vision .sec-eyebrow', ctaTitle: '.cta h2', ctaNote: '.cta-note'
+  };
+  const locales = {
+    en: {
+      navProblem:'The Problem',navWatch:'Watch',navFeatures:'Features',navDifference:'Why Different',navAudience:"Who It's For",navVision:'Vision',navCta:'Get Early Access',
+      heroEyebrow:'Offline-first · Made for Kenyan campus life',heroTitle:'Your money.<br>Less of a <span class="accent">mystery.</span>',heroDescription:'PesaPlanner is a personal finance app made for everyday life in Kenya. Organise M-Pesa history, plan budgets, track debts and see what you can realistically spend—not just what your balance says.',heroPrimary:'Get early access',heroWatch:'Watch the demo',heroTrust:['No bank login','Works offline','Your data stays yours'],
+      problemLabel:'THE PROBLEM · 01',problemTitle:'Campus life is expensive.<br>Being broke is a <span class="accent">full-time course.</span>',problemIntro:'University life in Kenya brings lectures, assignments, transport, food and bills. Keeping track of money can become another full-time job.',
+      solutionLabel:'THE SOLUTION · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Your personal finance companion.',solutionIntro:'PesaPlanner is an offline-first personal finance and campus-life app designed around everyday realities in Kenya. It helps organise transactions, budgets, commitments and debts so you can see what money is available to spend.',
+      demoLabel:'SEE IT IN ACTION · 02.5',demoTitle:'See PesaPlanner <span class="accent">in action.</span>',demoIntro:'Watch the full walkthrough and short demos about everyday money moments on campus.',
+      featuresLabel:'FEATURES · 03',featuresTitle:'What PesaPlanner <span class="accent">can help you do.</span>',featuresIntro:'Explore tools for organising transactions, budgets, bills, savings, meals and other parts of your financial life.',
+      differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'More than a way to<br>record expenses.',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'Different people.<br><span class="accent">Different money lives.</span>',
+      visionLabel:'THE BIGGER VISION · 06',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
+    },
+    sw: {
+      navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Pata Habari za Uzinduzi',
+      heroEyebrow:'Hufanya kazi bila intaneti · Imeundwa kwa maisha ya chuo Kenya',heroTitle:'Pesa yako.<br>Isiwe <span class="accent">fumbo.</span>',heroDescription:'PesaPlanner ni programu ya kupanga fedha iliyoundwa kwa maisha ya kila siku nchini Kenya. Panga historia ya M-Pesa, weka bajeti, fuatilia madeni na ujue kiasi unachoweza kutumia—si salio tu.',heroPrimary:'Pata habari za uzinduzi',heroWatch:'Tazama jinsi inavyofanya kazi',heroTrust:['Hakuna kuingia kwa benki','Hufanya kazi bila intaneti','Data yako ni yako'],
+      problemLabel:'CHANGAMOTO · 01',problemTitle:'Maisha ya chuo ni ghali.<br>Kukosa pesa ni <span class="accent">somo la muda wote.</span>',problemIntro:'Maisha ya chuo Kenya yanahusisha mihadhara, kazi, nauli, chakula na bili. Kufuatilia pesa kunaweza kuwa kazi nyingine ya muda wote.',
+      solutionLabel:'SULUHISHO · 02',solutionTitle:'Kutana na <span class="accent">PesaPlanner.</span><br>Msaidizi wako wa kupanga fedha.',solutionIntro:'PesaPlanner ni programu inayofanya kazi bila intaneti kwa kupanga fedha na maisha ya chuo, ikizingatia hali halisi ya Kenya. Inakusaidia kupanga miamala, bajeti, matumizi yaliyopangwa na madeni ili ujue pesa inayoweza kutumika.',
+      demoLabel:'ITAZAME IKIFANYA KAZI · 02.5',demoTitle:'Tazama PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Tazama maelezo kamili na video fupi kuhusu hali za kawaida za matumizi ya pesa chuoni.',
+      featuresLabel:'VIPENGELE · 03',featuresTitle:'PesaPlanner <span class="accent">inakusaidia kufanya nini?</span>',featuresIntro:'Gundua zana za kupanga miamala, bajeti, bili, akiba, chakula na sehemu nyingine za maisha yako ya kifedha.',
+      differenceLabel:'TOFAUTI YAKE · 04',differenceTitle:'Zaidi ya kurekodi<br>matumizi ya pesa.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Maisha tofauti ya pesa.</span>',
+      visionLabel:'DIRA KUBWA · 06',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
+    },
+    sheng: {
+      navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Nijulishe Ikizinduliwa',
+      heroEyebrow:'Inawork bila net · Imetengenezwa na life ya campus Kenya',heroTitle:'Pesa yako.<br>Isiwork <span class="accent">mystery.</span>',heroDescription:'PesaPlanner ni app ya kupanga doh, imetengenezwa na life ya Kenya kwa akili. Panga M-Pesa history, budget, fuatilia madeni, uone doh unaweza kutumia—si balance pekee.',heroPrimary:'Nijulishe ikizinduliwa',heroWatch:'Watch demo',heroTrust:['Hakuna bank login','Inawork bila net','Data ni yako'],
+      problemLabel:'SHIDA · 01',problemTitle:'Campus life ni costly.<br>Kukosa doh ni <span class="accent">unit ya full-time.</span>',problemIntro:'Life ya chuo Kenya ni lectures, assignments, fare, food na bills. Kufuatilia doh inaweza kuwa job ingine ya full-time.',
+      solutionLabel:'SULUHISHO · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Plug wako wa kupanga doh.',solutionIntro:'PesaPlanner ni app ya finances na campus life inayowork bila net, imeundwa na realities za Kenya. Inakusaidia kupanga transactions, budget, commitments na madeni ujue doh iko free kutumia.',
+      demoLabel:'ANGALIA IKIACTION · 02.5',demoTitle:'Angalia PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Watch full walkthrough na demos fupi za mambo ya doh campus.',
+      featuresLabel:'FEATURES · 03',featuresTitle:'PesaPlanner <span class="accent">inaweza kusaidia aje?</span>',featuresIntro:'Angalia tools za kupanga transactions, budget, bills, savings, food na vitu zingine za finances zako.',
+      differenceLabel:'MBONA NI TOFAUTI · 04',differenceTitle:'Si kurecord tu<br>venye doh imetoka.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Doh inaenda tofauti.</span>',
+      visionLabel:'BIG VISION · 06',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
+    },
+    fr: {
+      navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Être informé du lancement',
+      heroEyebrow:'Fonctionne hors ligne · Pensé pour les campus kenyans',heroTitle:'Votre argent.<br>Un peu moins <span class="accent">mystérieux.</span>',heroDescription:'PesaPlanner est une application de gestion financière conçue pour la vie quotidienne au Kenya. Organisez votre historique M-Pesa, préparez un budget, suivez vos dettes et voyez ce que vous pouvez réellement dépenser, au-delà de votre solde.',heroPrimary:'Être informé du lancement',heroWatch:'Voir la démonstration',heroTrust:['Sans connexion bancaire','Fonctionne hors ligne','Vos données vous appartiennent'],
+      problemLabel:'LE PROBLÈME · 01',problemTitle:'La vie étudiante coûte cher.<br>Manquer d’argent devient un <span class="accent">cours à plein temps.</span>',problemIntro:'La vie universitaire au Kenya comprend les cours, les devoirs, les transports, les repas et les factures. Suivre son argent peut devenir un travail à plein temps.',
+      solutionLabel:'LA SOLUTION · 02',solutionTitle:'Découvrez <span class="accent">PesaPlanner.</span><br>Votre compagnon financier.',solutionIntro:'PesaPlanner est une application hors ligne de gestion financière et de vie étudiante, conçue pour les réalités du Kenya. Elle aide à organiser les transactions, les budgets, les dépenses prévues et les dettes afin de mieux connaître l’argent disponible.',
+      demoLabel:'EN ACTION · 02.5',demoTitle:'Découvrez PesaPlanner <span class="accent">en action.</span>',demoIntro:'Regardez la présentation complète et de courtes vidéos sur les dépenses quotidiennes sur le campus.',
+      featuresLabel:'FONCTIONNALITÉS · 03',featuresTitle:'Ce que PesaPlanner <span class="accent">peut vous aider à faire.</span>',featuresIntro:'Découvrez des outils pour organiser transactions, budgets, factures, épargne, repas et autres aspects de vos finances.',
+      differenceLabel:'CE QUI CHANGE · 04',differenceTitle:'Bien plus qu’un outil pour<br>noter ses dépenses.',audienceLabel:'POUR QUI ? · 05',audienceTitle:'Des personnes différentes.<br><span class="accent">Des réalités financières différentes.</span>',
+      visionLabel:'UNE VISION PLUS LARGE · 06',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
+    }
+  };
+  const original = {};
+  Object.entries(targets).forEach(([key, selector]) => {
+    const nodes = document.querySelectorAll(selector);
+    original[key] = Array.from(nodes, node => node.innerHTML);
+  });
+  function apply(language) {
+    const dictionary = locales[language] || null;
+    Object.entries(targets).forEach(([key, selector]) => {
+      const nodes = document.querySelectorAll(selector);
+      nodes.forEach((node, index) => {
+        const translated = dictionary && dictionary[key];
+        if (!translated) { node.innerHTML = original[key][index]; return; }
+        const value = Array.isArray(translated) ? (translated[index] || original[key][index]) : translated;
+        if (key === 'heroTrust' || key === 'heroPrimary' || key === 'heroWatch') {
+          const textNode = Array.from(node.childNodes).find(child => child.nodeType === Node.TEXT_NODE && child.textContent.trim());
+          if (textNode) textNode.textContent = value;
+        } else {
+          node.innerHTML = value;
+        }
+      });
+    });
+    document.documentElement.lang = language === 'sw' ? 'sw-KE' : language === 'fr' ? 'fr' : language === 'sheng' ? 'en-KE' : 'en-KE';
+    picker.value = language;
+    try { localStorage.setItem('pesaplanner-language', language); } catch (_) {}
+  }
+  picker.addEventListener('change', () => apply(picker.value));
+  let saved = 'mix';
+  try { saved = localStorage.getItem('pesaplanner-language') || 'mix'; } catch (_) {}
+  apply(locales[saved] ? saved : 'mix');
+})();
 </script>
 </body>
 </html>
