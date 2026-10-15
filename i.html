@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequential Pie Ring Animation</title>
+  <style>
+    /* Reset and Center Content */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      gap: 24px;
+    }
+
+    /* Container Card */
+    .chart-card {
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+    }
+
+    /* SVG Configuration */
+    .pie-chart {
+      transform: rotate(-90deg); /* Rotates start point to 12 o'clock */
+      border-radius: 50%;
+    }
+
+    /* Base ring styles for all segments */
+    .segment {
+      fill: none;
+      stroke-width: 5; 
+      
+      /* Circumference is exactly 100 due to r=15.915 */
+      stroke-dasharray: var(--val) 100;
+      
+      /* Start hidden behind its positional offset boundary */
+      stroke-dashoffset: calc(var(--offset) + var(--val)); 
+      
+      /* Uses custom duration and delay variables for sequential queuing */
+      animation: fillRing var(--duration) linear var(--delay) forwards;
+    }
+
+    /* Individual Colors for Segments */
+    .segment-1 { stroke: #3b82f6; } /* Blue */
+    .segment-2 { stroke: #10b981; } /* Green */
+    .segment-3 { stroke: #f59e0b; } /* Orange */
+    .segment-4 { stroke: #ef4444; } /* Red */
+
+    /* Animation drives the offset down to expose the path cleanly */
+    @keyframes fillRing {
+      to {
+        stroke-dashoffset: var(--offset);
+      }
+    }
+
+    /* Center Label Layout */
+    .chart-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+    }
+    .label-num { font-size: 32px; font-weight: 800; color: #111827; line-height: 1; }
+    .label-text { font-size: 12px; font-weight: 500; color: #6b7280; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Legend Key Breakdown */
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-1 { background-color: #3b82f6; }
+    .dot-2 { background-color: #10b981; }
+    .dot-3 { background-color: #f59e0b; }
+    .dot-4 { background-color: #ef4444; }
+
+    /* Control Button */
+    .btn-replay {
+      background-color: #111827;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-replay:hover { background-color: #374151; }
+  </style>
+</head>
+<body>
+
+  <div class="chart-card">
+    <div class="chart-wrapper">
+      <svg width="240" height="240" viewBox="0 0 40 40" class="pie-chart" id="chartSvg">
+        
+        <!-- Total target duration is 1.5s total. Time variables match the values:
+             Duration = (Value / 100) * 1.5s
+             Delay = Accumulated duration of preceding segments -->
+
+        <!-- Segment 1: Val 45 | Dur: 0.675s | Delay: 0s -->
+        <circle cx="20" cy="20" r="15.915" class="segment segment-1" 
+                style="--val: 45; --offset: 0; --duration: 0.675s; --delay: 0s;" />
+        
+        <!-- Segment 2: Val 30 | Dur: 0.45s | Delay: 0.675s -->
+        <circle cx="20" cy="20" r="15.915" class="segment segment-2" 
+                style="--val: 30; --offset: -45; --duration: 0.45s; --delay: 0.675s;" />
+        
+        <!-- Segment 3: Val 15 | Dur: 0.225s | Delay: 1.125s -->
+        <circle cx="20" cy="20" r="15.915" class="segment segment-3" 
+                style="--val: 15; --offset: -75; --duration: 0.225s; --delay: 1.125s;" />
+        
+        <!-- Segment 4: Val 10 | Dur: 0.15s | Delay: 1.35s -->
+        <circle cx="20" cy="20" r="15.915" class="segment segment-4" 
+                style="--val: 10; --offset: -90; --duration: 0.15s; --delay: 1.35s;" />
+        
+      </svg>
+      
+      <div class="chart-label">
+        <span class="label-num">100</span>
+        <span class="label-text">Total</span>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="dot dot-1"></span> Blue: 45</div>
+      <div class="legend-item"><span class="dot dot-2"></span> Green: 30</div>
+      <div class="legend-item"><span class="dot dot-3"></span> Orange: 15</div>
+      <div class="legend-item"><span class="dot dot-4"></span> Red: 10</div>
+    </div>
+  </div>
+
+  <button class="btn-replay" onclick="replayAnimation()">Replay Animation</button>
+
+  <script>
+    function replayAnimation() {
+      const segments = document.querySelectorAll('.segment');
+      
+      segments.forEach(segment => {
+        const currentAnimation = segment.style.animation;
+        segment.style.animation = 'none';
+        
+        // Force layout engine reflow
+        void segment.offsetWidth;
+        
+        // Reassign inline values to trigger the staggered delay queue cleanly
+        segment.style.animation = '';
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mega7306626007.github.io/PesaPlanner-com/sitemap.xml
