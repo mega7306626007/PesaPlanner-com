@@ -635,6 +635,11 @@ section{position:relative}
 .review-spotlight h2 .accent{color:var(--yellow);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
 .review-copy{max-width:58ch;margin:0 auto 26px;color:var(--muted);font-size:clamp(15px,1.7vw,18px);line-height:1.7}
 .review-spotlight .btn{min-height:54px;padding:15px 28px;font-size:16px}
+
+.review-inline-form{position:relative;max-width:690px;margin:32px auto 0;text-align:left;display:grid;gap:12px}
+.review-rating-fieldset{border:0;padding:0;margin:0 0 4px}.review-rating-legend{font-weight:700;margin-bottom:8px}.review-rating-legend span{font-size:13px;color:var(--muted);font-weight:500}
+.review-rating-stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:7px}.review-rating-stars input{position:absolute;width:1px;height:1px;opacity:0}.review-rating-stars label{font-size:40px;line-height:1;color:#53627a;cursor:pointer;transition:color .15s,transform .15s}.review-rating-stars label:hover,.review-rating-stars label:hover~label,.review-rating-stars input:checked~label{color:var(--yellow)}.review-rating-stars label:hover{transform:scale(1.08)}.review-rating-stars input:focus-visible+label{outline:3px solid var(--blue-bright);outline-offset:4px;border-radius:3px}.review-rating-hint{font-size:12px;color:var(--dim);margin-top:6px}
+.review-text-label,.review-email-label{font-size:14px;font-weight:700;color:var(--text)}.review-email-label{margin-top:4px}.review-inline-form .optional{font-size:13px;color:var(--muted);font-weight:400}.review-textarea,.review-email-input{width:100%;border:1px solid var(--border-2);border-radius:12px;padding:13px 14px;background:#081020;color:var(--text);font:inherit}.review-textarea{min-height:116px;resize:vertical}.review-textarea:focus,.review-email-input:focus{outline:3px solid #60a5fa55;border-color:var(--blue-bright)}.review-inline-form .review-submit{justify-self:center;min-height:52px;margin-top:6px;padding:14px 28px;font-size:15px}.review-form-status{min-height:1.5em;text-align:center;color:var(--yellow);font-weight:600}.review-form-note{text-align:center;color:var(--dim);font-size:12px}.review-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .review-note{margin:18px 0 0;color:var(--dim);font-size:13px}
 @media(max-width:600px){.review-spotlight{padding:60px 0}.review-spotlight-inner{padding:34px 20px;border-radius:var(--radius-lg)}}
 
@@ -1516,12 +1521,34 @@ section{position:relative}
 <!-- ============ REVIEW SPOTLIGHT ============ -->
 <section class="review-spotlight" id="reviews">
   <div class="wrap">
-    <div class="review-spotlight-inner reveal">
+    <div class="review-spotlight-inner">
       <div class="review-stars" aria-hidden="true">★★★★★</div>
       <p class="sec-eyebrow">SAUTI YAKO NI MUHIMU</p>
       <h2>PesaFlow imekuwork? <span class="accent">Tuachie review.</span></h2>
-      <p class="review-copy">Share your honest rating and feedback. It helps us improve PesaFlow and helps others know what to expect.</p>
-      <a class="btn btn-primary" href="reviews.html">Write a review</a>
+      <p class="review-copy">Share rating yako na feedback; itatusaidia kuboresha PesaFlow na kusaidia wengine wajue cha kutarajia.</p>
+      <form class="review-inline-form" data-review-form novalidate>
+        <fieldset class="review-rating-fieldset">
+          <legend class="review-rating-legend">Star rating <span aria-hidden="true">· lazima</span></legend>
+          <div class="review-rating-stars" role="radiogroup" aria-label="Choose a star rating from one to five">
+            <input type="radio" id="homeStar5" name="rating" value="5" required><label for="homeStar5" title="5 stars"><span aria-hidden="true">★</span><span class="sr-only">5 stars</span></label>
+            <input type="radio" id="homeStar4" name="rating" value="4"><label for="homeStar4" title="4 stars"><span aria-hidden="true">★</span><span class="sr-only">4 stars</span></label>
+            <input type="radio" id="homeStar3" name="rating" value="3"><label for="homeStar3" title="3 stars"><span aria-hidden="true">★</span><span class="sr-only">3 stars</span></label>
+            <input type="radio" id="homeStar2" name="rating" value="2"><label for="homeStar2" title="2 stars"><span aria-hidden="true">★</span><span class="sr-only">2 stars</span></label>
+            <input type="radio" id="homeStar1" name="rating" value="1"><label for="homeStar1" title="1 star"><span aria-hidden="true">★</span><span class="sr-only">1 star</span></label>
+          </div>
+          <p class="review-rating-hint">1 = bado iboreshwe · 5 = iko poa sana</p>
+        </fieldset>
+        <label class="review-text-label" for="homeReview">Review / maoni <span class="optional">(optional / si lazima)</span></label>
+        <textarea id="homeReview" name="review" maxlength="2000" class="review-textarea" placeholder="Tuambie umeipenda nini ama tunaboreshaje…"></textarea>
+        <label class="review-email-label" for="homeReviewEmail">Email <span class="optional review-email-hint">(optional kama unataka reply)</span></label>
+        <input id="homeReviewEmail" class="review-email-input" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com">
+        <div class="review-honeypot" aria-hidden="true"><label for="homeWebsite">Leave this field empty</label><input id="homeWebsite" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="_subject" value="New PesaFlow website review">
+        <input type="hidden" name="_url" value="https://mega7306626007.github.io/PesaPlanner-com/">
+        <button class="btn btn-primary review-submit" type="submit">Tuma review</button>
+        <p class="review-form-status" role="status" aria-live="polite"></p>
+        <p class="review-form-note">Jina si lazima. Usiweke M-Pesa messages ama details zako za kifedha.</p>
+      </form>
       <p class="review-note">Star rating required · Written review and reply email optional</p>
     </div>
   </div>
@@ -1559,7 +1586,7 @@ section{position:relative}
         <p>Your money. Your campus life. Your control.</p>
         <p class="tagline">"Pesa yako isiwe mystery ya semester."</p>
       </div>
-      <div class="footer-col"><h5>Product</h5><a href="#features">Features</a><a href="#demo">Demos</a><a href="#different">Why Different</a><a href="#personas">Who It's For</a><a href="#vision">Vision</a><a href="reviews.html">Leave a review</a></div>
+      <div class="footer-col"><h5>Product</h5><a href="#features">Features</a><a href="#demo">Demos</a><a href="#different">Why Different</a><a href="#personas">Who It's For</a><a href="#vision">Vision</a><a href="#reviews">Leave a review</a></div>
       <div class="footer-col"><h5>The App</h5><a href="#problem">The Problem</a><a href="#features">M-Pesa Import</a><a href="#features">PesaBuddy</a><a href="#features">Offline-First</a></div>
       <div class="footer-col"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="data-deletion.html">Data deletion</a><a href="cookies.html">Cookies</a><a href="security.html">Security</a><a href="#cookie-settings" onclick="window.pesaCookieSettings(); return false;">Cookie settings</a></div>
     </div>
@@ -1702,7 +1729,7 @@ const target = !isNaN(custom)
     demoLabel: '.video-showcase .sec-eyebrow', demoTitle: '.video-showcase h2', demoIntro: '.video-showcase .sec-head > p',
     featuresLabel: '.features .sec-eyebrow', featuresTitle: '.features h2', featuresIntro: '.features .sec-head > p',
     differenceLabel: '.different .sec-eyebrow', differenceTitle: '.different h2', audienceLabel: '.personas .sec-eyebrow', audienceTitle: '.personas h2',
-    visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', ctaTitle: '.cta h2', ctaNote: '.cta-note'
+    visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', reviewLegend: '.review-rating-legend', reviewRatingHint: '.review-rating-hint', reviewTextLabel: '.review-text-label', reviewPlaceholder: '.review-textarea', reviewEmailLabel: '.review-email-label', reviewEmailHint: '.review-email-hint', reviewSubmit: '.review-submit', reviewFormNote: '.review-form-note', ctaTitle: '.cta h2', ctaNote: '.cta-note'
   };
   const locales = {
     en: {
@@ -1713,7 +1740,7 @@ const target = !isNaN(custom)
       demoLabel:'SEE IT IN ACTION · 02.5',demoTitle:'See PesaPlanner <span class="accent">in action.</span>',demoIntro:'Watch the full walkthrough and short demos about everyday money moments on campus.',
       featuresLabel:'FEATURES · 03',featuresTitle:'What PesaPlanner <span class="accent">can help you do.</span>',featuresIntro:'Explore tools for organising transactions, budgets, bills, savings, meals and other parts of your financial life.',
       differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'More than a way to<br>record expenses.',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'Different people.<br><span class="accent">Different money lives.</span>',
-      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaFlow? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaFlow and help others know what to expect.',reviewButton:'Write a review',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
+      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaFlow? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaFlow and help others know what to expect.',reviewButton:'Write a review',reviewLegend:'Star rating <span aria-hidden="true">· required</span>',reviewRatingHint:'1 = needs work · 5 = excellent',reviewTextLabel:'Your review <span class="optional">(optional)</span>',reviewPlaceholder:'Tell us what you liked or what we could improve…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, only if you want a reply)</span>',reviewEmailHint:'(optional, only if you want a reply)',reviewSubmit:'Send my review',reviewFormNote:'No name needed. Please don’t include private M-Pesa or financial details.',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
     },
     sw: {
       navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Pata Habari za Uzinduzi',
@@ -1723,7 +1750,7 @@ const target = !isNaN(custom)
       demoLabel:'ITAZAME IKIFANYA KAZI · 02.5',demoTitle:'Tazama PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Tazama maelezo kamili na video fupi kuhusu hali za kawaida za matumizi ya pesa chuoni.',
       featuresLabel:'VIPENGELE · 03',featuresTitle:'PesaPlanner <span class="accent">inakusaidia kufanya nini?</span>',featuresIntro:'Gundua zana za kupanga miamala, bajeti, bili, akiba, chakula na sehemu nyingine za maisha yako ya kifedha.',
       differenceLabel:'TOFAUTI YAKE · 04',differenceTitle:'Zaidi ya kurekodi<br>matumizi ya pesa.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Maisha tofauti ya pesa.</span>',
-      visionLabel:'DIRA KUBWA · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Acha tathmini.</span>',reviewCopy:'Maoni yako ya kweli husaidia kuboresha PesaFlow na kuwasaidia wengine kujua cha kutarajia.',reviewButton:'Andika tathmini',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
+      visionLabel:'DIRA KUBWA · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Acha tathmini.</span>',reviewCopy:'Maoni yako ya kweli husaidia kuboresha PesaFlow na kuwasaidia wengine kujua cha kutarajia.',reviewButton:'Andika tathmini',reviewLegend:'Chagua ukadiriaji wa nyota <span aria-hidden="true">· unahitajika</span>',reviewRatingHint:'1 = inahitaji kuboreshwa · 5 = bora sana',reviewTextLabel:'Maoni yako <span class="optional">(si lazima)</span>',reviewPlaceholder:'Tuambie ulichopenda au tunachoweza kuboresha…',reviewEmailLabel:'Barua pepe <span class="optional review-email-hint">(si lazima; tu ukitaka jibu)</span>',reviewEmailHint:'(si lazima; tu ukitaka jibu)',reviewSubmit:'Tuma maoni',reviewFormNote:'Huhitaji jina. Usitume taarifa za faragha za M-Pesa au fedha.',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
     },
     sheng: {
       navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Nijulishe Ikizinduliwa',
@@ -1733,7 +1760,7 @@ const target = !isNaN(custom)
       demoLabel:'ANGALIA IKIACTION · 02.5',demoTitle:'Angalia PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Watch full walkthrough na demos fupi za mambo ya doh campus.',
       featuresLabel:'FEATURES · 03',featuresTitle:'PesaPlanner <span class="accent">inaweza kusaidia aje?</span>',featuresIntro:'Angalia tools za kupanga transactions, budget, bills, savings, food na vitu zingine za finances zako.',
       differenceLabel:'MBONA NI TOFAUTI · 04',differenceTitle:'Si kurecord tu<br>venye doh imetoka.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Doh inaenda tofauti.</span>',
-      visionLabel:'BIG VISION · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Wacha review.</span>',reviewCopy:'Maoni yako ya ukweli inasaidia PesaFlow ikuwe better na wengine wajue venye iko.',reviewButton:'Wacha review',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
+      visionLabel:'BIG VISION · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Wacha review.</span>',reviewCopy:'Maoni yako ya ukweli inasaidia PesaFlow ikuwe better na wengine wajue venye iko.',reviewButton:'Wacha review',reviewLegend:'Chagua star rating <span aria-hidden="true">· lazima</span>',reviewRatingHint:'1 = inahitaji kurekebishwa · 5 = kali sana',reviewTextLabel:'Review yako <span class="optional">(optional)</span>',reviewPlaceholder:'Tuambie umeipenda nini ama tuboreshe nini…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, ukitaka reply)</span>',reviewEmailHint:'(optional, ukitaka reply)',reviewSubmit:'Tuma review',reviewFormNote:'Huhitaji jina. Usiweke details za M-Pesa ama finances zako.',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
     },
     fr: {
       navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Être informé du lancement',
@@ -1743,13 +1770,13 @@ const target = !isNaN(custom)
       demoLabel:'EN ACTION · 02.5',demoTitle:'Découvrez PesaPlanner <span class="accent">en action.</span>',demoIntro:'Regardez la présentation complète et de courtes vidéos sur les dépenses quotidiennes sur le campus.',
       featuresLabel:'FONCTIONNALITÉS · 03',featuresTitle:'Ce que PesaPlanner <span class="accent">peut vous aider à faire.</span>',featuresIntro:'Découvrez des outils pour organiser transactions, budgets, factures, épargne, repas et autres aspects de vos finances.',
       differenceLabel:'CE QUI CHANGE · 04',differenceTitle:'Bien plus qu’un outil pour<br>noter ses dépenses.',audienceLabel:'POUR QUI ? · 05',audienceTitle:'Des personnes différentes.<br><span class="accent">Des réalités financières différentes.</span>',
-      visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
+      visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',reviewLegend:'Votre note <span aria-hidden="true">· obligatoire</span>',reviewRatingHint:'1 = à améliorer · 5 = excellent',reviewTextLabel:'Votre avis <span class="optional">(facultatif)</span>',reviewPlaceholder:'Dites-nous ce qui vous a plu ou ce que nous pouvons améliorer…',reviewEmailLabel:'E-mail <span class="optional review-email-hint">(facultatif, pour recevoir une réponse)</span>',reviewEmailHint:'(facultatif, pour recevoir une réponse)',reviewSubmit:'Envoyer mon avis',reviewFormNote:'Votre nom n’est pas nécessaire. N’incluez pas de données financières ou M-Pesa privées.',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
     }
   };
   const original = {};
   Object.entries(targets).forEach(([key, selector]) => {
     const nodes = document.querySelectorAll(selector);
-    original[key] = Array.from(nodes, node => node.innerHTML);
+    original[key] = Array.from(nodes, node => key === 'reviewPlaceholder' ? node.getAttribute('placeholder') : node.innerHTML);
   });
   function apply(language) {
     const dictionary = locales[language] || null;
@@ -1757,9 +1784,11 @@ const target = !isNaN(custom)
       const nodes = document.querySelectorAll(selector);
       nodes.forEach((node, index) => {
         const translated = dictionary && dictionary[key];
-        if (!translated) { node.innerHTML = original[key][index]; return; }
+        if (!translated) { if (key === 'reviewPlaceholder') node.setAttribute('placeholder', original[key][index]); else node.innerHTML = original[key][index]; return; }
         const value = Array.isArray(translated) ? (translated[index] || original[key][index]) : translated;
-        if (key === 'heroTrust' || key === 'heroPrimary' || key === 'heroWatch') {
+        if (key === 'reviewPlaceholder') {
+          node.setAttribute('placeholder', value);
+        } else if (key === 'heroTrust' || key === 'heroPrimary' || key === 'heroWatch') {
           const textNode = Array.from(node.childNodes).find(child => child.nodeType === Node.TEXT_NODE && child.textContent.trim());
           if (textNode) textNode.textContent = value;
         } else {
@@ -1802,6 +1831,7 @@ const target = !isNaN(custom)
   document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMenu();});
 })();
 </script>
+<script src="review-form.js" defer></script>
 </body>
 </html>
  

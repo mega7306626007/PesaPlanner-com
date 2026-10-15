@@ -10,6 +10,7 @@
     :root{color-scheme:dark;--bg:#07111f;--panel:#101d30;--line:#263750;--text:#f4f7fc;--muted:#aab8cd;--accent:#f6c453;--blue:#77a9ff}
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#172d4b 0,transparent 55%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px}
     main{width:min(100%,620px);margin:0 auto}.back{color:var(--muted);text-decoration:none}.back:hover{color:var(--text)}.card{margin-top:20px;padding:clamp(24px,6vw,44px);background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 70px #0005}h1{font-size:clamp(30px,6vw,46px);line-height:1.1;letter-spacing:-.04em;margin:10px 0 14px}.intro{color:var(--muted);margin:0 0 28px}.eyebrow{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}fieldset{border:0;padding:0;margin:0 0 26px}legend{font-weight:700;margin-bottom:10px}.stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:7px}.stars input{position:absolute;width:1px;height:1px;opacity:0}.stars label{font-size:42px;line-height:1;color:#53627a;cursor:pointer;transition:color .15s,transform .15s}.stars label:hover,.stars label:hover~label,.stars input:checked~label{color:var(--accent)}.stars label:hover{transform:scale(1.08)}.stars input:focus-visible+label{outline:3px solid var(--blue);outline-offset:4px;border-radius:3px}.rating-hint{font-size:13px;color:var(--muted);margin:7px 0 0}label[for="review"]{display:block;font-weight:700;margin:0 0 9px}.email-label{display:block;font-weight:700;margin:20px 0 9px}.email-label span{font-weight:400;color:var(--muted);font-size:14px}input[type="email"]{display:block;width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;background:#091525;color:var(--text);font:inherit}input[type="email"]:focus{outline:3px solid #77a9ff66;border-color:var(--blue)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}textarea{display:block;width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);border-radius:13px;padding:14px;background:#091525;color:var(--text);font:inherit}textarea:focus{outline:3px solid #77a9ff66;border-color:var(--blue)}.optional{font-weight:400;color:var(--muted);font-size:14px}button{margin-top:18px;width:100%;border:0;border-radius:12px;background:var(--accent);color:#17130a;font:700 16px system-ui,sans-serif;padding:14px 18px;cursor:pointer}button:hover{filter:brightness(1.07)}button:disabled{opacity:.65;cursor:wait}.privacy{font-size:13px;color:var(--muted);margin:16px 0 0}.privacy a{color:#b9d0ff}.status{min-height:1.6em;margin:12px 0 0;font-weight:600}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:480px){body{padding:14px}.card{border-radius:18px}.stars label{font-size:38px}}
+.review-inline-form{display:grid;gap:12px;margin-top:24px;text-align:left}.review-rating-fieldset{border:0;padding:0;margin:0 0 4px}.review-rating-legend{font-weight:700;margin-bottom:8px}.review-rating-legend span{font-size:13px;color:var(--muted);font-weight:500}.review-rating-stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:7px}.review-rating-stars input{position:absolute;width:1px;height:1px;opacity:0}.review-rating-stars label{font-size:40px;line-height:1;color:#53627a;cursor:pointer;transition:color .15s,transform .15s}.review-rating-stars label:hover,.review-rating-stars label:hover~label,.review-rating-stars input:checked~label{color:var(--accent)}.review-rating-stars label:hover{transform:scale(1.08)}.review-rating-stars input:focus-visible+label{outline:3px solid var(--blue);outline-offset:4px;border-radius:3px}.review-rating-hint{font-size:13px;color:var(--muted);margin:7px 0 0}.review-text-label,.review-email-label{display:block;font-weight:700;margin:8px 0}.review-textarea,.review-email-input{display:block;width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;background:#091525;color:var(--text);font:inherit}.review-textarea{min-height:120px;resize:vertical}.review-textarea:focus,.review-email-input:focus{outline:3px solid #77a9ff66;border-color:var(--blue)}.review-submit{display:block;width:100%;border:0;border-radius:12px;background:var(--accent);color:#17130a;font:700 16px system-ui,sans-serif;padding:14px 18px;cursor:pointer}.review-submit:disabled{opacity:.65;cursor:wait}.review-form-status{min-height:1.5em;margin:0;text-align:center;font-weight:600}.review-form-note{margin:0;text-align:center;color:var(--muted);font-size:13px}.review-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
   </style>
 </head>
 <body>
@@ -19,57 +20,32 @@
       <div class="eyebrow">Your experience matters</div>
       <h1 id="title">How is PesaFlow working for you?</h1>
       <p class="intro">Choose a star rating. If you want, tell us what you liked or what could be better. No name is needed. Leave your email only if you want a reply.</p>
-      <form id="reviewForm" novalidate>
-        <fieldset>
-          <legend>Your rating <span aria-hidden="true">*</span></legend>
-          <div class="stars" role="radiogroup" aria-label="Choose a star rating from one to five">
-            <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 stars"><span aria-hidden="true">★</span><span class="sr-only">5 stars</span></label>
-            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars"><span aria-hidden="true">★</span><span class="sr-only">4 stars</span></label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars"><span aria-hidden="true">★</span><span class="sr-only">3 stars</span></label>
-            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars"><span aria-hidden="true">★</span><span class="sr-only">2 stars</span></label>
-            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star"><span aria-hidden="true">★</span><span class="sr-only">1 star</span></label>
+<form class="review-inline-form" data-review-form novalidate>
+        <fieldset class="review-rating-fieldset">
+          <legend class="review-rating-legend">Star rating <span aria-hidden="true">· required</span></legend>
+          <div class="review-rating-stars" role="radiogroup" aria-label="Choose a star rating from one to five">
+            <input type="radio" id="homeStar5" name="rating" value="5" required><label for="homeStar5" title="5 stars"><span aria-hidden="true">★</span><span class="sr-only">5 stars</span></label>
+            <input type="radio" id="homeStar4" name="rating" value="4"><label for="homeStar4" title="4 stars"><span aria-hidden="true">★</span><span class="sr-only">4 stars</span></label>
+            <input type="radio" id="homeStar3" name="rating" value="3"><label for="homeStar3" title="3 stars"><span aria-hidden="true">★</span><span class="sr-only">3 stars</span></label>
+            <input type="radio" id="homeStar2" name="rating" value="2"><label for="homeStar2" title="2 stars"><span aria-hidden="true">★</span><span class="sr-only">2 stars</span></label>
+            <input type="radio" id="homeStar1" name="rating" value="1"><label for="homeStar1" title="1 star"><span aria-hidden="true">★</span><span class="sr-only">1 star</span></label>
           </div>
-          <p class="rating-hint">1 = needs work · 5 = excellent</p>
+          <p class="review-rating-hint">1 = needs work · 5 = excellent</p>
         </fieldset>
-        <label for="review">Your review <span class="optional">(optional)</span></label>
-        <textarea id="review" name="review" maxlength="2000" placeholder="Share what your experience has been like…"></textarea>
-        <label class="email-label" for="reviewEmail">Email <span>(optional, only if you would like a reply)</span></label>
-        <input id="reviewEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com">
-        <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <label class="review-text-label" for="homeReview">Your review <span class="optional">(optional)</span></label>
+        <textarea id="homeReview" name="review" maxlength="2000" class="review-textarea" placeholder="Tell us what you liked or what we could improve…"></textarea>
+        <label class="review-email-label" for="homeReviewEmail">Email <span class="optional review-email-hint">(optional, only if you want a reply)</span></label>
+        <input id="homeReviewEmail" class="review-email-input" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com">
+        <div class="review-honeypot" aria-hidden="true"><label for="homeWebsite">Leave this field empty</label><input id="homeWebsite" name="_honey" tabindex="-1" autocomplete="off"></div>
         <input type="hidden" name="_subject" value="New PesaFlow website review">
-        <input type="hidden" name="_url" value="https://mega7306626007.github.io/PesaPlanner-com/reviews.html">
-        <button id="sendReview" type="submit">Send review</button>
-        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <input type="hidden" name="_url" value="https://mega7306626007.github.io/PesaPlanner-com/">
+        <button class="btn btn-primary review-submit" type="submit">Send my review</button>
+        <p class="review-form-status" role="status" aria-live="polite"></p>
+        <p class="review-form-note">No name needed. Please don’t include private M-Pesa or financial details.</p>
       </form>
       <p class="privacy">Please don’t include M-Pesa messages, account details, or other private financial information. Reviews are sent securely to the publisher through FormSubmit, which processes the submission and retains it for up to 30 days. See our <a href="privacy.html">Privacy notice</a>.</p>
     </section>
   </main>
-  <script>
-    const reviewForm = document.getElementById('reviewForm');
-    const reviewStatus = document.getElementById('status');
-    const sendButton = document.getElementById('sendReview');
-    reviewForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!reviewForm.reportValidity()) return;
-      sendButton.disabled = true;
-      reviewStatus.textContent = 'Sending your review…';
-      const fields = Object.fromEntries(new FormData(reviewForm).entries());
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/lemanuelmwesh@gmail.com', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-          body: JSON.stringify(fields)
-        });
-        const result = await response.json();
-        if (!response.ok || result.success === false) throw new Error('Submission was not accepted');
-        reviewForm.reset();
-        reviewStatus.textContent = 'Thank you — your review has been submitted.';
-      } catch (error) {
-        reviewStatus.textContent = 'We couldn’t send it just now. Please check your connection and try again.';
-      } finally {
-        sendButton.disabled = false;
-      }
-    });
-  </script>
+  <script src="review-form.js" defer></script>
 </body>
 </html>
