@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 Sitemap: https://mega7306626007.github.io/PesaPlanner-com/sitemap.xml
