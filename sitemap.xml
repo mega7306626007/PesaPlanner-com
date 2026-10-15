@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mega7306626007.github.io/PesaPlanner-com/</loc>
-  </url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/PesaPlanner.html</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/privacy.html</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/terms.html</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/cookies.html</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/data-deletion.html</loc></url>
+  <url><loc>https://mega7306626007.github.io/PesaPlanner-com/security.html</loc></url>
 </urlset>
