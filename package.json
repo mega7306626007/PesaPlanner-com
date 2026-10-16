@@ -1,0 +1,16 @@
+{
+  "name": "pesaplanner-billing-backend",
+  "version": "1.0.0",
+  "description": "M-Pesa payment gateway backend for PesaPlanner via Paystack",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "express": "^4.21.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
