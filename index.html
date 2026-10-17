@@ -1017,7 +1017,7 @@ section{position:relative}
     <a class="logo" href="#top">
       <!-- APP ICON — replace icon.png with your file -->
       <span class="logo-mark">
-        <img src="icon.png" alt="" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
+        <img src="icon.png" alt="" loading="lazy" decoding="async" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
         <span class="fallback">P</span>
       </span>
       PesaPlanner
@@ -1046,7 +1046,7 @@ section{position:relative}
 
   <!-- Big watermark icon behind hero content -->
   <div class="hero-watermark" aria-hidden="true">
-    <img src="icon.png" alt="" onerror="this.style.display='none'" />
+    <img src="icon.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
   </div>
 
   <div class="wrap">
@@ -1756,7 +1756,7 @@ section{position:relative}
       <div class="footer-brand">
         <a class="logo" href="#top">
           <span class="logo-mark">
-            <img src="icon.png" alt="" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
+            <img src="icon.png" alt="" loading="lazy" decoding="async" onload="this.parentNode.classList.add('has-image')" onerror="this.style.display='none'" />
             <span class="fallback">P</span>
           </span>
           PesaPlanner
@@ -1772,6 +1772,12 @@ section{position:relative}
     <div class="footer-bottom">
       <span>© 2026 PesaPlanner. Built for Kenyan campus.</span>
       <span class="made">Made with <span class="flag"><span></span><span></span><span></span></span> in Kenya</span>
+    </div>
+    <div class="footer-support" style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:13px;color:var(--muted)">
+      <strong style="color:var(--text)">Need help?</strong>
+      <a href="https://wa.me/254756061190" target="_blank" rel="noopener" style="color:var(--blue-bright)">WhatsApp 0756 061 190</a>
+      <a href="mailto:mweshimiwaenterprises@gmail.com" style="color:var(--blue-bright)">mweshimiwaenterprises@gmail.com</a>
+      <span style="color:var(--dim)">Privacy-friendly: analytics load only after consent. No financial data is collected by this site.</span>
     </div>
   </div>
 </footer>
