@@ -1843,7 +1843,7 @@ section{position:relative}
 ============================================================ */
 (function () {
 
-  document.querySelectorAll('.video-featured, .video-card').forEach((card) => {
+  function initCard(card) {
     const url = card.getAttribute('data-video');
     if (!url) return;
 
@@ -1894,10 +1894,22 @@ const target = !isNaN(custom)
         // Autoplay-with-sound blocked → fall back to muted playback
         thumb.muted = true;
         thumb.play().catch(() => {});
-      });
-    });
-  });
+       });
+     });
+   }
 
+   // Lazy-load: only initialize a video card when it enters the viewport
+   const videoObserver = new IntersectionObserver((entries) => {
+     entries.forEach((entry) => {
+       if (entry.isIntersecting) {
+         initCard(entry.target);
+         videoObserver.unobserve(entry.target);
+       }
+     });
+   }, { rootMargin: '200px' });
+   document.querySelectorAll('.video-featured, .video-card').forEach((card) => {
+     videoObserver.observe(card);
+   });
 })();
 
 </script>
