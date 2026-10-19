@@ -12,6 +12,14 @@ const BILLING_PERIODS = Object.freeze({ month: 1, semester: 4, year: 12 });
 const ACCESS_TOKEN_BYTES = 32;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+function logBillingEvent(event, details = {}) {
+  console.info(JSON.stringify({ service: 'billing', event, at: new Date().toISOString(), ...details }));
+}
+
+function referenceTag(reference) {
+  return typeof reference === 'string' ? reference.slice(-8) : '';
+}
+
 function normalizeKenyanPhone(value) {
   const digits = String(value || '').replace(/\D/g, '');
   if (/^254[17]\d{8}$/.test(digits)) return digits;
@@ -124,14 +132,21 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
       [reference]
     );
     const payment = paymentResult.rows[0];
-    if (!payment || payment.status !== 'pending') return payment;
+    if (!payment || payment.status === 'success') return payment;
 
-    const verified = await paystackRequest(`/transaction/verify/${encodeURIComponent(reference)}`);
+    let verified;
+    try {
+      verified = await paystackRequest(`/transaction/verify/${encodeURIComponent(reference)}`);
+    } catch (error) {
+      logBillingEvent('payment_verification_request_failed', { reference: referenceTag(reference), status: error.status || null });
+      throw error;
+    }
     if (['failed', 'abandoned'].includes(String(verified.status || '').toLowerCase())) {
       const failed = await pool.query(
-        "UPDATE subscription_payments SET status = 'failed', updated_at = NOW() WHERE reference = $1 AND status = 'pending' RETURNING *",
+        "UPDATE subscription_payments SET status = 'failed', updated_at = NOW() WHERE reference = $1 AND status IN ('pending', 'failed') RETURNING *",
         [payment.reference]
       );
+      logBillingEvent('payment_verification_not_successful', { reference: referenceTag(reference), providerStatus: verified.status });
       return failed.rows[0] || payment;
     }
     const metadata = verified.metadata && typeof verified.metadata === 'object' ? verified.metadata : {};
@@ -146,7 +161,20 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
       verifiedPhone === payment.phone &&
       metadata.billing_type === payment.billing_type;
 
-    if (!isPaymentAuthentic) return payment;
+    if (!isPaymentAuthentic) {
+      logBillingEvent('payment_verification_mismatch', {
+        reference: referenceTag(reference),
+        providerStatus: verified.status || null,
+        referenceMatched: verified.reference === payment.reference,
+        currencyMatched: verified.currency === payment.currency.trim(),
+        amountMatched: Number(verified.amount) === payment.amount_minor,
+        tierMatched: verifiedTier === payment.tier,
+        durationMatched: Number(metadata.duration_months) === Number(payment.duration_months || 1),
+        phoneMatched: verifiedPhone === payment.phone,
+        billingTypeMatched: metadata.billing_type === payment.billing_type
+      });
+      return payment;
+    }
 
     const expiresAt = payment.fixed_expiry ? Number(payment.fixed_expiry) : addCalendarMonths(Date.now(), Number(payment.duration_months || 1));
     if (!Number.isSafeInteger(expiresAt) || expiresAt <= Date.now()) return payment;
@@ -154,11 +182,14 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
     const updated = await pool.query(
       `UPDATE subscription_payments
        SET status = 'success', license_token = $2, paystack_transaction_id = $3, updated_at = NOW()
-       WHERE reference = $1 AND status = 'pending'
+       WHERE reference = $1 AND status IN ('pending', 'failed')
        RETURNING *`,
       [payment.reference, token, String(verified.id)]
     );
-    if (updated.rows[0]) return updated.rows[0];
+    if (updated.rows[0]) {
+      logBillingEvent('payment_activated', { reference: referenceTag(reference), tier: payment.tier, amountKsh: payment.amount_minor / 100 });
+      return updated.rows[0];
+    }
     return (await pool.query('SELECT * FROM subscription_payments WHERE reference = $1 LIMIT 1', [reference])).rows[0];
   }
 
@@ -203,6 +234,7 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
         })
       });
       if (!checkout.authorization_url || checkout.reference !== reference) throw new Error('Paystack returned an invalid checkout session.');
+      logBillingEvent('checkout_initialized', { reference: referenceTag(reference), tier: normalizedTier, durationMonths: normalizedMonths, amountKsh: priceKsh });
       return {
         success: true,
         chargeKsh: priceKsh,
@@ -213,6 +245,7 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
         "UPDATE subscription_payments SET status = 'failed', updated_at = NOW() WHERE reference = $1 AND status = 'pending'",
         [reference]
       );
+      logBillingEvent('checkout_initialization_failed', { reference: referenceTag(reference), status: error.status || null });
       throw error;
     }
   }
@@ -287,17 +320,18 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
       if (!payment || !timingSafeHexEqual(payment.access_token_hash, accessTokenHash(accessToken))) {
         return res.status(404).json({ success: false, message: 'Checkout session not found.' });
       }
-      if (payment.status === 'pending') {
+      if (payment.status === 'pending' || payment.status === 'failed') {
         try {
           const due = await pool.query(
             `UPDATE subscription_payments SET last_verification_at = NOW()
-             WHERE reference = $1 AND status = 'pending'
+             WHERE reference = $1 AND status IN ('pending', 'failed')
                AND (last_verification_at IS NULL OR last_verification_at < NOW() - INTERVAL '10 seconds')
              RETURNING reference`,
             [reference]
           );
           if (due.rows[0]) payment = await verifyAndActivate(reference);
-        } catch {
+        } catch (error) {
+          logBillingEvent('payment_status_verification_error', { reference: referenceTag(reference), status: error.status || null });
           return res.json({ success: true, status: 'pending' });
         }
       }
@@ -319,15 +353,20 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
   app.post(PAYSTACK_WEBHOOK_PATH, async (req, res) => {
     const signature = req.get('x-paystack-signature');
     const expectedSignature = crypto.createHmac('sha512', paystackSecret).update(req.rawBody || Buffer.alloc(0)).digest('hex');
-    if (!timingSafeHexEqual(signature, expectedSignature)) return res.status(401).send('Invalid signature.');
+    if (!timingSafeHexEqual(signature, expectedSignature)) {
+      logBillingEvent('webhook_signature_rejected');
+      return res.status(401).send('Invalid signature.');
+    }
     if (req.body?.event !== 'charge.success') return res.sendStatus(200);
 
     const reference = String(req.body?.data?.reference || '');
     if (!/^pp-[a-f0-9]{36}$/.test(reference)) return res.sendStatus(200);
+    logBillingEvent('success_webhook_received', { reference: referenceTag(reference) });
     try {
       await verifyAndActivate(reference);
       return res.sendStatus(200);
-    } catch {
+    } catch (error) {
+      logBillingEvent('webhook_verification_error', { reference: referenceTag(reference), status: error.status || null });
       return res.status(503).send('Temporary verification error.');
     }
   });
