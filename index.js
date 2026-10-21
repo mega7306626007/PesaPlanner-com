@@ -350,6 +350,52 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
     }
   });
 
+  app.post('/api/license/lookup', async (req, res) => {
+    const { phone } = req.body || {};
+    if (!phone) return res.status(400).json({ success: false, message: 'Phone number required' });
+    const normalized = normalizeKenyanPhone(phone);
+    if (!normalized) return res.status(400).json({ success: false, message: 'Invalid Kenyan phone number' });
+
+    try {
+      const result = await pool.query(
+        'SELECT * FROM subscription_payments WHERE phone = $1 AND status = $2 AND license_token IS NOT NULL ORDER BY created_at DESC',
+        [normalized, 'success']
+      );
+      const activeLicenses = result.rows
+        .map((license) => {
+          const verified = verifyLicense(license.license_token, licenseSecret, false);
+          if (!verified || verified.phone !== normalized || verified.tier !== Number(license.tier)) return null;
+          return { license, verified };
+        })
+        .filter(Boolean)
+        .sort((left, right) => right.verified.tier - left.verified.tier || right.verified.expiresAt - left.verified.expiresAt);
+      const active = activeLicenses[0];
+      if (!active) {
+        return res.json({
+          success: false,
+          message: 'No active plan found for this phone number.',
+          tier: null,
+          expires_at: null,
+          token: null,
+          reference: null
+        });
+      }
+
+      const { license, verified } = active;
+      res.json({
+        success: true,
+        message: null,
+        tier: verified.tier,
+        expires_at: verified.expiresAt,
+        token: license.license_token,
+        reference: license.paystack_transaction_id || license.reference
+      });
+    } catch {
+      logBillingEvent('license_lookup_failed');
+      res.status(500).json({ success: false, message: 'Lookup failed. Please try again.' });
+    }
+  });
+
   app.post(PAYSTACK_WEBHOOK_PATH, async (req, res) => {
     const signature = req.get('x-paystack-signature');
     const expectedSignature = crypto.createHmac('sha512', paystackSecret).update(req.rawBody || Buffer.alloc(0)).digest('hex');
