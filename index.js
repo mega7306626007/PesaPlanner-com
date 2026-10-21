@@ -357,6 +357,36 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
     if (!normalized) return res.status(400).json({ success: false, message: 'Invalid Kenyan phone number' });
 
     try {
+      const pendingResult = await pool.query(
+        `SELECT reference FROM subscription_payments
+         WHERE phone = $1 AND status IN ('pending', 'failed')
+           AND created_at >= NOW() - INTERVAL '13 months'
+         ORDER BY created_at DESC
+         LIMIT 3`,
+        [normalized]
+      );
+      let paymentNeedsAnotherCheck = false;
+      const duePayments = [];
+      for (const payment of pendingResult.rows) {
+        const due = await pool.query(
+          `UPDATE subscription_payments SET last_verification_at = NOW()
+           WHERE reference = $1 AND status IN ('pending', 'failed')
+             AND (last_verification_at IS NULL OR last_verification_at < NOW() - INTERVAL '10 seconds')
+           RETURNING reference`,
+          [payment.reference]
+        );
+        if (due.rows[0]) duePayments.push(payment.reference);
+        else paymentNeedsAnotherCheck = true;
+      }
+      const reconciledPayments = await Promise.allSettled(
+        duePayments.map((reference) => verifyAndActivate(reference))
+      );
+      for (const result of reconciledPayments) {
+        if (result.status === 'rejected' || result.value?.status !== 'success') {
+          paymentNeedsAnotherCheck = true;
+        }
+      }
+
       const result = await pool.query(
         'SELECT * FROM subscription_payments WHERE phone = $1 AND status = $2 AND license_token IS NOT NULL ORDER BY created_at DESC',
         [normalized, 'success']
@@ -373,7 +403,9 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
       if (!active) {
         return res.json({
           success: false,
-          message: 'No active plan found for this phone number.',
+          message: paymentNeedsAnotherCheck
+            ? 'We could not confirm an active plan yet. If you just paid, do not pay again; wait a little and try restoring again.'
+            : 'No active plan found for this phone number.',
           tier: null,
           expires_at: null,
           token: null,
