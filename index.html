@@ -42,6 +42,9 @@
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+(function(){var theme='light';try{theme=localStorage.getItem('pesaplanner-theme')||'light'}catch(_){}document.documentElement.dataset.theme=theme==='dark'?'dark':'light';})();
+</script>
 <title>Your Money Has Plans. Do You? | PesaPlanner</title>
 <meta name="description" content="M-Pesa comes in. Rent, fare and bills have a claim on it. Track messages, statements and spending, then estimate what may be safe to spend — offline in Kenya." />
 <link rel="canonical" href="https://pesaplanner.co.ke/" />
@@ -64,7 +67,8 @@
 <link rel="icon" type="image/png" sizes="512x512" href="https://pesaplanner.co.ke/icon-512.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="https://pesaplanner.co.ke/apple-touch.png" />
 <link rel="manifest" href="manifest.webmanifest" />
-<meta name="theme-color" content="#050a18" />
+<meta name="theme-color" content="#f7f8fc" />
+<meta name="color-scheme" content="light dark" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="PesaPlanner" />
 <meta property="og:url" content="https://pesaplanner.co.ke/" />
@@ -115,6 +119,32 @@
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 
+/* A warm, high-contrast daylight canvas; the original navy remains one tap away. */
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f7f8fc;
+  --bg-2:#eef2f8;
+  --surface:#ffffff;
+  --surface-2:#f0f4fa;
+  --surface-3:#e6edf6;
+  --border:rgba(23,48,86,.10);
+  --border-2:rgba(23,48,86,.19);
+  --text:#17243a;
+  --muted:#51627a;
+  --dim:#687b95;
+  --blue:#225dcc;
+  --blue-bright:#1759ad;
+  --blue-deep:#1745a0;
+  --blue-glow:rgba(45,105,215,.18);
+  --blue-soft:rgba(45,105,215,.08);
+  --yellow:#986400;
+  --yellow-bright:#b57b00;
+  --yellow-deep:#704600;
+  --yellow-fill:#f4c74a;
+  --yellow-glow:rgba(218,164,31,.18);
+  --yellow-soft:rgba(218,164,31,.10);
+}
+
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
@@ -131,7 +161,7 @@ p{margin:0}
 a{color:inherit;text-decoration:none}
 img,svg{display:block;max-width:100%}
 button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
-::selection{background:var(--yellow);color:#050a18}
+::selection{background:var(--yellow);color:#17243a}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em}
 
@@ -143,6 +173,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
    NAV
 ============================================================ */
 .nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(5,10,24,0.78);border-bottom:1px solid var(--border)}
+:root[data-theme="light"] .nav{background:rgba(247,248,252,.86)}
 .nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:32px}
 .logo{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.02em}
 
@@ -163,9 +194,30 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .nav-links{display:flex;gap:4px;margin-left:auto}
 .nav-links a{padding:8px 14px;border-radius:9px;font-size:14px;font-weight:500;color:var(--muted);transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--text);background:var(--surface-2)}
-.nav-cta{padding:9px 18px;border-radius:999px;background:var(--yellow);color:#050a18;font-size:13.5px;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s}
+.nav-cta{padding:9px 18px;border-radius:999px;background:var(--yellow-fill,var(--yellow));color:#17243a;font-size:13.5px;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px var(--yellow-glow)}
 .nav-menu-toggle{display:none;width:42px;height:42px;place-items:center;border:1px solid var(--border-2);border-radius:12px;background:var(--surface);color:var(--text);font-size:20px}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 12px;border:1px solid var(--border-2);border-radius:999px;background:var(--surface);color:var(--text);font-size:12px;font-weight:700;white-space:nowrap;transition:background .2s,border-color .2s,transform .2s var(--ease)}
+.theme-toggle:hover{background:var(--surface-2);transform:translateY(-1px)}
+.theme-toggle:focus-visible,.nav a:focus-visible,.btn:focus-visible{outline:3px solid var(--blue-bright);outline-offset:3px}
+:root[data-theme="light"] .nav{background:rgba(247,248,252,.88)}
+:root[data-theme="light"] .hero{background:radial-gradient(ellipse at 18% 0%,rgba(44,100,204,.08),transparent 38%),radial-gradient(ellipse at 88% 24%,rgba(225,174,45,.10),transparent 32%),var(--bg)}
+:root[data-theme="light"] .phone{border-color:#d9e1ec;box-shadow:0 0 0 1px rgba(23,48,86,.08),0 34px 84px rgba(31,51,82,.20),0 0 72px var(--blue-glow)}
+:root[data-theme="light"] .phone-screen{background:radial-gradient(120% 60% at 50% 0%,rgba(59,130,246,.12),transparent 60%),linear-gradient(180deg,#fff,#f3f6fb)}
+:root[data-theme="light"] .phone-screen .ps-label,:root[data-theme="light"] .phone-screen .ps-txn-amt.out{color:#facc15}
+:root[data-theme="light"] .phone-screen .ps-bar i.yellow{background:linear-gradient(90deg,#facc15,#fde047)}
+:root[data-theme="light"] .phone-screen .ps-ico.out{color:#9a6900}
+:root[data-theme="light"] .problem,:root[data-theme="light"] .different,:root[data-theme="light"] .personas,:root[data-theme="light"] .vision,:root[data-theme="light"] .review-spotlight,:root[data-theme="light"] .footer{background-color:var(--bg-2)}
+:root[data-theme="light"] .p-card{background:linear-gradient(180deg,#fff,#f5f7fb)}
+:root[data-theme="light"] .solution{background:radial-gradient(80% 60% at 50% 0%,var(--blue-soft),transparent 70%),var(--bg-2)}
+:root[data-theme="light"] .video-showcase .video-featured{background:linear-gradient(140deg,#fff,#f1f5fb);border-color:var(--border-2);box-shadow:0 24px 60px rgba(20,43,77,.09)}
+:root[data-theme="light"] .f-card.buddy,:root[data-theme="light"] .f-card.offline{background:radial-gradient(120% 100% at 100% 0%,var(--yellow-soft),transparent 55%),radial-gradient(120% 100% at 0% 100%,var(--blue-soft),transparent 55%),#fff}
+:root[data-theme="light"] .review-spotlight-inner{background:radial-gradient(ellipse at 50% 0%,var(--blue-soft),transparent 66%),linear-gradient(135deg,#fff,#f0f4fb);box-shadow:0 24px 70px rgba(20,43,77,.11)}
+:root[data-theme="light"] .review-textarea,:root[data-theme="light"] .review-email-input{background:#fff}
+:root[data-theme="light"] .cta{background:linear-gradient(180deg,var(--bg),var(--bg-2))}
+:root[data-theme="light"] .nav-links.is-open{background:rgba(255,255,255,.98);box-shadow:0 16px 36px rgba(20,43,77,.14)}
+:root[data-theme="light"] .nav-cta,:root[data-theme="light"] .mobile-nav-cta{background:var(--yellow-fill)!important;color:#17243a!important}
+@media(max-width:1080px){.theme-toggle{width:44px;height:44px;min-height:44px;padding:0;flex:0 0 44px}.theme-toggle-label{display:none}}
 .mobile-nav-cta{display:none}
 @media(max-width:1200px){.nav-inner{gap:12px}.nav-links a{padding:8px 9px;font-size:13px}.language-picker select{max-width:140px}}
 @media(max-width:1080px){.nav-inner{position:relative;gap:10px;padding:10px 14px}.nav-links{display:none;position:absolute;top:100%;left:12px;right:12px;z-index:101;flex-direction:column;gap:2px;margin:8px 0 0;padding:10px;max-height:calc(100vh - 82px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid var(--border-2);border-radius:16px;background:var(--bg-2);box-shadow:0 16px 36px #0008}.nav-links.is-open{display:flex}.nav-links a{display:block;padding:12px;min-height:44px}.nav-menu-toggle{display:grid;flex:0 0 44px;width:44px;height:44px;place-items:center;touch-action:manipulation;cursor:pointer}.nav-cta{display:none}.mobile-nav-cta{display:block!important;margin-top:6px;background:var(--yellow)!important;color:#050a18!important;font-weight:700!important}.language-picker{margin-left:auto;width:44px;height:44px;justify-content:center;padding:0;position:relative;flex:0 0 44px}.language-icon{display:block}.language-picker select{position:absolute;inset:0;width:100%;height:100%;max-width:none;padding:0;opacity:0;cursor:pointer}}
@@ -208,7 +260,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .hero-sub{font-size:clamp(16px,1.6vw,18.5px);color:var(--muted);max-width:54ch;line-height:1.65;margin-bottom:36px}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;transition:transform .22s var(--ease),box-shadow .22s,background .22s,border-color .22s;white-space:nowrap}
-.btn-primary{background:var(--yellow);color:#050a18}
+.btn-primary{background:var(--yellow-fill,var(--yellow));color:#17243a}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px var(--yellow-glow)}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-2)}
 .btn-ghost:hover{background:var(--surface-2);transform:translateY(-2px)}
@@ -681,15 +733,18 @@ section{position:relative}
 .plan-card{position:relative;display:flex;flex-direction:column;gap:14px;padding:24px;border:1px solid var(--plan-line);border-radius:20px;background:var(--plan-card);box-shadow:0 12px 30px #292b2a0b}
 .plan-card.plus{border:2px solid var(--plan-green);box-shadow:0 16px 40px #1c765e18}
 .plan-card.max{border-color:#bdb0cb}
+.plan-card.lite{border-color:#d8c692}
 .plan-badge{align-self:flex-start;padding:5px 10px;border-radius:999px;background:#eeece6;color:#4f5052;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .plan-card.plus .plan-badge{background:var(--plan-green-soft);color:var(--plan-green)}
 .plan-card.max .plan-badge{background:#eee8f3;color:var(--plan-plum)}
 .plan-card h3{font-size:27px;color:var(--plan-ink)}
+.plan-tier-label{margin:-10px 0 0;color:var(--plan-muted);font-size:12px;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
 .plan-price{font-size:16px;font-weight:800;color:var(--plan-green)}
 .plan-summary{min-height:3.1em;color:var(--plan-muted);font-size:14px}
 .plan-card ul{display:grid;gap:9px;margin:0;padding-left:20px;color:#3d4243;font-size:14px;line-height:1.55}
 .plan-card li::marker{color:var(--plan-green)}
 .plan-action{display:inline-flex;justify-content:center;align-items:center;min-height:46px;margin-top:auto;padding:10px 16px;border:1px solid var(--plan-line);border-radius:11px;background:#f5f3ed;color:#65666a;font-size:13px;font-weight:750;text-align:center;cursor:not-allowed}
+.plan-action[href]{cursor:pointer;text-decoration:none;transition:transform .2s ease,filter .2s ease}.plan-action[href]:hover{transform:translateY(-2px);filter:brightness(.97)}
 .plan-card.plus .plan-action{border-color:#b8d7c7;background:var(--plan-green-soft);color:#285c49}
 .plan-card.max .plan-action{border-color:#cbbfd5;background:#f1edf4;color:#57456a}
 .plans-footnote{margin:17px auto 0;text-align:center;color:var(--plan-muted);font-size:12px;line-height:1.6}
@@ -697,6 +752,8 @@ section{position:relative}
 .plan-guide{padding:24px;border:1px solid var(--plan-line);border-radius:18px;background:var(--plan-card)}
 .plan-guide h3{margin-bottom:8px;font-size:24px;color:var(--plan-ink)}
 .plan-guide-intro{margin-bottom:17px;color:var(--plan-muted);font-size:14px;line-height:1.6}
+.paystack-art{display:block;width:min(100%,460px);height:auto;margin:0 auto 20px;border:1px solid var(--plan-line);border-radius:14px;background:#f7fcfc}
+.paystack-caption{margin:-12px 0 18px;text-align:center;color:var(--plan-muted);font-size:12px;line-height:1.5}
 .plan-steps{display:grid;gap:12px;margin:0;padding:0;list-style:none;counter-reset:guide}
 .plan-steps li{position:relative;min-height:34px;padding-left:42px;color:#414448;font-size:13.5px;line-height:1.55;counter-increment:guide}
 .plan-steps li::before{content:counter(guide);position:absolute;left:0;top:0;display:grid;width:28px;height:28px;place-items:center;border-radius:50%;background:var(--plan-green-soft);color:var(--plan-green);font-weight:800}
@@ -704,8 +761,13 @@ section{position:relative}
 .plan-guide-note{margin-top:16px;padding:12px;border-radius:10px;background:#f5f3ed;color:#66696d;font-size:12px;line-height:1.55}
 .plan-guide-note strong{color:var(--plan-ink)}
 .install-availability{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:8px;background:#f7e9e4;color:#823d34;font-size:12px;font-weight:750}
+.install-availability[hidden]{display:none}
+.apk-download{display:none;width:100%;margin-top:14px;background:#1c765e;color:#fff;border:0;cursor:pointer}
+.apk-download:not([hidden]){display:flex}
+.release-path{margin:10px 0 0;color:var(--plan-muted);font-size:12px;line-height:1.5}
 @media(max-width:850px){.plans-grid{grid-template-columns:1fr}.plan-summary{min-height:0}.plans-details{grid-template-columns:1fr}.plans-section{padding:66px 0}}
 @media(max-width:600px){.plan-card,.plan-guide{padding:19px}.plans-status{padding:13px}.plans-head{margin-bottom:24px}}
+.brand-disclaimer{margin:18px 0 0;padding:14px 0 0;border-top:1px solid var(--border);color:var(--dim);font-size:12px;line-height:1.6}
 
 /* ============================================================
    CTA
@@ -1044,11 +1106,13 @@ section{position:relative}
       <a href="#different">Why Different</a>
       <a href="#personas">Who It's For</a>
       <a href="#vision">Vision</a>
+      <a href="learn/">Money lessons</a>
       <a href="#plans" data-copy-key="navPlans">Plans &amp; download</a>
-      <a class="mobile-nav-cta" href="#cta">Get Early Access</a>
+      <a class="mobile-nav-cta" href="#plans">See plans</a>
     </div>
-    <a class="nav-cta" href="#cta">Get Early Access</a>
+    <a class="nav-cta" href="#plans">See plans</a>
     <label class="language-picker" for="siteLanguage" title="Choose language"><span class="language-icon" aria-hidden="true">文</span><span class="sr-only">Choose language</span><select id="siteLanguage" aria-label="Choose language" title="Choose language"><option value="mix">Original / Mix</option><option value="en">English</option><option value="sw">Kiswahili</option><option value="sheng">Sheng</option><option value="fr">Français</option></select></label>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme"><span class="theme-toggle-icon" aria-hidden="true">☾</span><span class="theme-toggle-label">Dark</span></button>
     <button class="nav-menu-toggle" id="navMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="siteNavLinks"><span aria-hidden="true">☰</span></button>
   </div>
 </nav>
@@ -1073,8 +1137,8 @@ section{position:relative}
           M-Pesa comes in. Rent, fare and bills already have a claim on it. PesaPlanner helps you track the moving parts and estimate what may be safe to spend — offline, built for Kenya.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#cta">
-            Get early access
+          <a class="btn btn-primary" href="#plans">
+            Explore plans
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
           <a class="btn btn-ghost" href="#demo">
@@ -1625,78 +1689,79 @@ section{position:relative}
     <header class="plans-head">
       <span class="plans-kicker" data-copy-key="plansKicker">Plans · built around how you use PesaPlanner</span>
       <h2 data-copy-key="plansTitle">Choose the level that fits your money life.</h2>
-      <p data-copy-key="plansIntro">Try the app with a one-hour free preview. After it ends, a subscription will be required to continue. Subscription prices and checkout are still being prepared.</p>
+      <p data-copy-key="plansIntro">Choose a plan for the tools you need. Prices are monthly; checkout is completed in the Android app.</p>
     </header>
 
     <aside class="plans-status" role="status">
       <span aria-hidden="true">ⓘ</span>
-      <div><strong data-copy-key="plansStatusTitle">The one-hour preview and subscriptions are still being prepared.</strong><span data-copy-key="plansStatusText">Paid plans, exact prices and M-Pesa checkout are not open yet. Please do not send money for a subscription.</span></div>
+      <div><strong data-copy-key="plansStatusTitle">Checkout happens in the Android app.</strong><span data-copy-key="plansStatusText">This website does not collect payments. Review the full price and duration in the app before completing Paystack mobile-money checkout.</span></div>
     </aside>
 
-    <div class="plans-grid" aria-label="Proposed subscription levels">
-      <article class="plan-card free">
-        <span class="plan-badge" data-copy-key="freeBadge">Student entry</span>
+    <div class="plans-grid" aria-label="Current subscription tiers">
+      <article class="plan-card lite">
+        <span class="plan-badge" data-copy-key="freeBadge">Personal + student</span>
         <h3>Lite</h3>
+        <p class="plan-tier-label">Everyday planning</p>
         <p class="plan-price" data-copy-key="freePrice">KSh 49 / month</p>
-        <p class="plan-summary" data-copy-key="freeSummary">Explore PesaPlanner for one hour. A subscription will be required after the preview ends.</p>
+        <p class="plan-summary" data-copy-key="freeSummary">Personal and student money management for everyday planning.</p>
         <ul>
-          <li data-copy-key="freeFeature1">M-Pesa SMS parsing and transaction review</li>
-          <li data-copy-key="freeFeature2">Simple personal budgets and monthly reviews</li>
-          <li data-copy-key="freeFeature3">Offline storage for your records</li>
-          <li data-copy-key="freeFeature4">One-hour free preview before subscribing</li>
+          <li data-copy-key="freeFeature1">Personal and student profiles with daily spending guidance</li>
+          <li data-copy-key="freeFeature2">Budgets, bills, debts and savings goals</li>
+          <li data-copy-key="freeFeature3">Campus, semester and salary planning</li>
+          <li data-copy-key="freeFeature4">Offline-first records stored on your device</li>
         </ul>
-        <p class="plan-guide-note"><strong data-copy-key="freeMissLabel">Lite does not include:</strong> <span data-copy-key="freeMiss">PesaBuddy, the HELB upkeep planner, roommate bill-splitting or Max business features.</span></p>
-        <button class="plan-action" type="button" disabled data-copy-key="freeAction">Subscriptions not open yet</button>
+        <p class="plan-guide-note"><strong data-copy-key="freeMissLabel">Plan terms:</strong> <span data-copy-key="freeMiss">Prepaid access does not auto-renew. Your saved financial records remain available after a paid term expires.</span></p>
+        <a class="plan-action" href="#install" data-copy-key="freeAction">Get the Android app</a>
       </article>
 
       <article class="plan-card plus">
-        <span class="plan-badge" data-copy-key="plusBadge">For students who want a clearer money plan</span>
+        <span class="plan-badge" data-copy-key="plusBadge">Business + household</span>
         <h3>Plus</h3>
+        <p class="plan-tier-label">Everything in Lite, plus profile tools</p>
         <p class="plan-price" data-copy-key="plusPrice">KSh 89 / month</p>
-        <p class="plan-summary" data-copy-key="plusSummary">Know what is safe to spend, what is coming next, and what changed. Get practical answers from PesaBuddy.</p>
+        <p class="plan-summary" data-copy-key="plusSummary">Everything in Lite, plus tools for business and household money.</p>
         <ul>
           <li data-copy-key="plusFeature1">Everything in Lite</li>
-          <li data-copy-key="plusFeature2">Deep Insights: compare categories and months, catch rising costs, and see recurring spending patterns</li>
-          <li data-copy-key="plusFeature3">PesaBuddy works offline: ask about spending, bills, debt, goals, and your safe-to-spend amount</li>
-          <li data-copy-key="plusFeature4">Plan around income, bills, savings, debt, meals, transport, and your semester or HELB upkeep</li>
-          <li data-copy-key="plusFeature5">Track savings goals and money lent or borrowed, including repayments recorded so far</li>
-          <li data-copy-key="plusFeature6">See recurring bills, likely next dates and estimated yearly costs, then set reminders</li>
-          <li data-copy-key="plusFeature7">See a 30-day cash-flow runway based on your balances, expected income and upcoming commitments</li>
+          <li data-copy-key="plusFeature2">Record sales, costs, stock and till cash flow.</li>
+          <li data-copy-key="plusFeature3">Organise household bills and family goals on this device.</li>
+          <li data-copy-key="plusFeature4">Track kitchen stock and plan meals.</li>
+          <li data-copy-key="plusFeature5">Switch between personal, business and household tools.</li>
+          <li data-copy-key="plusFeature6">Use the same local ledger across the features you unlock.</li>
+          <li data-copy-key="plusFeature7">Unlock detailed Plus financial insights.</li>
         </ul>
-        <p class="plan-guide-note"><strong data-copy-key="plusMissLabel">Plus does not include:</strong> <span data-copy-key="plusMiss">Max receipt scanning, automation rules, advanced business reports, scenario planning, and exports.</span></p>
-        <button class="plan-action" type="button" disabled data-copy-key="plusAction">Subscriptions not open yet</button>
+        <p class="plan-guide-note"><strong data-copy-key="plusMissLabel">Household note:</strong> <span data-copy-key="plusMiss">Household records are organised on the device; this is not shared-account or cloud-sync access.</span></p>
+        <a class="plan-action" href="#install" data-copy-key="plusAction">Get the Android app</a>
       </article>
 
       <article class="plan-card max">
-        <span class="plan-badge" data-copy-key="maxBadge">For power users and small businesses</span>
+        <span class="plan-badge" data-copy-key="maxBadge">Adds receipt photo scanning</span>
         <h3>Max</h3>
+        <p class="plan-tier-label">Everything in Plus, with receipt capture</p>
         <p class="plan-price" data-copy-key="maxPrice">KSh 129 / month</p>
-        <p class="plan-summary" data-copy-key="maxSummary">Turn receipts and business activity into clearer reports, useful what-if plans, and organized records.</p>
+        <p class="plan-summary" data-copy-key="maxSummary">Everything in Plus, with receipt photo scanning.</p>
         <ul>
           <li data-copy-key="maxFeature1">Everything in Plus</li>
-          <li data-copy-key="maxFeature2">Scan receipts into expense records and keep personal and business activity organized</li>
-          <li data-copy-key="maxFeature3">Build advanced business reports and compare multiple what-if scenarios</li>
-          <li data-copy-key="maxFeature4">Automate repeat rules and export records for accounting (PDF, Excel, and CSV)</li>
-          <li data-copy-key="maxFeature5">Manage sales, costs, item quantities and low-stock points; link M-Pesa entries to stock movements</li>
-          <li data-copy-key="maxFeature6">Review duplicate or uncertain transactions, clean up records and undo supported changes</li>
-          <li data-copy-key="maxFeature7">Export filtered CSVs, categorized PDF reports and full JSON backups; protect PDF exports with a PIN</li>
+          <li data-copy-key="maxFeature2">Capture a receipt photo to help create an expense record.</li>
+          <li data-copy-key="maxFeature3">Review and confirm extracted details before saving.</li>
         </ul>
-        <p class="plan-guide-note"><strong data-copy-key="maxStatusLabel">Still being designed:</strong> <span data-copy-key="maxStatus">shared household sync is not included in this offline-first offer.</span></p>
-        <button class="plan-action" type="button" disabled data-copy-key="maxAction">Subscriptions not open yet</button>
+        <p class="plan-guide-note"><strong data-copy-key="maxStatusLabel">Receipt check:</strong> <span data-copy-key="maxStatus">Scanned details are suggestions; review them before adding the expense to your records.</span></p>
+        <a class="plan-action" href="#install" data-copy-key="maxAction">Get the Android app</a>
       </article>
     </div>
-    <p class="plans-footnote" data-copy-key="plansFootnote">Start with a one-hour free preview, then choose Lite, Plus or Max to continue. Plans are proposed and checkout is not open yet. Subscription access will be prepaid by month with no automatic renewal planned. Your saved records should remain available to review, export or delete.</p>
+    <p class="plans-footnote" data-copy-key="plansFootnote">Prices match the app’s current monthly rates. You can prepay one, four or twelve months; access ends at the displayed expiry and does not auto-renew. Upgrades may be prorated based on time remaining.</p>
 
     <div class="plans-details">
       <section class="plan-guide payment" aria-labelledby="paymentStepsTitle">
         <h3 id="paymentStepsTitle" data-copy-key="paymentTitle">How subscription payment will work</h3>
-        <p class="plan-guide-intro" data-copy-key="paymentIntro">When plans are ready, M-Pesa payment will require an internet connection and your approval for each prepaid period.</p>
+        <p class="plan-guide-intro" data-copy-key="paymentIntro">Payment requires an internet connection. The app opens Paystack mobile-money checkout, and plan access begins after payment is verified.</p>
+        <img class="paystack-art" src="assets/paystack-mobile-money.png" alt="PesaPlanner announcement that in-app mobile-money payments use Paystack" width="1620" height="1620" loading="lazy" decoding="async" />
+        <p class="paystack-caption">Mobile-money checkout is handled in the Android app through Paystack.</p>
         <ol class="plan-steps">
-          <li data-copy-key="paymentStep1">Choose Free, Plus or Max and review the exact total and access period before paying.</li>
-          <li data-copy-key="paymentStep2">Enter the Safaricom M-Pesa number that should receive the payment prompt.</li>
-          <li data-copy-key="paymentStep3">Review the Safaricom STK prompt and enter your M-Pesa PIN only in the M-Pesa prompt.</li>
-          <li data-copy-key="paymentStep4">Wait while the secure service verifies the payment; the app should show Pending until Safaricom confirms it.</li>
-          <li data-copy-key="paymentStep5">Save your recovery key, then check or restore your subscription from the app when online.</li>
+          <li data-copy-key="paymentStep1">Choose Lite, Plus or Max and prepay for one, four or twelve months.</li>
+          <li data-copy-key="paymentStep2">Review the full amount, phone number and email entered in the app.</li>
+          <li data-copy-key="paymentStep3">Complete mobile-money checkout through Paystack. Enter your PIN only in the provider’s prompt.</li>
+          <li data-copy-key="paymentStep4">The app checks payment status; a plan activates only after the server verifies payment.</li>
+          <li data-copy-key="paymentStep5">To restore a plan after reinstalling, use the phone number from checkout.</li>
         </ol>
         <p class="plan-guide-note"><strong data-copy-key="paymentSafetyLabel">Payment safety:</strong> <span data-copy-key="paymentSafety">No automatic renewal is planned. Never give your M-Pesa PIN to PesaPlanner support, and do not treat an SMS screenshot as subscription confirmation.</span></p>
       </section>
@@ -1711,12 +1776,32 @@ section{position:relative}
           <li data-copy-key="installStep4">Review the install prompt and requested permissions. SMS access is only needed for the optional M-Pesa message import feature.</li>
           <li data-copy-key="installStep5">Before uninstalling or resetting your phone, export your records and store the backup safely; local records may not return with a reinstall.</li>
         </ol>
-        <span class="install-availability" data-copy-key="installPending">APK download is not available yet</span>
+        <span class="install-availability" id="apkPending" data-copy-key="installPending" aria-live="polite">APK download is not available yet</span>
+        <a class="plan-action apk-download" id="apkDownload" href="downloads/PesaPlanner.apk" download hidden data-copy-key="apkDownloadLabel">Download the latest APK</a>
+        <p class="release-path" data-copy-key="apkReleasePath">Release slot: add your signed APK at <code>downloads/PesaPlanner.apk</code>. The download button appears automatically after the file is published.</p>
         <p class="plan-guide-note"><strong data-copy-key="installHelpLabel">If Android blocks installation:</strong> <span data-copy-key="installHelp">check that the APK came from this website and that the phone allows installs from the app you used to download it. Turn that permission off again afterward.</span></p>
       </section>
     </div>
   </div>
 </section>
+
+<script>
+/* Reveal the release download only after the signed APK exists on this site. */
+(function () {
+  var link = document.getElementById('apkDownload');
+  var pending = document.getElementById('apkPending');
+  var releasePath = document.querySelector('.release-path');
+  if (!link || !pending) return;
+  fetch(link.href, { method: 'HEAD', cache: 'no-store' }).then(function (response) {
+    if (!response.ok) return;
+    link.hidden = false;
+    pending.hidden = true;
+    if (releasePath) releasePath.hidden = true;
+  }).catch(function () {
+    /* A local file preview or unavailable release keeps the pending state. */
+  });
+})();
+</script>
 
 <!-- ============ REVIEW SPOTLIGHT ============ -->
 <section class="review-spotlight" id="reviews">
@@ -1761,12 +1846,12 @@ section{position:relative}
   <div class="wrap">
     <div class="cta-inner reveal">
       <h2>See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span></h2>
-      <p>Join the early access list and be first to know when PesaPlanner lands. Because seeing your balance is one thing — <strong>kujua kama unaweza afford maisha yako ni story ingine.</strong> 😂💸</p>
+        <p>Explore the plan tiers and see exactly what is included. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.</p>
       <div class="cta-actions">
-        <a class="btn btn-primary" href="#top">Get early access<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
-        <a class="btn btn-ghost" href="#demo">Watch demos</a>
+        <a class="btn btn-primary" href="#plans">Explore plans<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost" href="#install">Android availability</a>
       </div>
-      <p class="cta-note">No spam. No bank login. Just a heads-up when we launch.</p>
+      <p class="cta-note">Prepaid plans do not auto-renew. Review the exact total in the app before paying.</p>
     </div>
   </div>
 </section>
@@ -1787,7 +1872,7 @@ section{position:relative}
         <p class="tagline">"Pesa yako isiwe mystery ya semester."</p>
       </div>
       <div class="footer-col"><h5>Product</h5><a href="#features">Features</a><a href="#demo">Demos</a><a href="#different">Why Different</a><a href="#personas">Who It's For</a><a href="#vision">Vision</a>
-<a href="#reviews">Leave a review</a></div>
+<a href="#reviews">Leave a review</a><a href="learn/">Money lessons</a></div>
       <div class="footer-col"><h5>The App</h5><a href="#problem">The Problem</a><a href="#features">M-Pesa Import</a><a href="#features">PesaBuddy</a><a href="#features">Offline-First</a></div>
       <div class="footer-col"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="data-deletion.html">Data deletion</a><a href="cookies.html">Cookies</a><a href="security.html">Security</a><a href="#cookie-settings" onclick="window.pesaCookieSettings(); return false;">Cookie settings</a></div>
     </div>
@@ -1795,6 +1880,7 @@ section{position:relative}
       <span>© 2026 PesaPlanner. Built for Kenyan campus.</span>
       <span class="made">Made with <span class="flag"><span></span><span></span><span></span></span> in Kenya</span>
     </div>
+    <p class="brand-disclaimer">PesaPlanner is independent and is not affiliated with or endorsed by Safaricom, Airtel, HELB or any bank. M-Pesa, Airtel Money, Fuliza, M-Shwari and HELB are referenced only to describe supported local financial workflows; their respective owners retain their marks.</p>
     <div class="footer-support" style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:13px;color:var(--muted)">
       <strong style="color:var(--text)">Need help?</strong>
       <a href="https://wa.me/254756061190" target="_blank" rel="noopener" style="color:var(--blue-bright)">WhatsApp 0756 061 190</a>
@@ -1946,93 +2032,93 @@ const target = !isNaN(custom)
   const picker = document.getElementById('siteLanguage');
   if (!picker) return;
   const targets = {
-    navProblem: '.nav-links a:nth-child(1)', navWatch: '.nav-links a:nth-child(2)', navFeatures: '.nav-links a:nth-child(3)', navDifference: '.nav-links a:nth-child(4)', navAudience: '.nav-links a:nth-child(5)', navVision: '.nav-links a:nth-child(6)', navCta: '.nav-cta',
+    navProblem: '.nav-links a:nth-child(1)', navWatch: '.nav-links a:nth-child(2)', navFeatures: '.nav-links a:nth-child(3)', navDifference: '.nav-links a:nth-child(4)', navAudience: '.nav-links a:nth-child(5)', navVision: '.nav-links a:nth-child(6)', navCta: '.nav-cta, .mobile-nav-cta',
     heroEyebrow: '.hero .eyebrow', heroTitle: '.hero h1', heroDescription: '.hero-sub', heroPrimary: '.hero-actions .btn-primary', heroWatch: '.hero-actions .btn-ghost', heroTrust: '.hero-trust span',
     problemLabel: '.problem .sec-eyebrow', problemTitle: '.problem h2', problemIntro: '.problem .sec-head > p',
     solutionLabel: '.solution .sec-eyebrow', solutionTitle: '.solution h2', solutionIntro: '.solution-inner > p:first-of-type',
     demoLabel: '.video-showcase .sec-eyebrow', demoTitle: '.video-showcase h2', demoIntro: '.video-showcase .sec-head > p',
     featuresLabel: '.features .sec-eyebrow', featuresTitle: '.features h2', featuresIntro: '.features .sec-head > p',
     differenceLabel: '.different .sec-eyebrow', differenceTitle: '.different h2', audienceLabel: '.personas .sec-eyebrow', audienceTitle: '.personas h2', audienceIntro: '.personas .sec-head > p',
-    visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', reviewLegend: '.review-rating-legend', reviewRatingHint: '.review-rating-hint', reviewTextLabel: '.review-text-label', reviewPlaceholder: '.review-textarea', reviewEmailLabel: '.review-email-label', reviewEmailHint: '.review-email-hint', reviewSubmit: '.review-submit', reviewFormNote: '.review-form-note', ctaTitle: '.cta h2', ctaNote: '.cta-note'
+    visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', reviewLegend: '.review-rating-legend', reviewRatingHint: '.review-rating-hint', reviewTextLabel: '.review-text-label', reviewPlaceholder: '.review-textarea', reviewEmailLabel: '.review-email-label', reviewEmailHint: '.review-email-hint', reviewSubmit: '.review-submit', reviewFormNote: '.review-form-note', ctaTitle: '.cta h2', ctaDescription: '.cta p:not(.cta-note)', ctaNote: '.cta-note'
   };
   const locales = {
     en: {
-      navProblem:'The Problem',navWatch:'Watch',navFeatures:'Features',navDifference:'Why Different',navAudience:"Who It's For",navVision:'Vision',navCta:'Get Early Access',
-      heroEyebrow:'Offline-first · For campus, home and small businesses in Kenya',heroTitle:'Your money<br>has <span class="accent">plans.</span><br>Do you?',heroDescription:'M-Pesa comes in. Rent, fare and bills already have a claim on it. PesaPlanner helps you track the moving parts and estimate what may be safe to spend — offline, built for Kenya.',heroPrimary:'Get early access',heroWatch:'Watch the demo',heroTrust:['No bank login','Works offline','Your data stays yours'],
+      navProblem:'The Problem',navWatch:'Watch',navFeatures:'Features',navDifference:'Why Different',navAudience:"Who It's For",navVision:'Vision',navCta:'See plans',
+      heroEyebrow:'Offline-first · For campus, home and small businesses in Kenya',heroTitle:'Your money<br>has <span class="accent">plans.</span><br>Do you?',heroDescription:'M-Pesa comes in. Rent, fare and bills already have a claim on it. PesaPlanner helps you track the moving parts and estimate what may be safe to spend — offline, built for Kenya.',heroPrimary:'Explore plans',heroWatch:'Watch the demo',heroTrust:['No bank login','Works offline','Your data stays yours'],
       problemLabel:'THE PROBLEM · 01',problemTitle:'Campus life is expensive.<br>Being broke is a <span class="accent">full-time course.</span>',problemIntro:'University life in Kenya brings lectures, assignments, transport, food and bills. Keeping track of money can become another full-time job.',
       solutionLabel:'THE SOLUTION · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Your personal finance companion.',solutionIntro:'PesaPlanner is an offline-first money-management app for students, individuals, households and small businesses in Kenya. Organise transactions, budgets and debts, with your records staying on your device.',
       demoLabel:'SEE IT IN ACTION · 02.5',demoTitle:'See PesaPlanner <span class="accent">in action.</span>',demoIntro:'Start with the full walkthrough. Open the video shelf below if you want to see the short clips.',
       featuresLabel:'FEATURES · 03',featuresTitle:'What PesaPlanner <span class="accent">can help you do.</span>',featuresIntro:'Explore tools for campus, personal, household and small-business money — including imports, budgets, bills, planning and stock.',
       differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'More than a way to<br>record expenses.',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'Different people.<br><span class="accent">Different money lives.</span>',audienceIntro:'Students, people managing personal income, households and small businesses can each start with a setup that fits their day-to-day money. Same Kenyan realities; different priorities.',
-      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaFlow? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaFlow and help others know what to expect.',reviewButton:'Write a review',reviewLegend:'Star rating <span aria-hidden="true">· required</span>',reviewRatingHint:'1 = needs work · 5 = excellent',reviewTextLabel:'Your review <span class="optional">(optional)</span>',reviewPlaceholder:'Tell us what you liked or what we could improve…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, only if you want a reply)</span>',reviewEmailHint:'(optional, only if you want a reply)',reviewSubmit:'Send my review',reviewFormNote:'No name needed. Please don’t include private M-Pesa or financial details.',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'No spam. No bank login. Get a heads-up when we launch.'
+      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaFlow? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaFlow and help others know what to expect.',reviewButton:'Write a review',reviewLegend:'Star rating <span aria-hidden="true">· required</span>',reviewRatingHint:'1 = needs work · 5 = excellent',reviewTextLabel:'Your review <span class="optional">(optional)</span>',reviewPlaceholder:'Tell us what you liked or what we could improve…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, only if you want a reply)</span>',reviewEmailHint:'(optional, only if you want a reply)',reviewSubmit:'Send my review',reviewFormNote:'No name needed. Please don’t include private M-Pesa or financial details.',ctaDescription:'Explore the plan tiers and see exactly what is included. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'Prepaid plans do not auto-renew. Review the exact total in the app before paying.'
     },
     sw: {
-      navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Pata Habari za Uzinduzi',
-      heroEyebrow:'Hufanya kazi bila intaneti · Kwa chuo, nyumbani na biashara Kenya',heroTitle:'Pesa yako ina<br><span class="accent">mipango.</span><br>Wewe je?',heroDescription:'M-Pesa ikiingia, kodi, nauli na bili tayari zinaidai. Panga miamala yako na ukadirie unachoweza kutumia — bila intaneti, kwa maisha ya Kenya.',heroPrimary:'Pata habari za uzinduzi',heroWatch:'Tazama jinsi inavyofanya kazi',heroTrust:['Hakuna kuingia kwa benki','Hufanya kazi bila intaneti','Data yako ni yako'],
+      navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Angalia mipango',
+      heroEyebrow:'Hufanya kazi bila intaneti · Kwa chuo, nyumbani na biashara Kenya',heroTitle:'Pesa yako ina<br><span class="accent">mipango.</span><br>Wewe je?',heroDescription:'M-Pesa ikiingia, kodi, nauli na bili tayari zinaidai. Panga miamala yako na ukadirie unachoweza kutumia — bila intaneti, kwa maisha ya Kenya.',heroPrimary:'Angalia mipango',heroWatch:'Tazama jinsi inavyofanya kazi',heroTrust:['Hakuna kuingia kwa benki','Hufanya kazi bila intaneti','Data yako ni yako'],
       problemLabel:'CHANGAMOTO · 01',problemTitle:'Maisha ya chuo ni ghali.<br>Kukosa pesa ni <span class="accent">somo la muda wote.</span>',problemIntro:'Maisha ya chuo Kenya yanahusisha mihadhara, kazi, nauli, chakula na bili. Kufuatilia pesa kunaweza kuwa kazi nyingine ya muda wote.',
       solutionLabel:'SULUHISHO · 02',solutionTitle:'Kutana na <span class="accent">PesaPlanner.</span><br>Msaidizi wako wa kupanga fedha.',solutionIntro:'PesaPlanner ni programu ya kupanga fedha bila intaneti kwa wanafunzi, watu binafsi, familia na biashara ndogo nchini Kenya. Inasaidia kupanga miamala, bajeti na madeni huku rekodi zikibaki kwenye kifaa chako.',
       demoLabel:'ITAZAME IKIFANYA KAZI · 02.5',demoTitle:'Tazama PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Anza na video kamili. Fungua sehemu ya video hapa chini ukitaka kuona klipu fupi.',
       featuresLabel:'VIPENGELE · 03',featuresTitle:'PesaPlanner <span class="accent">inakusaidia kufanya nini?</span>',featuresIntro:'Gundua zana za kupanga pesa za campus, binafsi, nyumbani na biashara ndogo — pamoja na miamala, bajeti, mipango na stock.',
       differenceLabel:'TOFAUTI YAKE · 04',differenceTitle:'Zaidi ya kurekodi<br>matumizi ya pesa.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Maisha tofauti ya pesa.</span>',audienceIntro:'Wanafunzi, watu binafsi, familia na biashara ndogo wanaweza kuanza na mipangilio inayofaa maisha yao ya pesa. Hali za Kenya ni zilezile; mahitaji ni tofauti.',
-      visionLabel:'DIRA KUBWA · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Acha tathmini.</span>',reviewCopy:'Maoni yako ya kweli husaidia kuboresha PesaFlow na kuwasaidia wengine kujua cha kutarajia.',reviewButton:'Andika tathmini',reviewLegend:'Chagua ukadiriaji wa nyota <span aria-hidden="true">· unahitajika</span>',reviewRatingHint:'1 = inahitaji kuboreshwa · 5 = bora sana',reviewTextLabel:'Maoni yako <span class="optional">(si lazima)</span>',reviewPlaceholder:'Tuambie ulichopenda au tunachoweza kuboresha…',reviewEmailLabel:'Barua pepe <span class="optional review-email-hint">(si lazima; tu ukitaka jibu)</span>',reviewEmailHint:'(si lazima; tu ukitaka jibu)',reviewSubmit:'Tuma maoni',reviewFormNote:'Huhitaji jina. Usitume taarifa za faragha za M-Pesa au fedha.',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Hakuna barua taka. Hakuna kuingia kwa benki. Utajulishwa tukizindua.'
+      visionLabel:'DIRA KUBWA · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Acha tathmini.</span>',reviewCopy:'Maoni yako ya kweli husaidia kuboresha PesaFlow na kuwasaidia wengine kujua cha kutarajia.',reviewButton:'Andika tathmini',reviewLegend:'Chagua ukadiriaji wa nyota <span aria-hidden="true">· unahitajika</span>',reviewRatingHint:'1 = inahitaji kuboreshwa · 5 = bora sana',reviewTextLabel:'Maoni yako <span class="optional">(si lazima)</span>',reviewPlaceholder:'Tuambie ulichopenda au tunachoweza kuboresha…',reviewEmailLabel:'Barua pepe <span class="optional review-email-hint">(si lazima; tu ukitaka jibu)</span>',reviewEmailHint:'(si lazima; tu ukitaka jibu)',reviewSubmit:'Tuma maoni',reviewFormNote:'Huhitaji jina. Usitume taarifa za faragha za M-Pesa au fedha.',ctaDescription:'Angalia mipango na uone kilicho ndani yake. Malipo hufanyika ndani ya Android app kupitia Paystack; tovuti hii haihifadhi ledger yako ya fedha wala PIN ya M-Pesa.',ctaTitle:'Tazama pesa zako.<br>Zielewe vizuri.<br><span class="accent">Panga hatua inayofuata.</span>',ctaNote:'Mipango ya kulipia mapema haijiongezi. Kagua jumla kamili ndani ya app kabla ya kulipa.'
     },
     sheng: {
-      navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Nijulishe Ikizinduliwa',
-      heroEyebrow:'Inawork bila net · Campus, home na biashara Kenya',heroTitle:'Doh yako iko na<br><span class="accent">plans.</span><br>Na wewe je?',heroDescription:'M-Pesa ikiingia, rent, fare na bills tayari zinaidai. Track doh yako ujue imecommitwa wapi na estimate safe kutumia — bila net, ya Kenya.',heroPrimary:'Nijulishe ikizinduliwa',heroWatch:'Watch demo',heroTrust:['Hakuna bank login','Inawork bila net','Data ni yako'],
+      navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Check plans',
+      heroEyebrow:'Inawork bila net · Campus, home na biashara Kenya',heroTitle:'Doh yako iko na<br><span class="accent">plans.</span><br>Na wewe je?',heroDescription:'M-Pesa ikiingia, rent, fare na bills tayari zinaidai. Track doh yako ujue imecommitwa wapi na estimate safe kutumia — bila net, ya Kenya.',heroPrimary:'Explore plans',heroWatch:'Watch demo',heroTrust:['Hakuna bank login','Inawork bila net','Data ni yako'],
       problemLabel:'SHIDA · 01',problemTitle:'Campus life ni costly.<br>Kukosa doh ni <span class="accent">unit ya full-time.</span>',problemIntro:'Life ya chuo Kenya ni lectures, assignments, fare, food na bills. Kufuatilia doh inaweza kuwa job ingine ya full-time.',
       solutionLabel:'SULUHISHO · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Plug wako wa kupanga doh.',solutionIntro:'PesaPlanner ni app ya kupanga doh bila net kwa campus, home, personal na biashara ndogo Kenya. Panga transactions, budget na madeni, na ujue pesa iko committed wapi.',
       demoLabel:'ANGALIA IKIACTION · 02.5',demoTitle:'Angalia PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Anza na full walkthrough. Fungua video shelf hapa chini ukitaka kuona clips fupi.',
       featuresLabel:'FEATURES · 03',featuresTitle:'PesaPlanner <span class="accent">inaweza kusaidia aje?</span>',featuresIntro:'Angalia tools za kupanga doh ya campus, home, personal ama biashara ndogo — transactions, budget, plans na stock.',
       differenceLabel:'MBONA NI TOFAUTI · 04',differenceTitle:'Si kurecord tu<br>venye doh imetoka.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tofauti.<br><span class="accent">Doh inaenda tofauti.</span>',audienceIntro:'Campus, personal, home ama biashara ndogo — kila mtu anaweza anza na setup inaelewa vile doh yake inamove.',
-      visionLabel:'BIG VISION · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Wacha review.</span>',reviewCopy:'Maoni yako ya ukweli inasaidia PesaFlow ikuwe better na wengine wajue venye iko.',reviewButton:'Wacha review',reviewLegend:'Chagua star rating <span aria-hidden="true">· lazima</span>',reviewRatingHint:'1 = inahitaji kurekebishwa · 5 = kali sana',reviewTextLabel:'Review yako <span class="optional">(optional)</span>',reviewPlaceholder:'Tuambie umeipenda nini ama tuboreshe nini…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, ukitaka reply)</span>',reviewEmailHint:'(optional, ukitaka reply)',reviewSubmit:'Tuma review',reviewFormNote:'Huhitaji jina. Usiweke details za M-Pesa ama finances zako.',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Hakuna spam. Hakuna bank login. Tutakupea update ikizinduliwa.'
+      visionLabel:'BIG VISION · 06',reviewLabel:'SAUTI YAKO NI MUHIMU',reviewTitle:'Umejaribu PesaFlow? <span class="accent">Wacha review.</span>',reviewCopy:'Maoni yako ya ukweli inasaidia PesaFlow ikuwe better na wengine wajue venye iko.',reviewButton:'Wacha review',reviewLegend:'Chagua star rating <span aria-hidden="true">· lazima</span>',reviewRatingHint:'1 = inahitaji kurekebishwa · 5 = kali sana',reviewTextLabel:'Review yako <span class="optional">(optional)</span>',reviewPlaceholder:'Tuambie umeipenda nini ama tuboreshe nini…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, ukitaka reply)</span>',reviewEmailHint:'(optional, ukitaka reply)',reviewSubmit:'Tuma review',reviewFormNote:'Huhitaji jina. Usiweke details za M-Pesa ama finances zako.',ctaDescription:'Angalia mipango na features zake. Payment inafanyika ndani ya Android app kupitia Paystack; website hii haicollect financial ledger yako wala PIN ya M-Pesa.',ctaTitle:'Ona doh yako.<br>Elewa doh yako.<br><span class="accent">Panga move ingine.</span>',ctaNote:'Prepaid plans hazijirenew. Check total kwa app kabla ya kulipa.'
     },
     fr: {
-      navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Être informé du lancement',
-      heroEyebrow:'Hors ligne · Pour les études, la maison et les petites entreprises au Kenya',heroTitle:'Votre argent a<br>des <span class="accent">projets.</span><br>Et vous ?',heroDescription:'M-Pesa arrive, mais le loyer, le transport et les factures ont déjà leur part. Suivez vos dépenses et estimez ce que vous pouvez dépenser hors ligne au Kenya.',heroPrimary:'Être informé du lancement',heroWatch:'Voir la démonstration',heroTrust:['Sans connexion bancaire','Fonctionne hors ligne','Vos données vous appartiennent'],
+      navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Voir les offres',
+      heroEyebrow:'Hors ligne · Pour les études, la maison et les petites entreprises au Kenya',heroTitle:'Votre argent a<br>des <span class="accent">projets.</span><br>Et vous ?',heroDescription:'M-Pesa arrive, mais le loyer, le transport et les factures ont déjà leur part. Suivez vos dépenses et estimez ce que vous pouvez dépenser hors ligne au Kenya.',heroPrimary:'Voir les offres',heroWatch:'Voir la démonstration',heroTrust:['Sans connexion bancaire','Fonctionne hors ligne','Vos données vous appartiennent'],
       problemLabel:'LE PROBLÈME · 01',problemTitle:'La vie étudiante coûte cher.<br>Manquer d’argent devient un <span class="accent">cours à plein temps.</span>',problemIntro:'La vie universitaire au Kenya comprend les cours, les devoirs, les transports, les repas et les factures. Suivre son argent peut devenir un travail à plein temps.',
       solutionLabel:'LA SOLUTION · 02',solutionTitle:'Découvrez <span class="accent">PesaPlanner.</span><br>Votre compagnon financier.',solutionIntro:'PesaPlanner est une application hors ligne de gestion financière pour les étudiants, les particuliers, les foyers et les petites entreprises au Kenya. Elle aide à organiser transactions, budgets et dettes, avec des données conservées sur votre appareil.',
       demoLabel:'EN ACTION · 02.5',demoTitle:'Découvrez PesaPlanner <span class="accent">en action.</span>',demoIntro:'Commencez par la présentation complète. Ouvrez la section ci-dessous pour voir les courtes vidéos.',
       featuresLabel:'FONCTIONNALITÉS · 03',featuresTitle:'Ce que PesaPlanner <span class="accent">peut vous aider à faire.</span>',featuresIntro:'Découvrez des outils pour les finances étudiantes, personnelles, familiales et les petites entreprises : transactions, budgets, projets et stocks.',
       differenceLabel:'CE QUI CHANGE · 04',differenceTitle:'Bien plus qu’un outil pour<br>noter ses dépenses.',audienceLabel:'POUR QUI ? · 05',audienceTitle:'Des personnes différentes.<br><span class="accent">Des réalités financières différentes.</span>',audienceIntro:'Étudiants, particuliers, foyers et petites entreprises peuvent choisir un point de départ adapté à leur quotidien. Les réalités kenyanes se ressemblent, les priorités varient.',
-      visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',reviewLegend:'Votre note <span aria-hidden="true">· obligatoire</span>',reviewRatingHint:'1 = à améliorer · 5 = excellent',reviewTextLabel:'Votre avis <span class="optional">(facultatif)</span>',reviewPlaceholder:'Dites-nous ce qui vous a plu ou ce que nous pouvons améliorer…',reviewEmailLabel:'E-mail <span class="optional review-email-hint">(facultatif, pour recevoir une réponse)</span>',reviewEmailHint:'(facultatif, pour recevoir une réponse)',reviewSubmit:'Envoyer mon avis',reviewFormNote:'Votre nom n’est pas nécessaire. N’incluez pas de données financières ou M-Pesa privées.',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Pas de spam ni de connexion bancaire. Nous vous informerons du lancement.'
+      visionLabel:'UNE VISION PLUS LARGE · 06',reviewLabel:'VOTRE AVIS COMPTE',reviewTitle:'Vous avez essayé PesaFlow ? <span class="accent">Donnez votre avis.</span>',reviewCopy:'Votre note et vos commentaires sincères nous aident à améliorer PesaFlow et à informer les autres.',reviewButton:'Écrire un avis',reviewLegend:'Votre note <span aria-hidden="true">· obligatoire</span>',reviewRatingHint:'1 = à améliorer · 5 = excellent',reviewTextLabel:'Votre avis <span class="optional">(facultatif)</span>',reviewPlaceholder:'Dites-nous ce qui vous a plu ou ce que nous pouvons améliorer…',reviewEmailLabel:'E-mail <span class="optional review-email-hint">(facultatif, pour recevoir une réponse)</span>',reviewEmailHint:'(facultatif, pour recevoir une réponse)',reviewSubmit:'Envoyer mon avis',reviewFormNote:'Votre nom n’est pas nécessaire. N’incluez pas de données financières ou M-Pesa privées.',ctaDescription:'Découvrez les formules et leur contenu. Le paiement s’effectue dans l’application Android via Paystack ; ce site ne collecte ni votre registre financier ni votre code PIN M-Pesa.',ctaTitle:'Voyez votre argent.<br>Comprenez-le.<br><span class="accent">Préparez la suite.</span>',ctaNote:'Les forfaits prépayés ne se renouvellent pas automatiquement. Vérifiez le montant total dans l’application avant de payer.'
     }
   };
   const planLocales = {
     en: {
       videoLibraryToggle:'Want more? Browse the 8 short clips',
-      navPlans:'Plans & download',plansKicker:'Plans · built around how you use PesaPlanner',plansTitle:'Try it for an hour. Pick a plan to continue.',plansIntro:'Start with a one-hour free preview. After it ends, choose a monthly subscription to keep using the app.',plansStatusTitle:'The one-hour preview and subscriptions are still being prepared.',plansStatusText:'Prices are proposed and M-Pesa checkout is not open yet. Please do not send money for a subscription.',
-      freeBadge:'Student entry',freePrice:'KSh 49 / month',freeSummary:'M-Pesa transaction parsing and simple student budgeting.',freeFeature1:'M-Pesa SMS parsing and transaction review',freeFeature2:'Simple personal budgets and monthly reviews',freeFeature3:'Offline storage for your records',freeFeature4:'One-hour free preview before subscribing',freeMissLabel:'Lite does not include:',freeMiss:'PesaBuddy, the HELB upkeep planner, roommate bill-splitting or Max business features.',freeAction:'Subscriptions not open yet',
-      plusBadge:'For students who want a clearer money plan',plusPrice:'KSh 89 / month',plusSummary:'Know what is safe to spend, what is coming next, and what changed. Get practical answers from PesaBuddy.',plusFeature1:'Everything in Lite',plusFeature2:'Deep Insights: compare categories and months, catch rising costs, and see recurring spending patterns',plusFeature3:'PesaBuddy works offline: ask about spending, bills, debt, goals, and your safe-to-spend amount',plusFeature4:'Plan around income, bills, savings, debt, meals, transport, and your semester or HELB upkeep',plusFeature5:'Set savings goals and track money lent or borrowed, including repayments recorded so far',plusFeature6:'Track recurring bills, expected dates and yearly costs; set bill and daily-plan reminders',plusFeature7:'Estimate a 30-day cash-flow runway using balances, expected income and upcoming commitments',plusMissLabel:'Plus does not include:',plusMiss:'Max receipt scanning, automation rules, advanced business reports, scenario planning, and exports.',plusAction:'Subscriptions not open yet',
-      maxBadge:'Business, household and pro',maxPrice:'KSh 129 / month',maxSummary:'Turn receipts and business activity into clearer reports, useful what-if plans, and organized records.',maxFeature1:'Everything in Plus',maxFeature2:'Scan receipts into expense records and keep personal and business activity organized',maxFeature3:'Build advanced business reports and compare multiple what-if scenarios',maxFeature4:'Automate repeat rules and export records for accounting (PDF, Excel, and CSV)',maxFeature5:'Manage sales, costs, stock quantities, prices and low-stock points; link M-Pesa entries to stock movements',maxFeature6:'Review duplicate or uncertain transactions, clean up records and undo supported changes',maxFeature7:'Export filtered CSVs, categorized PDF reports and full JSON backups; protect PDF exports with a PIN',maxStatusLabel:'Still being designed:',maxStatus:'shared household sync is not included in this offline-first offer.',maxAction:'Subscriptions not open yet',
-      plansFootnote:'Start with a one-hour free preview, then choose Lite, Plus or Max to continue. Plans are proposed and checkout is not open yet. Subscription access will be prepaid by month with no automatic renewal planned. Your saved records should remain available to review, export or delete.',paymentTitle:'How subscription payment will work',paymentIntro:'After the one-hour preview, subscribing will need internet and your approval for each prepaid month.',paymentStep1:'Choose a plan and review its monthly price and access period before paying.',paymentStep2:'Enter the Safaricom M-Pesa number that should receive the payment prompt.',paymentStep3:'Review the Safaricom STK prompt. Enter your M-Pesa PIN only there.',paymentStep4:'Wait for secure payment verification; the app shows Pending until Safaricom confirms.',paymentStep5:'Save your recovery key, then check or restore your subscription in the app.',paymentSafetyLabel:'Payment safety:',paymentSafety:'No automatic renewal is planned. Never give your M-Pesa PIN to support or trust a screenshot as confirmation.',
-      installTitle:'How to install the Android app',installIntro:'The APK link will appear here when a release is ready. Install only the file linked from this official website.',installStep1:'Use the official APK link on this page; avoid forwarded or re-uploaded files.',installStep2:'Open the downloaded APK from Downloads in your browser or Files app.',installStep3:'If asked, allow this download app to install unknown apps, then return and continue.',installStep4:'Review the install prompt and permissions. SMS access is only for optional M-Pesa message import.',installStep5:'Before uninstalling or resetting your phone, export and safely store your records; local data may not return after reinstall.',installPending:'APK download is not available yet',installHelpLabel:'If Android blocks installation:',installHelp:'confirm the APK came from this website and allow installs from the download app. Turn that permission off afterward.'
+      navPlans:'Plans & download',plansKicker:'Plans · built around how you use PesaPlanner',plansTitle:'Clear plans. No surprises.',plansIntro:'Choose a plan for the tools you need. Prices are monthly; checkout is completed in the Android app.',plansStatusTitle:'Checkout happens in the Android app.',plansStatusText:'This website does not collect payments. Review the full price and duration in the app before completing Paystack mobile-money checkout.',
+      freeBadge:'Personal + student',freePrice:'KSh 49 / month',freeSummary:'Personal and student money management for everyday planning.',freeFeature1:'Personal and student profiles with daily spending guidance',freeFeature2:'Budgets, bills, debts and savings goals',freeFeature3:'Campus, semester and salary planning',freeFeature4:'Offline-first records stored on your device',freeMissLabel:'Plan terms:',freeMiss:'Prepaid access does not auto-renew. Saved financial records remain available after a paid term expires.',freeAction:'Get the Android app',
+      plusBadge:'For business and household money',plusPrice:'KSh 89 / month',plusSummary:'Everything in Lite, plus tools for business and household money.',plusFeature1:'Everything in Lite',plusFeature2:'Record sales, costs, stock and till cash flow.',plusFeature3:'Organise household bills and family goals on this device.',plusFeature4:'Track kitchen stock and plan meals.',plusFeature5:'Switch between personal, business and household tools.',plusFeature6:'Use the same local ledger across the features you unlock.',plusFeature7:'Unlock detailed Plus financial insights.',plusMissLabel:'Household note:',plusMiss:'Household records are organised on the device; this is not shared-account or cloud-sync access.',plusAction:'Get the Android app',
+      maxBadge:'Everything in Plus, plus receipt scanning',maxPrice:'KSh 129 / month',maxSummary:'Everything in Plus, with receipt photo scanning.',maxFeature1:'Everything in Plus',maxFeature2:'Capture a receipt photo to help create an expense record.',maxFeature3:'Review and confirm extracted details before saving.',maxFeature4:'Automate repeat rules and export records for accounting (PDF, Excel, and CSV)',maxFeature5:'Manage sales, costs, stock quantities, prices and low-stock points; link M-Pesa entries to stock movements',maxFeature6:'Review duplicate or uncertain transactions, clean up records and undo supported changes',maxFeature7:'Export filtered CSVs, categorized PDF reports and full JSON backups; protect PDF exports with a PIN',maxStatusLabel:'Receipt check:',maxStatus:'Scanned details are suggestions; review them before adding the expense to your records.',maxAction:'Get the Android app',
+      plansFootnote:'Prices match the app’s current monthly rates. Prepay one, four or twelve months; access ends at the displayed expiry and does not auto-renew. Upgrades may be prorated based on time remaining.',paymentTitle:'How subscription payment will work',paymentIntro:'Payment requires an internet connection. The app opens Paystack mobile-money checkout, and plan access begins after payment is verified.',paymentStep1:'Choose Lite, Plus or Max and prepay for one, four or twelve months.',paymentStep2:'Review the full amount, phone number and email entered in the app.',paymentStep3:'Complete mobile-money checkout through Paystack. Enter your PIN only in the provider’s prompt.',paymentStep4:'The app checks payment status; a plan activates only after the server verifies payment.',paymentStep5:'To restore a plan after reinstalling, use the phone number from checkout.',paymentSafetyLabel:'Payment safety:',paymentSafety:'No automatic renewal. Never share your M-Pesa PIN or treat a payment screenshot as confirmation.',
+      installTitle:'How to install the Android app',installIntro:'Download the official Android release here when it is available. Install only files published by PesaPlanner.',installStep1:'Use the official APK link on this page; avoid forwarded or re-uploaded files.',installStep2:'Open the downloaded APK from Downloads in your browser or Files app.',installStep3:'If asked, allow this download app to install unknown apps, then return and continue.',installStep4:'Review the install prompt and permissions. SMS access is only for optional M-Pesa message import.',installStep5:'Before uninstalling or resetting your phone, export and safely store your records; local data may not return after reinstall.',installPending:'Android download is not available on this website yet',apkDownloadLabel:'Download the latest APK',apkReleasePath:'Release slot: add your signed APK at downloads/PesaPlanner.apk. The download button appears automatically after the file is published.',installHelpLabel:'If Android blocks installation:',installHelp:'confirm the APK came from this website and allow installs from the download app. Turn that permission off afterward.'
     },
     sw: {
       videoLibraryToggle:'Unataka kuona zaidi? Tazama clips 8 fupi',
-      navPlans:'Mipango na upakuaji',plansKicker:'Mipango · kulingana na matumizi yako ya PesaPlanner',plansTitle:'Jaribu kwa saa moja. Chagua plan kuendelea.',plansIntro:'Anza na preview ya bure ya saa moja. Ikishaisha, chagua subscription ya mwezi ili uendelee kutumia app.',plansStatusTitle:'Preview ya saa moja na subscriptions bado zinaandaliwa.',plansStatusText:'Bei hizi ni mapendekezo na M-Pesa checkout haijafunguliwa. Usitume pesa za subscription.',
-      freeBadge:'Kwa wanafunzi',freePrice:'KSh 49 / mwezi',freeSummary:'Kurekodi M-Pesa na kupanga bajeti rahisi ya mwanafunzi.',freeFeature1:'Kusoma SMS za M-Pesa na kukagua miamala',freeFeature2:'Bajeti rahisi na mapitio ya kila mwezi',freeFeature3:'Kumbukumbu zako zinahifadhiwa bila intaneti',freeFeature4:'Preview ya bure ya saa moja kabla ya subscription',freeMissLabel:'Lite haina:',freeMiss:'PesaBuddy, mpango wa HELB, kugawana bili za roommate au tools za biashara za Max.',freeAction:'Subscriptions bado hazijafunguliwa',
-      plusBadge:'Kwa wanafunzi wanaotaka kuelewa pesa zao vizuri',plusPrice:'KSh 89 / mwezi',plusSummary:'Jua pesa unazoweza kutumia, bili zinazokuja na matumizi yanayobadilika. PesaBuddy inakupa majibu ya vitendo.',plusFeature1:'Kila kitu cha Lite',plusFeature2:'Deep Insights: linganisha matumizi kwa aina na miezi, tambua gharama zinazopanda na malipo yanayojirudia',plusFeature3:'Uliza PesaBuddy kuhusu matumizi, bili, madeni, malengo na salio salama la kutumia, hata bila intaneti',plusFeature4:'Panga mapato, bili, akiba, madeni, chakula, usafiri, muhula na matumizi ya HELB',plusFeature5:'Weka malengo ya akiba na ufuatilie pesa ulizokopesha au kukopa na marejesho yake',plusFeature6:'Fuatilia bili zinazojirudia, tarehe zake na gharama ya mwaka; weka vikumbusho',plusFeature7:'Kadiria muda wa siku 30 ambao pesa zinaweza kudumu kwa kutumia salio, mapato na malipo yajayo',plusMissLabel:'Plus haina:',plusMiss:'Max ina scan ya risiti, automation, ripoti za biashara, mipango ya hali tofauti na exports.',plusAction:'Usajili bado haujafunguliwa',
-      maxBadge:'Biashara, familia na pro',maxPrice:'KSh 129 / mwezi',maxSummary:'Geuza risiti na shughuli za biashara kuwa ripoti zilizo wazi na mipango ya kufanya maamuzi.',maxFeature1:'Kila kitu cha Plus',maxFeature2:'Scan risiti ziwe rekodi za matumizi na panga rekodi za binafsi na biashara',maxFeature3:'Tengeneza ripoti za biashara na linganisha mipango ya hali tofauti',maxFeature4:'Weka sheria za kazi zinazojirudia na toa PDF, Excel au CSV kwa hesabu',maxFeature5:'Simamia mauzo, gharama, idadi na bei za bidhaa na viwango vya stoo; unganisha miamala ya M-Pesa na bidhaa',maxFeature6:'Kagua miamala inayojirudia au yenye utata, safisha rekodi na utendue hatua zinazotumika',maxFeature7:'Hamisha CSV zilizochujwa, ripoti za PDF na nakala kamili za JSON; linda PDF kwa PIN',maxStatusLabel:'Bado tunabuni:',maxStatus:'kusawazisha akaunti za familia mtandaoni hakujajumuishwa kwenye mpango huu wa offline.',maxAction:'Usajili bado haujafunguliwa',
-      plansFootnote:'Anza na preview ya bure ya saa moja, kisha chagua Lite, Plus au Max kuendelea. Mipango ni mapendekezo na malipo bado hayajafunguliwa. Usajili utalipwa kwa mwezi bila kujirudia wenyewe. Kumbukumbu zako zinapaswa kubaki zako.',paymentTitle:'Jinsi malipo ya usajili yatakavyofanya kazi',paymentIntro:'Baada ya preview ya saa moja, utahitaji intaneti na kuthibitisha kila malipo ya mwezi.',paymentStep1:'Chagua mpango na uhakiki bei yake ya mwezi na muda wa matumizi kabla ya kulipa.',paymentStep2:'Weka nambari ya Safaricom M-Pesa itakayopokea ombi la malipo.',paymentStep3:'Kagua ombi la Safaricom STK. Weka PIN yako ya M-Pesa hapo pekee.',paymentStep4:'Subiri uthibitisho salama; programu itaonyesha Pending hadi Safaricom ithibitishe.',paymentStep5:'Hifadhi recovery key yako, kisha kagua au rudisha usajili mtandaoni.',paymentSafetyLabel:'Usalama wa malipo:',paymentSafety:'Hakuna malipo ya kujirudia yanayopangwa. Usimpe mtu PIN yako au kuamini picha ya SMS kama uthibitisho.',
-      installTitle:'Jinsi ya kusakinisha programu ya Android',installIntro:'Kiungo cha APK kitawekwa toleo likiwa tayari. Pakua faili kupitia tovuti hii rasmi pekee.',installStep1:'Tumia kiungo rasmi cha APK hapa; epuka faili zilizotumwa au kupakiwa upya.',installStep2:'Fungua APK uliyopakua kupitia Downloads au programu ya Files.',installStep3:'Ukiombwa, ruhusu programu ya upakuaji kusakinisha programu zisizojulikana, kisha urudi uendelee.',installStep4:'Kagua ruhusa kabla ya kusakinisha. SMS inahitajika tu kwa uingizaji wa hiari wa ujumbe wa M-Pesa.',installStep5:'Kabla ya kufuta programu au kuweka upya simu, hamisha kumbukumbu zako na uzihifadhi salama; data ya simu inaweza isipatikane tena.',installPending:'Upakuaji wa APK bado haupatikani',installHelpLabel:'Android ikizuia usakinishaji:',installHelp:'hakikisha APK imetoka kwenye tovuti hii na uruhusu usakinishaji kutoka programu ya upakuaji. Zima ruhusa hiyo baadaye.'
+      navPlans:'Mipango na upakuaji',plansKicker:'Mipango · kulingana na matumizi yako ya PesaPlanner',plansTitle:'Mipango iliyo wazi, bila mshangao.',plansIntro:'Chagua mpango kulingana na tools unazohitaji. Bei ni za mwezi; malipo hufanywa ndani ya Android app.',plansStatusTitle:'Malipo hufanywa ndani ya Android app.',plansStatusText:'Tovuti hii haipokei malipo. Kagua bei kamili na muda ndani ya app kabla ya Paystack mobile money checkout.',
+      freeBadge:'Binafsi + mwanafunzi',freePrice:'KSh 49 / mwezi',freeSummary:'Kupanga pesa za matumizi binafsi na za mwanafunzi.',freeFeature1:'Mipangilio binafsi na ya mwanafunzi pamoja na mwongozo wa matumizi ya kila siku',freeFeature2:'Bajeti, bili, madeni na malengo ya akiba',freeFeature3:'Mipango ya chuo, muhula na mshahara',freeFeature4:'Rekodi hubaki kwenye kifaa na matumizi ya kawaida hufanya kazi bila intaneti',freeMissLabel:'Masharti ya mpango:',freeMiss:'Muda unaolipiwa haujiongezi wenyewe. Rekodi zako za fedha hubaki zinapatikana muda wa mpango ukiisha.',freeAction:'Angalia upatikanaji wa Android app',
+      plusBadge:'Kwa pesa za biashara na nyumba',plusPrice:'KSh 89 / mwezi',plusSummary:'Kila kitu cha Lite, pamoja na tools za biashara na nyumba.',plusFeature1:'Kila kitu cha Lite',plusFeature2:'Rekodi mauzo, gharama, stock na mtiririko wa till.',plusFeature3:'Panga bili za nyumba na malengo ya familia kwenye kifaa hiki.',plusFeature4:'Fuatilia stock ya jikoni na panga milo.',plusFeature5:'Badilisha kati ya mipangilio binafsi, biashara na nyumba.',plusFeature6:'Tumia ledger ileile ya ndani kwa tools ulizofungua.',plusFeature7:'Fungua insights za kifedha za Plus.',plusMissLabel:'Kuhusu nyumba:',plusMiss:'Rekodi za nyumba hupangwa kwenye kifaa; hakuna akaunti za pamoja au cloud sync.',plusAction:'Angalia upatikanaji wa Android app',
+      maxBadge:'Kila kitu cha Plus na kuscan risiti',maxPrice:'KSh 129 / mwezi',maxSummary:'Kila kitu cha Plus, pamoja na kuscan picha za risiti.',maxFeature1:'Kila kitu cha Plus',maxFeature2:'Piga picha ya risiti kusaidia kutengeneza rekodi ya matumizi.',maxFeature3:'Kagua na uthibitishe maelezo yaliyotolewa kabla ya kuhifadhi.',maxFeature4:'Weka sheria za kazi zinazojirudia na toa PDF, Excel au CSV kwa hesabu',maxFeature5:'Simamia mauzo, gharama, idadi na bei za bidhaa na viwango vya stoo; unganisha miamala ya M-Pesa na bidhaa',maxFeature6:'Kagua miamala inayojirudia au yenye utata, safisha rekodi na utendue hatua zinazotumika',maxFeature7:'Hamisha CSV zilizochujwa, ripoti za PDF na nakala kamili za JSON; linda PDF kwa PIN',maxStatusLabel:'Kagua risiti:',maxStatus:'Maelezo yaliyosomwa ni mapendekezo; yakague kabla ya kuyaongeza kwenye rekodi zako.',maxAction:'Angalia upatikanaji wa Android app',
+      plansFootnote:'Bei zinafanana na viwango vya mwezi vya sasa ndani ya app. Lipa mwezi mmoja, minne au kumi na miwili mapema; ufikiaji huisha tarehe inayoonyeshwa na haujiongezi wenyewe. Upgrade inaweza kukadiriwa kwa muda uliobaki.',paymentTitle:'Jinsi malipo ya usajili yatakavyofanya kazi',paymentIntro:'Malipo yanahitaji intaneti. App hufungua Paystack mobile-money checkout; mpango huwashwa baada ya malipo kuthibitishwa.',paymentStep1:'Chagua Lite, Plus au Max na ulipe mwezi mmoja, minne au kumi na miwili mapema.',paymentStep2:'Kagua jumla, nambari ya simu na barua pepe uliyoingiza kwenye app.',paymentStep3:'Kamilisha malipo ya mobile money kupitia Paystack. Weka PIN kwenye ombi la mtoa huduma pekee.',paymentStep4:'App hukagua hali ya malipo; mpango huwashwa baada ya seva kuthibitisha malipo.',paymentStep5:'Ukisakinisha upya, tumia nambari ya simu uliyotumia wakati wa checkout kurejesha mpango.',paymentSafetyLabel:'Usalama wa malipo:',paymentSafety:'Hakuna malipo ya kujirudia. Usishiriki PIN ya M-Pesa wala kuchukulia picha ya malipo kama uthibitisho.',
+      installTitle:'Jinsi ya kusakinisha programu ya Android',installIntro:'Pakua toleo rasmi la Android hapa likipatikana. Sakinisha faili zilizochapishwa na PesaPlanner pekee.',installStep1:'Tumia kiungo rasmi cha APK hapa; epuka faili zilizotumwa au kupakiwa upya.',installStep2:'Fungua APK uliyopakua kupitia Downloads au programu ya Files.',installStep3:'Ukiombwa, ruhusu programu ya upakuaji kusakinisha programu zisizojulikana, kisha urudi uendelee.',installStep4:'Kagua ruhusa kabla ya kusakinisha. SMS inahitajika tu kwa uingizaji wa hiari wa ujumbe wa M-Pesa.',installStep5:'Kabla ya kufuta programu au kuweka upya simu, hamisha kumbukumbu zako na uzihifadhi salama; data ya simu inaweza isipatikane tena.',installPending:'Upakuaji wa Android app bado haupatikani hapa',apkDownloadLabel:'Pakua APK ya hivi karibuni',apkReleasePath:'Mahali pa toleo: weka APK iliyosainiwa kwenye downloads/PesaPlanner.apk. Kitufe cha upakuaji kitaonekana faili ikichapishwa.',installHelpLabel:'Android ikizuia usakinishaji:',installHelp:'hakikisha APK imetoka kwenye tovuti hii na uruhusu usakinishaji kutoka programu ya upakuaji. Zima ruhusa hiyo baadaye.'
     },
     sheng: {
       videoLibraryToggle:'Unataka more? Angalia clips 8 fupi',
-      navPlans:'Mipango na download',plansKicker:'Mipango · vile unatumia PesaPlanner',plansTitle:'Jaribu saa moja. Chagua plan uendelee.',plansIntro:'Anza na preview ya bure ya saa moja. Ikiisha, chagua subscription ya mwezi uendelee kutumia app.',plansStatusTitle:'Preview ya saa moja na subscriptions bado zinawekwa sawa.',plansStatusText:'Hizi ni bei za mapendekezo na M-Pesa checkout haijaopen. Usitume doh ya subscription.',
-      freeBadge:'Student entry',freePrice:'KSh 49 / mwezi',freeSummary:'M-Pesa transaction parsing na budget rahisi ya student.',freeFeature1:'Kusoma SMS za M-Pesa na review transactions',freeFeature2:'Budget rahisi na monthly reviews',freeFeature3:'Records zako zinawekwa offline',freeFeature4:'Preview ya bure ya saa moja kabla ya subscription',freeMissLabel:'Lite haina:',freeMiss:'PesaBuddy, HELB upkeep planner, kugawana bill za roommate ama Max biz features.',freeAction:'Subscription bado haijaopen',
-      plusBadge:'Kwa students wanataka kuelewa doh yao better',plusPrice:'KSh 89 / mwezi',plusSummary:'Jua pesa safe kutumia, bills zinakuja na spending imechange wapi. PesaBuddy inakupa majibu za practical.',plusFeature1:'Kila kitu ya Lite',plusFeature2:'Deep Insights: compare categories na miezi, catch costs zinapanda na patterns za payments recurring',plusFeature3:'Uliza PesaBuddy kuhusu spending, bills, debt, goals na safe-to-spend — hata bila net',plusFeature4:'Plan income, bills, savings, debt, meals, fare na semester ama HELB upkeep',plusFeature5:'Set savings goals na track doh umekopesha ama umeborrow pamoja na repayments',plusFeature6:'Track recurring bills, next dates na yearly cost; weka reminders za bills na daily plan',plusFeature7:'Estimate cash-flow runway ya siku 30 kutumia balances, expected income na commitments zinakuja',plusMissLabel:'Plus haina:',plusMiss:'Max ina receipt scanning, automation, business reports, scenario planning na exports.',plusAction:'Subscription bado haijaopen',
-      maxBadge:'Biz, home na pro',maxPrice:'KSh 129 / mwezi',maxSummary:'Geuza receipts na biz activity ziwe reports clear, what-if plans na records organised.',maxFeature1:'Kila kitu ya Plus',maxFeature2:'Scan receipts ziwe expense records na organise personal na biz activity',maxFeature3:'Tengeneza advanced biz reports na compare what-if scenarios tofauti',maxFeature4:'Automate repeat rules na export records kwa accounting (PDF, Excel na CSV)',maxFeature5:'Manage sales, costs, stock quantity, prices na low-stock points; link M-Pesa entries na stock movement',maxFeature6:'Review duplicate ama uncertain transactions, clean records na undo supported changes',maxFeature7:'Export filtered CSV, categorised PDF reports na full JSON backups; protect PDF exports na PIN',maxStatusLabel:'Bado inadesigniwa:',maxStatus:'shared household sync haiko kwa hii offline-first offer.',maxAction:'Subscription bado haijaopen',
-      plansFootnote:'Anza na preview ya bure ya saa moja, kisha chagua Lite, Plus ama Max uendelee. Hizi ni plans za proposal na checkout haijaopen. Subscription ni prepaid kila mwezi na haitajirudia yenyewe. Records zako zinapaswa kubaki zako.',paymentTitle:'Payment ya subscription itawork aje',paymentIntro:'Baada ya preview ya saa moja, utahitaji net na kuapprove kila prepaid month.',paymentStep1:'Chagua plan ucheck bei yake ya mwezi na period kabla ya kulipa.',paymentStep2:'Weka Safaricom M-Pesa number ipokee payment prompt.',paymentStep3:'Check Safaricom STK prompt. Weka PIN yako ya M-Pesa hapo tu.',paymentStep4:'Subiri secure verification; app itaonyesha Pending Safaricom ikiconfirm.',paymentStep5:'Save recovery key yako, ucheck ama restore subscription ukiwa online.',paymentSafetyLabel:'Usalama wa payment:',paymentSafety:'Hakuna auto-renew imepangwa. Usishare PIN na support wala kuamini screenshot ya SMS kama confirmation.',
-      installTitle:'Kusakinisha Android app',installIntro:'APK link itawekwa release ikiwa ready. Download file kutoka official website hii pekee.',installStep1:'Tumia official APK link hapa; usiinstall file ya WhatsApp ama re-upload.',installStep2:'Fungua APK kwa Downloads ya browser ama Files app.',installStep3:'Ukiombwa, ruhusu download app kuinstall unknown apps, then rudi uendelee.',installStep4:'Review install prompt na permissions. SMS ni optional kwa M-Pesa message import pekee.',installStep5:'Kabla ya ku-uninstall ama reset phone, export records na uziweke safe; local data inaweza isipatikane tena.',installPending:'APK bado haijapatikana',installHelpLabel:'Android ikiblock install:',installHelp:'confirm APK imetoka hapa na ruhusu install kutoka app uliodownload nayo. Zima ruhusa hiyo baadaye.'
+      navPlans:'Mipango na download',plansKicker:'Mipango · vile unatumia PesaPlanner',plansTitle:'Plans ziko clear. Hakuna surprise.',plansIntro:'Chagua plan ya tools unataka. Bei ni za mwezi; checkout inafanyika ndani ya Android app.',plansStatusTitle:'Checkout inafanyika ndani ya Android app.',plansStatusText:'Website hii haicollect payment. Check total na duration kwa app kabla ya Paystack mobile-money checkout.',
+      freeBadge:'Personal + student',freePrice:'KSh 49 / mwezi',freeSummary:'Panga doh ya personal na student life.',freeFeature1:'Personal na student profiles pamoja na daily spending guidance',freeFeature2:'Budget, bills, madeni na savings goals',freeFeature3:'Campus, semester na salary planning',freeFeature4:'Records zinakaa kwa device; kawaida unaweza plan bila net',freeMissLabel:'Masharti ya plan:',freeMiss:'Paid term haijirenew yenyewe. Financial records zako zinabaki available plan iki-expire.',freeAction:'Angalia Android app',
+      plusBadge:'Ya biashara na doh za nyumba',plusPrice:'KSh 89 / mwezi',plusSummary:'Kila kitu ya Lite, plus tools za biashara na nyumba.',plusFeature1:'Kila kitu ya Lite',plusFeature2:'Record sales, costs, stock na till cash flow.',plusFeature3:'Organise home bills na family goals kwa hii device.',plusFeature4:'Track kitchen stock na plan meals.',plusFeature5:'Switch personal, business na household tools.',plusFeature6:'Features unafungua zinatumia local ledger ileile.',plusFeature7:'Fungua detailed Plus money insights.',plusMissLabel:'Household note:',plusMiss:'Home records zinaorganise kwa device; hakuna shared account ama cloud sync.',plusAction:'Angalia Android app',
+      maxBadge:'Everything ya Plus na receipt scan',maxPrice:'KSh 129 / mwezi',maxSummary:'Kila kitu ya Plus, pamoja na receipt photo scanning.',maxFeature1:'Kila kitu ya Plus',maxFeature2:'Piga picha ya receipt kusaidia kucreate expense record.',maxFeature3:'Review na confirm details kabla ya kusave.',maxFeature4:'Automate repeat rules na export records kwa accounting (PDF, Excel na CSV)',maxFeature5:'Manage sales, costs, stock quantity, prices na low-stock points; link M-Pesa entries na stock movement',maxFeature6:'Review duplicate ama uncertain transactions, clean records na undo supported changes',maxFeature7:'Export filtered CSV, categorised PDF reports na full JSON backups; protect PDF exports na PIN',maxStatusLabel:'Review receipt:',maxStatus:'Scanned details ni suggestions; zicheck kabla ya kuongeza kwa records zako.',maxAction:'Angalia Android app',
+      plansFootnote:'Bei ni sawa na monthly rates za sasa ndani ya app. Prepay mwezi moja, nne ama kumi na mbili; access huisha date imeonyeshwa na haijirenew. Upgrade inaweza prorate time imebaki.',paymentTitle:'Payment ya subscription itawork aje',paymentIntro:'Payment inahitaji net. App inafungua Paystack mobile-money checkout; plan inaanza server ikiconfirm payment.',paymentStep1:'Chagua Lite, Plus ama Max na prepay mwezi moja, nne ama kumi na mbili.',paymentStep2:'Check total, nambari ya simu na email umeweka kwa app.',paymentStep3:'Complete mobile-money checkout kupitia Paystack. Weka PIN kwa prompt ya provider pekee.',paymentStep4:'App inacheck payment; plan inaanza server ikiconfirm.',paymentStep5:'Ukiinstall upya, restore plan na nambari uliyotumia kwa checkout.',paymentSafetyLabel:'Usalama wa payment:',paymentSafety:'Hakuna auto-renew. Usishare PIN ya M-Pesa ama uamini screenshot kama confirmation.',
+      installTitle:'Kusakinisha Android app',installIntro:'Download release rasmi ya Android hapa ikipatikana. Install files zilizopublish na PesaPlanner pekee.',installStep1:'Tumia official APK link hapa; usiinstall file ya WhatsApp ama re-upload.',installStep2:'Fungua APK kwa Downloads ya browser ama Files app.',installStep3:'Ukiombwa, ruhusu download app kuinstall unknown apps, then rudi uendelee.',installStep4:'Review install prompt na permissions. SMS ni optional kwa M-Pesa message import pekee.',installStep5:'Kabla ya ku-uninstall ama reset phone, export records na uziweke safe; local data inaweza isipatikane tena.',installPending:'Android download bado haipatikani kwa website hii',apkDownloadLabel:'Download APK ya latest',apkReleasePath:'Mahali pa release: weka signed APK kwa downloads/PesaPlanner.apk. Button ya download itaonekana file ikipublish.',installHelpLabel:'Android ikiblock install:',installHelp:'confirm APK imetoka hapa na ruhusu install kutoka app uliodownload nayo. Zima ruhusa hiyo baadaye.'
     },
     fr: {
       videoLibraryToggle:'Voir plus : les 8 courtes vidéos',
-      navPlans:'Offres et téléchargement',plansKicker:'Offres · selon votre usage de PesaPlanner',plansTitle:'Essayez une heure, puis choisissez une offre.',plansIntro:'Commencez par un aperçu gratuit d’une heure. Ensuite, choisissez un abonnement mensuel pour continuer.',plansStatusTitle:'L’aperçu d’une heure et les abonnements sont en préparation.',plansStatusText:'Les prix sont proposés et le paiement M-Pesa n’est pas ouvert. N’envoyez pas d’argent pour un abonnement.',
-      freeBadge:'Offre étudiant',freePrice:'49 KSh / mois',freeSummary:'Import des opérations M-Pesa et budget étudiant simple.',freeFeature1:'Lecture des SMS M-Pesa et vérification des opérations',freeFeature2:'Budgets simples et bilans mensuels',freeFeature3:'Données conservées hors ligne',freeFeature4:'Aperçu gratuit d’une heure avant abonnement',freeMissLabel:'Lite ne comprend pas :',freeMiss:'PesaBuddy, le planificateur HELB, le partage de factures ou les outils Max.',freeAction:'Abonnements non disponibles',
-      plusBadge:'Pour mieux comprendre et organiser ses dépenses étudiantes',plusPrice:'89 KSh / mois',plusSummary:'Sachez ce que vous pouvez dépenser, ce qui arrive et ce qui change. PesaBuddy vous aide à décider.',plusFeature1:'Tout Lite',plusFeature2:'Deep Insights : comparez catégories et mois, repérez les hausses et les paiements récurrents',plusFeature3:'Interrogez PesaBuddy sur dépenses, factures, dettes, objectifs et solde disponible, hors ligne',plusFeature4:'Planifiez revenus, factures, épargne, dettes, repas, transport, semestre et allocation HELB',plusFeature5:'Définissez des objectifs d’épargne et suivez les prêts, emprunts et remboursements enregistrés',plusFeature6:'Suivez les factures récurrentes, prochaines dates et coûts annuels; ajoutez des rappels',plusFeature7:'Estimez la durée de vos fonds sur 30 jours selon soldes, revenus attendus et engagements à venir',plusMissLabel:'Plus ne comprend pas :',plusMiss:'Max ajoute le scan des reçus, l’automatisation, les rapports pro, les scénarios et les exports.',plusAction:'Abonnements non disponibles',
-      maxBadge:'Entreprises, foyers et pro',maxPrice:'129 KSh / mois',maxSummary:'Transformez reçus et activité professionnelle en rapports clairs et scénarios utiles.',maxFeature1:'Tout Plus',maxFeature2:'Scannez les reçus en dépenses et organisez données personnelles et professionnelles',maxFeature3:'Créez des rapports professionnels et comparez plusieurs scénarios',maxFeature4:'Automatisez les règles récurrentes et exportez en PDF, Excel ou CSV',maxFeature5:'Gérez ventes, coûts, quantités, prix et seuils de stock; reliez les opérations M-Pesa aux mouvements de stock',maxFeature6:'Vérifiez les doublons et opérations incertaines, nettoyez les données et annulez les actions prises en charge',maxFeature7:'Exportez des CSV filtrés, rapports PDF classés et sauvegardes JSON complètes; protégez les PDF par PIN',maxStatusLabel:'Encore en conception :',maxStatus:'la synchronisation partagée du foyer n’est pas incluse dans cette offre hors ligne.',maxAction:'Abonnements non disponibles',
-      plansFootnote:'Commencez par un aperçu gratuit d’une heure, puis choisissez Lite, Plus ou Max. Les offres sont proposées et le paiement n’est pas ouvert. L’abonnement est prépayé chaque mois, sans renouvellement automatique prévu. Vos données devraient rester accessibles.',paymentTitle:'Comment fonctionnera le paiement',paymentIntro:'Après l’aperçu d’une heure, l’abonnement nécessitera internet et votre validation pour chaque mois prépayé.',paymentStep1:'Choisissez une offre et vérifiez son prix mensuel et sa durée avant de payer.',paymentStep2:'Saisissez le numéro Safaricom M-Pesa qui recevra la demande de paiement.',paymentStep3:'Vérifiez la demande STK Safaricom. Saisissez votre code PIN M-Pesa uniquement dans cette demande.',paymentStep4:'Attendez la vérification sécurisée; l’application indiquera Pending jusqu’à la confirmation Safaricom.',paymentStep5:'Conservez votre clé de récupération, puis vérifiez ou restaurez l’abonnement en ligne.',paymentSafetyLabel:'Sécurité des paiements :',paymentSafety:'Aucun renouvellement automatique prévu. Ne communiquez jamais votre PIN et ne prenez pas une capture SMS pour preuve.',
-      installTitle:'Installer l’application Android',installIntro:'Le lien APK sera ajouté lorsqu’une version sera prête. Téléchargez uniquement depuis ce site officiel.',installStep1:'Utilisez le lien APK officiel de cette page; évitez les fichiers transférés ou republiés.',installStep2:'Ouvrez l’APK téléchargé depuis Téléchargements ou l’application Fichiers.',installStep3:'Si demandé, autorisez cette application de téléchargement à installer des applications inconnues, puis revenez.',installStep4:'Vérifiez les permissions. L’accès aux SMS sert uniquement à l’import M-Pesa facultatif.',installStep5:'Avant de désinstaller ou réinitialiser le téléphone, exportez et sauvegardez vos données; elles peuvent ne pas être restaurées.',installPending:'Téléchargement APK pas encore disponible',installHelpLabel:'Si Android bloque l’installation :',installHelp:'vérifiez que l’APK vient de ce site et autorisez l’installation depuis l’application utilisée. Désactivez ensuite cette autorisation.'
+      navPlans:'Offres et téléchargement',plansKicker:'Offres · selon votre usage de PesaPlanner',plansTitle:'Des offres claires, sans surprise.',plansIntro:'Choisissez une formule selon les outils souhaités. Les tarifs sont mensuels ; le paiement s’effectue dans l’application Android.',plansStatusTitle:'Le paiement s’effectue dans l’application Android.',plansStatusText:'Ce site ne collecte pas les paiements. Vérifiez le montant total et la durée dans l’application avant le paiement mobile Paystack.',
+      freeBadge:'Personnel + étudiant',freePrice:'49 KSh / mois',freeSummary:'Une gestion quotidienne des finances personnelles et étudiantes.',freeFeature1:'Profils personnel et étudiant avec conseils de dépenses quotidiennes',freeFeature2:'Budgets, factures, dettes et objectifs d’épargne',freeFeature3:'Planification des études, du semestre et du salaire',freeFeature4:'Données conservées sur l’appareil ; fonctions principales utilisables hors ligne',freeMissLabel:'Conditions :',freeMiss:'L’accès prépayé ne se renouvelle pas automatiquement. Vos données financières restent accessibles après expiration.',freeAction:'Voir la disponibilité Android',
+      plusBadge:'Pour la petite entreprise et le foyer',plusPrice:'89 KSh / mois',plusSummary:'Tout Lite, avec des outils professionnels et familiaux.',plusFeature1:'Tout Lite',plusFeature2:'Enregistrez ventes, coûts, stocks et flux de caisse.',plusFeature3:'Organisez les factures du foyer et les objectifs familiaux sur l’appareil.',plusFeature4:'Suivez les stocks de cuisine et planifiez les repas.',plusFeature5:'Passez entre les outils personnels, professionnels et familiaux.',plusFeature6:'Les fonctions débloquées utilisent le même registre local.',plusFeature7:'Accédez aux analyses financières détaillées de Plus.',plusMissLabel:'Note foyer :',plusMiss:'Les données du foyer restent sur l’appareil ; aucun compte partagé ni synchronisation cloud.',plusAction:'Voir la disponibilité Android',
+      maxBadge:'Tout Plus, avec scan des reçus',maxPrice:'129 KSh / mois',maxSummary:'Tout Plus, avec la numérisation photo des reçus.',maxFeature1:'Tout Plus',maxFeature2:'Photographiez un reçu pour aider à créer une dépense.',maxFeature3:'Vérifiez et confirmez les détails avant l’enregistrement.',maxFeature4:'Automatisez les règles récurrentes et exportez en PDF, Excel ou CSV',maxFeature5:'Gérez ventes, coûts, quantités, prix et seuils de stock; reliez les opérations M-Pesa aux mouvements de stock',maxFeature6:'Vérifiez les doublons et opérations incertaines, nettoyez les données et annulez les actions prises en charge',maxFeature7:'Exportez des CSV filtrés, rapports PDF classés et sauvegardes JSON complètes; protégez les PDF par PIN',maxStatusLabel:'Vérifiez le reçu :',maxStatus:'Les détails extraits sont des suggestions ; relisez-les avant de les ajouter.',maxAction:'Voir la disponibilité Android',
+      plansFootnote:'Les tarifs correspondent aux prix mensuels actuels dans l’application. Prépayez un, quatre ou douze mois ; l’accès prend fin à la date indiquée sans renouvellement automatique. Le surclassement peut être calculé au prorata du temps restant.',paymentTitle:'Comment fonctionnera le paiement',paymentIntro:'Le paiement nécessite Internet. L’application ouvre le paiement mobile Paystack ; l’offre est activée après vérification du paiement.',paymentStep1:'Choisissez Lite, Plus ou Max et prépayez un, quatre ou douze mois.',paymentStep2:'Vérifiez le montant, le numéro de téléphone et l’e-mail saisis dans l’application.',paymentStep3:'Effectuez le paiement mobile via Paystack. Saisissez le code uniquement dans la demande du prestataire.',paymentStep4:'L’application vérifie le statut ; l’offre s’active après confirmation du serveur.',paymentStep5:'Après réinstallation, utilisez le numéro fourni au paiement pour restaurer l’offre.',paymentSafetyLabel:'Sécurité des paiements :',paymentSafety:'Aucun renouvellement automatique. Ne partagez jamais votre code M-Pesa et ne considérez pas une capture comme une confirmation.',
+      installTitle:'Installer l’application Android',installIntro:'Téléchargez ici la version Android officielle lorsqu’elle sera disponible. Installez uniquement les fichiers publiés par PesaPlanner.',installStep1:'Utilisez le lien APK officiel de cette page; évitez les fichiers transférés ou republiés.',installStep2:'Ouvrez l’APK téléchargé depuis Téléchargements ou l’application Fichiers.',installStep3:'Si demandé, autorisez cette application de téléchargement à installer des applications inconnues, puis revenez.',installStep4:'Vérifiez les permissions. L’accès aux SMS sert uniquement à l’import M-Pesa facultatif.',installStep5:'Avant de désinstaller ou réinitialiser le téléphone, exportez et sauvegardez vos données; elles peuvent ne pas être restaurées.',installPending:'Le téléchargement Android n’est pas encore disponible ici',apkDownloadLabel:'Télécharger l’APK',apkReleasePath:'Emplacement de publication : ajoutez l’APK signé dans downloads/PesaPlanner.apk. Le bouton apparaîtra lorsque le fichier sera publié.',installHelpLabel:'Si Android bloque l’installation :',installHelp:'vérifiez que l’APK vient de ce site et autorisez l’installation depuis l’application utilisée. Désactivez ensuite cette autorisation.'
     }
   };
   const original = {};
@@ -2056,7 +2142,7 @@ const target = !isNaN(custom)
     const visionP=Array.from(document.querySelectorAll('.vision-inner p'));const vp=['Kwa mwanafunzi wa chuo kikuu, pesa huathiri karibu kila sehemu ya maisha ya kila siku: makazi, chakula, usafiri, gharama za ghafla na muda wa kuzingatia masomo na malengo.','PesaPlanner inalenga kupunguza mkanganyiko kwa kuleta pamoja miamala, kuonyesha malipo yaliyopangwa, kupanga matumizi na kurahisisha kuelewa hali ya fedha.','Lengo si kuhukumu kila ununuzi au kusema wanafunzi wasifurahie maisha. Comrades wanastahili kufurahia. Pia wanastahili kujua kama mipango ya wikendi inamudika kabla Jumatatu haijafika na kodi.','Tunataka kuwasaidia wanafunzi kuelewa pesa zao, kufanya maamuzi kwa makusudi na kupanga kwa kutumia taarifa walizonazo.'];visionP.forEach((p,i)=>{if(vp[i])p.textContent=vp[i];});
     const visionLines=Array.from(document.querySelectorAll('.vision-inner .line'));['Muamala mmoja uliopangwa kwa wakati.','Malipo moja yanayoonekana kwa wakati.','Pesa moja kidogo kutoweka bila kueleweka.'].forEach((t,i)=>{if(visionLines[i])visionLines[i].textContent=t;});
     const disclaimer=document.querySelector('.solution .reveal[style*="max-width:760px"]');if(disclaimer){const ps=disclaimer.querySelectorAll('p');if(ps[0])ps[0].textContent='PesaPlanner si benki, mkopeshaji wala mbadala wa M-Pesa. Ni zana ya kusimamia fedha binafsi. Inajengwa ikizingatia maisha ya chuo Kenya: HELB, upkeep, kodi, nauli ya matatu, hosteli, vibanda, kazi za ziada, Fuliza na madeni yasiyo rasmi — pamoja na changamoto ya kudumisha pesa hadi mapato yajayo.';if(ps[1])ps[1].textContent='PesaPlanner: Kwa sababu “nitajipanga” inastahili mpango halisi.';}
-    const ctaText=document.querySelector('.cta p:not(.cta-note)');if(ctaText)ctaText.textContent='Jiunge na orodha ya wanaotaka kujaribu mapema, upate taarifa PesaPlanner itakapozinduliwa. Kujua salio lako ni jambo moja — kujua kama unaweza kumudu maisha yako ni jambo jingine.';
+    const ctaText=document.querySelector('.cta p:not(.cta-note)');if(ctaText)ctaText.textContent='Angalia mipango na uone kilicho ndani yake. Malipo hufanyika ndani ya Android app kupitia Paystack; tovuti hii haihifadhi ledger yako ya fedha wala PIN ya M-Pesa.';
     document.querySelectorAll('.phone-badge').forEach((node,i)=>{const label=Array.from(node.childNodes).find(child=>child.nodeType===Node.TEXT_NODE&&child.textContent.trim());if(label)label.textContent=i===0?'Kodi imelipwa':'Wiki bila Fuliza';});
     const brandPromise=document.querySelector('.footer-brand p:not(.tagline)');if(brandPromise)brandPromise.textContent='Pesa yako. Maisha yako ya chuoni. Uamuzi wako.';
     const featuredTitle=document.querySelector('.video-meta h3');if(featuredTitle)featuredTitle.textContent='Kila kitu kinachofanywa na PesaPlanner';
@@ -2248,7 +2334,7 @@ const target = !isNaN(custom)
     const visionP=Array.from(document.querySelectorAll('.vision-inner p'));const vp=['Kwa campus student, doh inaaffect karibu kila kitu kwa daily life: unaishi wapi, unakula nini, unasafiri aje na unaeza focus aje kwa studies na goals zako.','PesaPlanner inatarget kupunguza confusion kwa kuunganisha activity, kuonyesha commitments, kupanga spending na kufanya financial picture iwe easier kuelewa.','Si ya kujudge kila purchase ama kusema comrades wasienjoy. Comrades wanastahili kufun. Pia wajue kama weekend plans ni affordable kabla Monday ilete rent reminder na vendetta.','Goal ni kusaidia students wajue doh yao, wachague intentional na waplan na info wako nayo.'];visionP.forEach((p,i)=>{if(vp[i])p.textContent=vp[i];});
     const visionLines=Array.from(document.querySelectorAll('.vision-inner .line'));['Transaction moja organised at a time.','Commitment moja visible at a time.','Wueh moja kidogo ya “doh ilienda wapi?”'].forEach((t,i)=>{if(visionLines[i])visionLines[i].textContent=t;});
     const disclaimer=document.querySelector('.solution .reveal[style*="max-width:760px"]');if(disclaimer){const ps=disclaimer.querySelectorAll('p');if(ps[0])ps[0].textContent='PesaPlanner si bank, lender ama M-Pesa alternative. Ni personal finance tool. Inaibuildiwa Kenyan campus realities: HELB, upkeep, rent, matatu fare, hostels, vibandas, side hustles, Fuliza, informal debt na mission ya kufanya doh i-last mpaka income iingie.';if(ps[1])ps[1].textContent='PesaPlanner: juu “nitajipanga” inafaa ikuwe na actual plan.';}
-    const ctaText=document.querySelector('.cta p:not(.cta-note)');if(ctaText)ctaText.textContent='Join early access upate update PesaPlanner ikizinduliwa. Kuona balance ni kitu moja — kujua kama unaweza afford life yako ni story ingine.';
+    const ctaText=document.querySelector('.cta p:not(.cta-note)');if(ctaText)ctaText.textContent='Angalia mipango na features zake. Payment inafanyika ndani ya Android app kupitia Paystack; website hii haicollect financial ledger yako wala PIN ya M-Pesa.';
     document.querySelectorAll('.phone-badge').forEach((node,i)=>{const label=Array.from(node.childNodes).find(child=>child.nodeType===Node.TEXT_NODE&&child.textContent.trim());if(label)label.textContent=i===0?'Rent imelipwa':'Wiki bila Fuliza';});
     const brandPromise=document.querySelector('.footer-brand p:not(.tagline)');if(brandPromise)brandPromise.textContent='Doh yako. Campus life yako. Control iko kwako.';const tagline=document.querySelector('.footer-brand .tagline');if(tagline)tagline.textContent='“Doh yako isiwe mystery ya semester.”';
     const featuredTitle=document.querySelector('.video-meta h3');if(featuredTitle)featuredTitle.textContent='Kila kitu PesaPlanner inafanya';const featuredCopy=document.querySelector('.video-meta > p');if(featuredCopy)featuredCopy.textContent='Full app tour — M-Pesa import, safe-to-spend, budgets, debt tracking, meal planning, PesaBuddy na offline-first engine inakeep records local.';const featuredEyebrow=document.querySelector('.video-meta .v-eyebrow');if(featuredEyebrow)featuredEyebrow.textContent='Featured · Full walkthrough';const poster=document.querySelector('.poster-label');if(poster)poster.textContent='Full walkthrough — dakika 4 sekunde 53';
@@ -2416,6 +2502,27 @@ const target = !isNaN(custom)
   <button type="button" data-consent="accepted">Allow analytics</button>
   <button type="button" data-consent="rejected">Reject optional</button>
 </div>
+<style>
+:root[data-theme="light"] #pp-cookie-banner{background:#fff;color:#17243a;border-color:#c5cfdd;box-shadow:0 16px 44px rgba(20,43,77,.18)}
+:root[data-theme="light"] #pp-cookie-banner a{color:#1759ad}
+:root[data-theme="light"] #pp-cookie-banner button{color:#174b91;border-color:#2869d7}
+:root[data-theme="light"] #pp-cookie-banner button[data-consent="accepted"]{background:#f4c74a;color:#17243a;border-color:#e3ad24}
+body,:root{transition:background-color .22s ease,color .22s ease}
+@media(prefers-reduced-motion:reduce){body,:root{transition:none}}
+</style>
+<script>
+(function(){
+  var root=document.documentElement,button=document.getElementById('themeToggle'),meta=document.querySelector('meta[name="theme-color"]');
+  function update(theme){
+    var dark=theme==='dark';root.dataset.theme=dark?'dark':'light';
+    if(button){var label=dark?'Light':'Dark';button.setAttribute('aria-label','Switch to '+label.toLowerCase()+' theme');button.title='Switch to '+label.toLowerCase()+' theme';var icon=button.querySelector('.theme-toggle-icon'),text=button.querySelector('.theme-toggle-label');if(icon)icon.textContent=dark?'☀':'☾';if(text)text.textContent=label;}
+    if(meta)meta.content=dark?'#050a18':'#f7f8fc';
+  }
+  if(!button)return;
+  update(root.dataset.theme==='dark'?'dark':'light');
+  button.addEventListener('click',function(){var theme=root.dataset.theme==='dark'?'light':'dark';update(theme);try{localStorage.setItem('pesaplanner-theme',theme)}catch(_){}});
+})();
+</script>
 <script>
 (function(){
   var button=document.getElementById('navMenuToggle');
