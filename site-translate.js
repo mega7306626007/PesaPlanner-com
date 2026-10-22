@@ -62,8 +62,21 @@
     style.textContent = '.site-translate-toolbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;padding:12px 18px;background:#0c1a2b;color:#b9c8dc;border-bottom:1px solid #26364b;font:500 13px/1.45 system-ui,sans-serif}.site-translate-toolbar select,.site-translate-toolbar button{border:1px solid #43546c;border-radius:10px;padding:9px 12px;background:#14243a;color:#f4f7fc;font:inherit}.site-translate-toolbar button{background:#f6c453;border-color:#f6c453;color:#17130a;font-weight:750;cursor:pointer}.site-translate-toolbar button:focus-visible,.site-translate-toolbar select:focus-visible{outline:3px solid #77a9ff;outline-offset:2px}.site-translate-note{max-width:620px}.site-translate-standalone{margin:0 0 16px;border:1px solid #26364b;border-radius:14px}.site-translate-standalone label{font-weight:700}@media(max-width:600px){.site-translate-toolbar{justify-content:flex-start;padding:12px}.site-translate-note{flex-basis:100%}}';
     document.head.append(style);
   };
-  if (current || !main) return;
   addStyles();
+  if (current) {
+    const toolbar = document.createElement('div'); toolbar.className = 'site-translate-toolbar';
+    toolbar.innerHTML = '<button type="button" class="site-translate-button">Translate full page with Google ↗</button><span class="site-translate-note">Choose Kiswahili or French above. Google opens the public page; automated wording can be imperfect.</span>';
+    const nav = current.closest('.nav');
+    (nav || current.closest('.nav-inner') || current.parentElement).after(toolbar);
+    toolbar.querySelector('button').addEventListener('click', () => {
+      const language = current.value;
+      if (language === 'sw' || language === 'fr') googleTranslate(language);
+      else if (language === 'sheng') toolbar.querySelector('.site-translate-note').textContent = 'Sheng copy is written for the homepage. Other pages can use the selector below for Sheng headings and key interface copy.';
+      else toolbar.querySelector('.site-translate-note').textContent = 'Original / Mix and English use the site’s own copy. Choose Kiswahili or French to translate the public page.';
+    });
+    return;
+  }
+  if (!main) return;
   const toolbar = document.createElement('div'); toolbar.className = 'site-translate-toolbar site-translate-standalone';
   toolbar.innerHTML = '<label for="siteTranslateLanguage">Language</label><select id="siteTranslateLanguage" aria-label="Choose page language"><option value="mix">Original / Mix</option><option value="sheng">Sheng</option><option value="sw">Kiswahili</option><option value="fr">Français</option></select><button type="button">Translate full page with Google ↗</button><span class="site-translate-note">Sheng uses PesaPlanner-written copy for this page’s headings and key text. Kiswahili and French open in Google Translate.</span>';
   main.before(toolbar);
