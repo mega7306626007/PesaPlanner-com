@@ -235,8 +235,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 :root[data-theme="light"] .nav-cta,:root[data-theme="light"] .mobile-nav-cta{background:var(--yellow-fill)!important;color:#172b25!important}
 @media(max-width:1080px){.theme-toggle{width:44px;height:44px;min-height:44px;padding:0;flex:0 0 44px}.theme-toggle-label{display:none}}
 .mobile-nav-cta{display:none}
-/* Keep the language and theme controls on the first row on common laptop and desktop widths. */
-@media(max-width:2200px){
+/* Collapse the long navigation only when it can no longer share the row with the controls. */
+@media(max-width:1440px){
   .nav-inner{position:relative;gap:14px}
   .nav-links{display:none;position:absolute;top:100%;left:18px;right:18px;z-index:101;flex-direction:column;gap:2px;margin:8px 0 0;padding:10px;max-height:calc(100vh - 82px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--border-2);border-radius:16px;background:var(--bg-2);box-shadow:0 16px 36px #0008}
   .nav-links.is-open{display:flex}
