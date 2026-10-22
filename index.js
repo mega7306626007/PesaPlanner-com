@@ -11,6 +11,8 @@ const TIER_PRICES = Object.freeze({ 1: 49, 2: 89, 3: 129 });
 const BILLING_PERIODS = Object.freeze({ month: 1, semester: 4, year: 12 });
 const ACCESS_TOKEN_BYTES = 32;
 const DAY_MS = 24 * 60 * 60 * 1000;
+const RESTORE_ATTEMPT_LIMIT = 8;
+const RESTORE_ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
 
 function logBillingEvent(event, details = {}) {
   console.info(JSON.stringify({ service: 'billing', event, at: new Date().toISOString(), ...details }));
@@ -73,6 +75,7 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
   if (!licenseSecret || licenseSecret.length < 32) throw new Error('LICENSE_SECRET_KEY must contain at least 32 characters.');
 
   const app = express();
+  const restoreAttemptsByIp = new Map();
   const normalizedPublicBaseUrl = String(publicBaseUrl).replace(/\/+$/, '');
   app.disable('x-powered-by');
   app.set('trust proxy', 1);
@@ -106,6 +109,7 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
     `);
     await pool.query('ALTER TABLE subscription_payments ADD COLUMN IF NOT EXISTS duration_months SMALLINT NOT NULL DEFAULT 1');
     await pool.query('ALTER TABLE subscription_payments ADD COLUMN IF NOT EXISTS last_verification_at TIMESTAMPTZ');
+    await pool.query('ALTER TABLE subscription_payments ADD COLUMN IF NOT EXISTS restore_device_hash TEXT');
   }
 
   async function paystackRequest(path, options = {}) {
@@ -308,9 +312,11 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
   app.post('/api/pay/status', async (req, res) => {
     const reference = String(req.body?.reference || '');
     const accessToken = String(req.body?.access_token || '');
-    if (!/^pp-[a-f0-9]{36}$/.test(reference) || accessToken.length < 32 || accessToken.length > 128) {
+    const deviceId = req.body?.device_id;
+    if (!/^pp-[a-f0-9]{36}$/.test(reference) || accessToken.length < 32 || accessToken.length > 128 || typeof deviceId !== 'string' || deviceId.length < 8 || deviceId.length > 256) {
       return res.status(400).json({ success: false, message: 'Invalid checkout reference.' });
     }
+    const deviceHash = crypto.createHmac('sha256', licenseSecret).update(deviceId).digest('hex');
     try {
       const result = await pool.query(
         'SELECT * FROM subscription_payments WHERE reference = $1 LIMIT 1',
@@ -336,6 +342,15 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
         }
       }
       if (payment?.status === 'success') {
+        const bound = await pool.query(
+          `UPDATE subscription_payments SET restore_device_hash = COALESCE(restore_device_hash, $2)
+           WHERE reference = $1 AND (restore_device_hash IS NULL OR restore_device_hash = $2)
+           RETURNING reference`,
+          [reference, deviceHash]
+        );
+        if (!bound.rows[0]) {
+          return res.status(403).json({ success: false, message: 'This purchase could not be verified on this device.' });
+        }
         return res.json({
           success: true,
           status: 'success',
@@ -351,80 +366,88 @@ function createApp({ pool, fetchImpl = fetch, paystackSecret, licenseSecret, pub
   });
 
   app.post('/api/license/lookup', async (req, res) => {
-    const { phone } = req.body || {};
-    if (!phone) return res.status(400).json({ success: false, message: 'Phone number required' });
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    if (restoreAttemptsByIp.size > 5000) {
+      for (const [key, entry] of restoreAttemptsByIp) {
+        if (now - entry.startedAt >= RESTORE_ATTEMPT_WINDOW_MS) restoreAttemptsByIp.delete(key);
+      }
+    }
+    const attempts = restoreAttemptsByIp.get(ip);
+    if (attempts && now - attempts.startedAt < RESTORE_ATTEMPT_WINDOW_MS && attempts.count >= RESTORE_ATTEMPT_LIMIT) {
+      return res.status(429).json({ success: false, message: 'We could not verify this purchase. Check your details and try again later.' });
+    }
+    if (!attempts || now - attempts.startedAt >= RESTORE_ATTEMPT_WINDOW_MS) {
+      restoreAttemptsByIp.set(ip, { startedAt: now, count: 1 });
+    } else {
+      attempts.count += 1;
+    }
+
+    const { phone, reference, device_id: deviceId } = req.body || {};
+    const genericFailure = () => res.status(200).json({
+      success: false,
+      message: 'We could not verify this purchase. Check your details and try again.',
+      tier: null,
+      expires_at: null,
+      token: null
+    });
     const normalized = normalizeKenyanPhone(phone);
-    if (!normalized) return res.status(400).json({ success: false, message: 'Invalid Kenyan phone number' });
+    if (!normalized || !/^pp-[a-f0-9]{36}$/.test(String(reference || '')) || typeof deviceId !== 'string' || deviceId.length < 8 || deviceId.length > 256) {
+      return genericFailure();
+    }
+    const deviceHash = crypto.createHmac('sha256', licenseSecret).update(deviceId).digest('hex');
 
     try {
       const pendingResult = await pool.query(
         `SELECT reference FROM subscription_payments
-         WHERE phone = $1 AND status IN ('pending', 'failed')
+         WHERE reference = $1 AND phone = $2 AND status IN ('pending', 'failed')
            AND created_at >= NOW() - INTERVAL '13 months'
-         ORDER BY created_at DESC
-         LIMIT 3`,
-        [normalized]
+         LIMIT 1`,
+        [reference, normalized]
       );
-      let paymentNeedsAnotherCheck = false;
-      const duePayments = [];
-      for (const payment of pendingResult.rows) {
+      if (pendingResult.rows[0]) {
         const due = await pool.query(
           `UPDATE subscription_payments SET last_verification_at = NOW()
-           WHERE reference = $1 AND status IN ('pending', 'failed')
+           WHERE reference = $1 AND phone = $2 AND status IN ('pending', 'failed')
              AND (last_verification_at IS NULL OR last_verification_at < NOW() - INTERVAL '10 seconds')
            RETURNING reference`,
-          [payment.reference]
+          [reference, normalized]
         );
-        if (due.rows[0]) duePayments.push(payment.reference);
-        else paymentNeedsAnotherCheck = true;
-      }
-      const reconciledPayments = await Promise.allSettled(
-        duePayments.map((reference) => verifyAndActivate(reference))
-      );
-      for (const result of reconciledPayments) {
-        if (result.status === 'rejected' || result.value?.status !== 'success') {
-          paymentNeedsAnotherCheck = true;
-        }
+        if (due.rows[0]) await verifyAndActivate(reference);
       }
 
       const result = await pool.query(
-        'SELECT * FROM subscription_payments WHERE phone = $1 AND status = $2 AND license_token IS NOT NULL ORDER BY created_at DESC',
-        [normalized, 'success']
+        `SELECT * FROM subscription_payments
+         WHERE reference = $1 AND phone = $2 AND status = $3 AND license_token IS NOT NULL
+         LIMIT 1`,
+        [reference, normalized, 'success']
       );
-      const activeLicenses = result.rows
-        .map((license) => {
-          const verified = verifyLicense(license.license_token, licenseSecret, false);
-          if (!verified || verified.phone !== normalized || verified.tier !== Number(license.tier)) return null;
-          return { license, verified };
-        })
-        .filter(Boolean)
-        .sort((left, right) => right.verified.tier - left.verified.tier || right.verified.expiresAt - left.verified.expiresAt);
-      const active = activeLicenses[0];
-      if (!active) {
-        return res.json({
-          success: false,
-          message: paymentNeedsAnotherCheck
-            ? 'We could not confirm an active plan yet. If you just paid, do not pay again; wait a little and try restoring again.'
-            : 'No active plan found for this phone number.',
-          tier: null,
-          expires_at: null,
-          token: null,
-          reference: null
-        });
+      const license = result.rows[0];
+      const verified = license && verifyLicense(license.license_token, licenseSecret, false);
+      if (!license || !verified || verified.phone !== normalized || verified.tier !== Number(license.tier)) {
+        return genericFailure();
       }
 
-      const { license, verified } = active;
-      res.json({
+      const bound = await pool.query(
+        `UPDATE subscription_payments SET restore_device_hash = COALESCE(restore_device_hash, $2)
+         WHERE reference = $1 AND phone = $3 AND status = 'success'
+           AND (restore_device_hash IS NULL OR restore_device_hash = $2)
+         RETURNING reference`,
+        [reference, deviceHash, normalized]
+      );
+      if (!bound.rows[0]) return genericFailure();
+
+      restoreAttemptsByIp.delete(ip);
+      return res.json({
         success: true,
         message: null,
         tier: verified.tier,
         expires_at: verified.expiresAt,
-        token: license.license_token,
-        reference: license.paystack_transaction_id || license.reference
+        token: license.license_token
       });
     } catch {
       logBillingEvent('license_lookup_failed');
-      res.status(500).json({ success: false, message: 'Lookup failed. Please try again.' });
+      return res.status(503).json({ success: false, message: 'We could not verify this purchase. Check your details and try again.' });
     }
   });
 

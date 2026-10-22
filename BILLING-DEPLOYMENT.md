@@ -15,6 +15,8 @@ Use the existing Render web service at `https://pesaplanner-com.onrender.com` (d
 
 Deploy, then check `https://pesaplanner-com.onrender.com/health`; it should return `{"status":"ok"}`.
 
+Purchase restoration uses the checkout phone number plus the private PesaPlanner payment reference from the receipt. The server binds each verified purchase to the first Android device that confirms it, storing only a keyed hash of the device identifier. This adds no SMS/OTP provider or per-message charge. A user who changes devices and cannot restore with the original device identifier needs support recovery; do not remove the receipt-reference check or device binding to work around that case.
+
 ## Paystack dashboard
 
 In the **Live** account, add this exact webhook URL: `https://pesaplanner-com.onrender.com/api/webhook` (one slash before `api`). Do not append a second slash. The endpoint accepts Paystack POST requests; opening it in a browser sends GET and may show `Cannot GET`, which is expected. Ensure mobile money / M-Pesa is enabled for the account and KES is available. The API initializes each transaction and supplies the callback URL; no secret belongs in the callback URL. Paystack approval in the dashboard is not proof that a live payment has been tested.
