@@ -235,6 +235,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 :root[data-theme="light"] .nav-cta,:root[data-theme="light"] .mobile-nav-cta{background:var(--yellow-fill)!important;color:#172b25!important}
 @media(max-width:1080px){.theme-toggle{width:44px;height:44px;min-height:44px;padding:0;flex:0 0 44px}.theme-toggle-label{display:none}}
 .mobile-nav-cta{display:none}
+/* Keep the language and theme controls on the first row on common laptop and desktop widths. */
+@media(max-width:2200px){
+  .nav-inner{position:relative;gap:14px}
+  .nav-links{display:none;position:absolute;top:100%;left:18px;right:18px;z-index:101;flex-direction:column;gap:2px;margin:8px 0 0;padding:10px;max-height:calc(100vh - 82px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--border-2);border-radius:16px;background:var(--bg-2);box-shadow:0 16px 36px #0008}
+  .nav-links.is-open{display:flex}
+  .nav-links a{display:block;padding:12px;min-height:44px}
+  .nav-menu-toggle{display:grid;flex:0 0 44px;width:44px;height:44px;place-items:center;touch-action:manipulation;cursor:pointer}
+}
 @media(max-width:1200px){.nav-inner{gap:12px}.nav-links a{padding:8px 9px;font-size:13px}.language-picker select{max-width:140px}}
 @media(max-width:1080px){.nav-inner{position:relative;gap:10px;padding:10px 14px}.nav-links{display:none;position:absolute;top:100%;left:12px;right:12px;z-index:101;flex-direction:column;gap:2px;margin:8px 0 0;padding:10px;max-height:calc(100vh - 82px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid var(--border-2);border-radius:16px;background:var(--bg-2);box-shadow:0 16px 36px #0008}.nav-links.is-open{display:flex}.nav-links a{display:block;padding:12px;min-height:44px}.nav-menu-toggle{display:grid;flex:0 0 44px;width:44px;height:44px;place-items:center;touch-action:manipulation;cursor:pointer}.nav-cta{display:none}.mobile-nav-cta{display:block!important;margin-top:6px;background:var(--yellow)!important;color:#050a18!important;font-weight:700!important}.language-picker{margin-left:auto;width:44px;height:44px;justify-content:center;padding:0;position:relative;flex:0 0 44px}.language-icon{display:block}.language-picker select{position:absolute;inset:0;width:100%;height:100%;max-width:none;padding:0;opacity:0;cursor:pointer}}
 .language-picker{display:flex;align-items:center;gap:7px;flex:0 0 auto;border:1px solid var(--border-2);border-radius:999px;padding:0 10px;background:var(--surface);color:var(--muted)}
@@ -1129,7 +1137,6 @@ section{position:relative}
       <a href="#personas">Who It's For</a>
       <a href="#vision">Vision</a>
       <a href="learn/">Money lessons</a>
-      <a href="#plans" data-copy-key="navPlans">Plans &amp; download</a>
       <a class="mobile-nav-cta" href="#plans">See plans</a>
     </div>
     <a class="nav-cta" href="#plans">See plans</a>
@@ -1154,9 +1161,9 @@ section{position:relative}
     <div class="hero-grid">
       <div class="hero-copy">
       <span class="eyebrow"><span class="pulse"></span>Built for Kenya · Offline-first · Every kind of money life</span>
-      <h1>Every shilling<br>has a <span class="accent">next move.</span><br>Make yours count.</h1>
+      <h1>Your money<br>has <span class="accent">plans.</span><br>Do you?</h1>
         <p class="hero-sub">
-            Salary, sales, a gig or support from home — every shilling already has somewhere to go. See what is committed, plan the next move and keep your money organised, even when the internet is not.
+            Biashara was busy. So where did the money go? Salary imeingia; rent has claimed first dibs. You rode since dawn; fuel and repairs took their cut. And “kesho nitakulipa” has entered another financial year. Your money has plans. Let’s see them.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#plans">
@@ -1234,23 +1241,23 @@ section{position:relative}
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="sec-eyebrow">The everyday money squeeze · 01</span>
-      <h2>Money moves fast.<br>Make your next move <span class="accent">count.</span></h2>
-      <p>Payday, biashara sales, a matatu stage, school fees, rent, stock and family support: money decisions happen everywhere. PesaPlanner helps you see the whole picture before the month starts making decisions for you.</p>
+      <h2>Sales were good.<br>So why is the till <span class="accent">empty?</span></h2>
+      <p>Salary imeingia; rent has dibs. The shop needs stock. Tokens have gone. Fare is negotiating with lunch. The month is halfway through and your money has somehow attended more meetings than you have.</p>
     </div>
     <div class="problem-intro reveal">
-      <div class="quote">“Nimelipwa. Sasa hii pesa yote imeenda wapi?”</div>
-      <p class="side-note">It could be a shop restocking before the rush, a family mapping bills to payday, a teacher planning for school costs, a rider balancing fuel and home, or a student making upkeep last. The details change. The pressure to make every shilling count is familiar.</p>
+      <div class="quote">“Biashara ilikuwa busy. Mbona till iko empty?”</div>
+      <p class="side-note">The boda was on the road since dawn, but fuel and repairs got paid first. The teacher’s salary landed and fees were waiting at the door. The family bought shopping, then forgot what was actually in the cupboard. Different lives, same plot twist: the money went somewhere. The question is where—and what’s already waiting for the rest.</p>
     </div>
     <div class="problem-grid">
-      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 01</span><h3>Your money is scattered across the day</h3><p>M-Pesa, cash, bank, till sales, a side gig. The pieces are real, but putting them together can mean digging through messages, receipts and memory.</p><span class="tag">One clearer money picture.</span></article>
-      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 02</span><h3>A balance already has a job</h3><p>Rent, stock, school fees, food, fuel, tokens and family needs can all be waiting for the same money. An account balance rarely tells the whole story.</p><span class="tag">Know what is spoken for.</span></article>
-      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 03</span><h3>Income does not always arrive on schedule</h3><p>Casual work, commission, biashara, freelance work and seasonal income make it harder to plan around a neat monthly payday.</p><span class="tag">Plan for real cash flow.</span></article>
-      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 04</span><h3>Small spends add up quietly</h3><p>Fare, airtime, snacks, a quick top-up and “si ni mia tu” moments seem manageable one by one. Together, they can change what is left for the week.</p><span class="tag">Little by little is still money.</span></article>
-      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 05</span><h3>Home and work often share the same pocket</h3><p>When household money and biashara cash mix, it gets harder to tell what the shop earned and what the family needs next.</p><span class="tag">Separate the picture, keep it simple.</span></article>
-      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 06</span><h3>Debts and promises are easy to forget</h3><p>A customer will pay later. A friend owes you. You borrowed for stock. A simple record helps keep the details straight without promising that anyone will pay.</p><span class="tag">“Kesho” needs a record.</span></article>
-      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 07</span><h3>Next month arrives with its own plans</h3><p>Fees, uniforms, repairs, rent, stock and family events do not wait until you feel ready. Seeing likely costs earlier gives you room to plan.</p><span class="tag">A little warning changes a lot.</span></article>
-      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 08</span><h3>One budget cannot fit every Kenyan life</h3><p>A teacher, a market seller, a boda rider, a household and a student all earn, spend and plan differently. Your setup should begin with your priorities.</p><span class="tag">Your life sets the categories.</span></article>
-      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 09</span><h3>Money admin takes time from everything else</h3><p>Rebuilding last week from memory is time away from work, family, rest, study or the next customer. A clearer record means less guesswork.</p><span class="tag">More time for what matters.</span></article>
+      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 01</span><h3>Your money has gone on a tour</h3><p>M-Pesa, cash, bank, till sales, side gig. The evidence is everywhere; now you’re doing unpaid detective work across messages, receipts and “I’ll remember.”</p><span class="tag">Case file: your own money.</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 02</span><h3>That balance is already fully booked</h3><p>The app says KSh 5,000. Rent, fuel, stock, fees and home have each quietly reserved a piece. Your balance forgot to mention the guest list.</p><span class="tag">See what’s actually free.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 03</span><h3>Income has its own calendar</h3><p>Casual work, commission, biashara and freelance pay don’t always arrive on the same polite date every month. The bills, somehow, remain punctual.</p><span class="tag">Plan for the money you get.</span></article>
+      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 04</span><h3>“Si ni mia tu” formed a committee</h3><p>Fare, airtime, snacks and quick top-ups look innocent one at a time. Together, they’ve held several meetings and used the week’s budget as the venue.</p><span class="tag">Small spends have receipts too.</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 05</span><h3>The shop and home share one pocket</h3><p>Today’s till money pays for tomorrow’s stock, then school needs appear. Suddenly even you aren’t sure whether the biashara made money or just moved it around.</p><span class="tag">Untangle biashara and home.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 06</span><h3>“Kesho” is doing a long residency</h3><p>A customer will pay later. A friend owes you. You borrowed for stock. Write it down, because memory is not a debt collection department—and records can’t guarantee repayment.</p><span class="tag">Give “kesho” a paper trail.</span></article>
+      <article class="p-card reveal" style="--d:0ms"><span class="num">REALITY 07</span><h3>Next month has already sent the invoice</h3><p>Fees, uniforms, repairs, rent, stock and family events are warming up in the wings. A heads-up gives you a chance to plan before the dramatic entrance.</p><span class="tag">Future you deserves a warning.</span></article>
+      <article class="p-card reveal" style="--d:60ms"><span class="num">REALITY 08</span><h3>Your life did not come with a template</h3><p>A teacher, mama mboga, boda rider, household, student and duka owner have different money realities. A one-size budget has clearly never waited for matatu change.</p><span class="tag">Start with your kind of life.</span></article>
+      <article class="p-card reveal" style="--d:120ms"><span class="num">REALITY 09</span><h3>Rebuilding last week is a second job</h3><p>Which receipt was that? Who sent the money? Was it Tuesday or “around Tuesday”? You have better things to do than investigate your own lunch.</p><span class="tag">Less guesswork. More actual life.</span></article>
     </div>
   </div>
 </section>
@@ -1260,19 +1267,19 @@ section{position:relative}
   <div class="wrap">
     <div class="solution-inner reveal">
       <span class="sec-eyebrow" style="display:inline-flex">The Solution · 02</span>
-      <h2>Meet <span class="accent">PesaPlanner.</span><br>Your personal finance plug.</h2>
-      <p><strong>PesaPlanner is an offline-first money-management app for everyday Kenyan life.</strong> Bring your transactions, commitments, budgets and goals into one view — whether you are managing a household, a salary, a classroom, a route or a biashara.</p>
-      <p style="margin-top:-24px">Know what came in, what is already committed and what your next move could be. Keep records on your device and carry on planning when the network drops.</p>
+      <h2>Meet <span class="accent">PesaPlanner.</span><br>Your money’s unofficial investigator.</h2>
+      <p><strong>Ever looked at your balance and thought, “Hii pesa ilienda wapi?”</strong> PesaPlanner is an offline-first money-management app for Kenyan life. Bring transactions, bills, budgets and goals into one view—whether money comes from a salary, customers, a route, a classroom or home.</p>
+      <p style="margin-top:-24px">See what came in, what already has dibs, and what might be left. Your records stay on your device, so even when the network goes to take a break, the detective work can continue.</p>
     </div>
     <div class="four-q reveal">
-      <div class="q-item"><span class="q-num">QUESTION 01</span><details class="q-answer-details"><summary>Where is my money coming from?</summary><p class="q-answer">Scan supported M-Pesa SMS messages, or import an M-Pesa or bank statement. Review the transactions before adding them to your records.</p></details></div>
-      <div class="q-item"><span class="q-num">QUESTION 02</span><details class="q-answer-details"><summary>Where is it going?</summary><p class="q-answer">Categorise spending and compare periods to spot the biggest costs and changes in your habits.</p></details></div>
-      <div class="q-item"><span class="q-num">QUESTION 03</span><details class="q-answer-details"><summary>What have I already committed to spending?</summary><p class="q-answer">Track bills, recurring payments and debts so money due soon is part of your plan.</p></details></div>
-      <div class="q-item"><span class="q-num">QUESTION 04</span><details class="q-answer-details"><summary>What can I realistically afford next?</summary><p class="q-answer">Check safe-to-spend guidance using your balances, upcoming commitments and recent spending pace.</p></details></div>
+      <div class="q-item"><span class="q-num">QUESTION 01</span><details class="q-answer-details"><summary>Who sent money—and who was that till?</summary><p class="q-answer">Scan supported M-Pesa messages or import a statement. Check every suggested transaction before saving it; the app won’t pretend every mystery till is your best friend.</p></details></div>
+      <div class="q-item"><span class="q-num">QUESTION 02</span><details class="q-answer-details"><summary>Where did the “small small” money go?</summary><p class="q-answer">Categorise spending and compare periods. The snacks are innocent individually. The weekly total may request legal representation.</p></details></div>
+      <div class="q-item"><span class="q-num">QUESTION 03</span><details class="q-answer-details"><summary>What has already called dibs?</summary><p class="q-answer">Track bills, recurring costs and debts so rent, school fees and “nitakulipa kesho” are visible before you spend the same shilling twice.</p></details></div>
+      <div class="q-item"><span class="q-num">QUESTION 04</span><details class="q-answer-details"><summary>What might I actually afford next?</summary><p class="q-answer">Safe-to-spend guidance considers the balances, commitments and spending pace you recorded. It’s an estimate, not a bank balance or permission slip.</p></details></div>
     </div>
     <div class="reveal" style="text-align:center;margin-top:56px;max-width:760px;margin-left:auto;margin-right:auto">
-      <p style="font-size:16.5px;color:var(--muted);line-height:1.75">PesaPlanner is not a bank, lender or M-Pesa replacement. It is a personal money-management tool shaped around Kenyan realities: <span style="color:var(--blue-bright);font-weight:600">salary days, M-Pesa, biashara stock, matatu fare, rent, school fees, HELB, household bills, casual income and informal debts.</span> Your categories and choices stay yours.</p>
-      <p class="serif" style="font-size:22px;color:var(--yellow);margin-top:32px">PesaPlanner: Because "nitajipanga" deserves an actual plan.</p>
+      <p style="font-size:16.5px;color:var(--muted);line-height:1.75">PesaPlanner is not a bank, lender or M-Pesa replacement. It’s for the Kenyan money plot: <span style="color:var(--blue-bright);font-weight:600">salary day, M-Pesa messages, biashara stock, matatu fare, rent, fees, HELB, household bills, uneven income and the debt that was meant to be paid “kesho.”</span> Your records and choices stay yours.</p>
+      <p class="serif" style="font-size:22px;color:var(--yellow);margin-top:32px">“Nitajipanga” is a lovely speech. Let’s give it supporting evidence.</p>
     </div>
   </div>
 </section>
@@ -1446,8 +1453,8 @@ section{position:relative}
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="sec-eyebrow">Features · 03</span>
-      <h2>What PesaPlanner <span class="accent">actually does.</span></h2>
-        <p>From M-Pesa imports to month-ahead planning, PesaPlanner brings everyday money tools together for workers, households, students and small biashara across Kenya.</p>
+      <h2>When “I’ll figure it out later” <span class="accent">has become a lifestyle.</span></h2>
+        <p>These are the tools for finding the till, spotting the bills, planning around uneven income and answering the monthly classic: “Pesa imeenda wapi?” For work, home, campus and biashara across Kenya.</p>
     </div>
 
     <div class="feat-bento">
@@ -1464,7 +1471,7 @@ section{position:relative}
       <article class="f-card yellow hero-5 reveal" style="--d:80ms">
         <span class="f-topic">Spend with context</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9 8 10 4.6-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Safe-to-Spend Guidance</h3>
+        <h3>KSh 5,000? Not all yours.</h3>
         <p>Start with the balances you report across M-Pesa, cash and bank accounts. PesaPlanner accounts for commitments due today and recent spending pace to estimate what may be safe to spend. Rent still gets its say — a balance is not the same as spare money.</p>
         <span class="f-tag">Context, not just confidence.</span>
       </article>
@@ -1472,7 +1479,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:0ms">
         <span class="f-topic">Your overview</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></div>
-        <h3>Financial Dashboard</h3>
+        <h3>One screen. Fewer mysteries.</h3>
         <p>A central view of your recorded financial position: income, expenditure, budgets, upcoming commitments, insights and alerts. One place to start — instead of opening multiple screens to figure out what's happening.</p>
         <span class="f-tag">"Niko sawa, ama ni balance?"</span>
       </article>
@@ -1480,7 +1487,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:60ms">
         <span class="f-topic">Budgets</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
-        <h3>Budgets & Spending Plans</h3>
+        <h3>Stop letting “small small” win.</h3>
         <p>Organise spending across rent, stock, food, transport, airtime and data, school costs, household bills and savings. A budget helps you see whether a purchase fits your plans before you make it.</p>
         <span class="f-tag">Give every shilling a job.</span>
       </article>
@@ -1488,7 +1495,7 @@ section{position:relative}
       <article class="f-card yellow reveal" style="--d:120ms">
         <span class="f-topic">Spending patterns</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></div>
-        <h3>Smart Financial Insights</h3>
+        <h3>Follow the money trail.</h3>
         <p>Understand patterns across categories and trends. Realise that transport costs more than expected, or that frequent small purchases collectively consume a substantial portion of your budget. Replace "I don't know where the money went" with a clearer picture.</p>
         <span class="f-tag">Your money left clues.</span>
       </article>
@@ -1496,7 +1503,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:0ms">
         <span class="f-topic">Income</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="m6 9 6-6 6 6"/></svg></div>
-        <h3>Income Tracking</h3>
+        <h3>Track the money that actually arrives.</h3>
         <p>Salary, till sales, HELB upkeep, family support, freelancing, casual work or online gigs. See money coming in and how it relates to your financial position.</p>
         <span class="f-tag">HELB imeingia? Nice.</span>
       </article>
@@ -1504,7 +1511,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:60ms">
         <span class="f-topic">Bills & recurring costs</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div>
-        <h3>Bills, Recurring Costs & Reminders</h3>
+        <h3>Rent remembers. You can too.</h3>
         <p>Track rent, tokens, data, subscriptions and other obligations. PesaPlanner can surface likely recurring payments with a confidence level, usual amount, interval, next expected date and estimated yearly cost. Confirm a pattern, turn it into a bill or dismiss it. Set bill and daily-plan reminders, plus an optional nightly savings-sweep check.</p>
         <span class="f-tag">Rent shouldn't be a surprise.</span>
       </article>
@@ -1520,7 +1527,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:0ms">
         <span class="f-topic">Savings goals</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-        <h3>Savings Goals</h3>
+        <h3>Give future you a fighting chance.</h3>
         <p>Buying a laptop. Replacing your phone. Preparing for a semester expense. Building an emergency reserve. Saving for accommodation or a move. Make your goals visible instead of waiting to see whether money somehow remains at the end of the month.</p>
         <span class="f-tag">Future you says thanks.</span>
       </article>
@@ -1528,7 +1535,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:60ms">
         <span class="f-topic">Financial picture</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h3>Net Worth</h3>
+        <h3>Past the balance.</h3>
         <p>Look beyond your immediate cash balance. Where information is available, PesaPlanner brings recorded assets and liabilities into a broader financial summary — adding perspective to day-to-day money management.</p>
         <span class="f-tag">The bigger picture.</span>
       </article>
@@ -1544,7 +1551,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:0ms">
         <span class="f-topic">Meals</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>
-        <h3>Meal Planner</h3>
+        <h3>The fridge vs. the shopping list.</h3>
         <p>Food is not an optional lifestyle subscription. It is a recurring requirement, and its cost matters. Organise meals and consider food expenses alongside your wider budget — cook or buy, cheap or cheaper, planned or impulsive.</p>
         <span class="f-tag">Feed the body and the brain.</span>
       </article>
@@ -1552,7 +1559,7 @@ section{position:relative}
       <article class="f-card yellow reveal" style="--d:60ms">
         <span class="f-topic">Home inventory</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
-        <h3>Kitchen Stock & Belongings</h3>
+        <h3>Buy unga you don’t already have.</h3>
         <p>Track recorded food supplies and ingredients — support meal planning and consider what's already available before purchasing more. Also organise recorded personal items. Before buying more unga, check whether the unga from last week is still patiently waiting for its big moment.</p>
         <span class="f-tag">What do you already have?</span>
       </article>
@@ -1607,7 +1614,7 @@ section{position:relative}
       <article class="f-card yellow reveal" style="--d:80ms">
         <span class="f-topic">For biashara</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 12H5L3 9Z"/><path d="M3 9 5 3h14l2 6"/><path d="M9 13v4m6-4v4"/></svg></div>
-        <h3>Business Desk — Sales, Costs & Stock</h3>
+        <h3>Sales were good. Did you actually profit?</h3>
         <p>For small biashara, record sales and costs and track each item by quantity, unit, average buying cost, selling price and low-stock point. A sale updates stock and the ledger; restocking records the purchase. Link an existing M-Pesa entry to its stock movement to avoid double-booking. Keep business bills, customer and supplier contacts, and recent entries close by. Sales show cash movement — bei minus stock cost alone is not net profit.</p>
         <span class="f-tag">Biashara iko na story yake.</span>
       </article>
@@ -1631,7 +1638,7 @@ section{position:relative}
       <article class="f-card reveal" style="--d:120ms">
         <span class="f-topic">Daily & 30-day planning</span>
         <div class="f-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 15h3m4 0h3"/></svg></div>
-        <h3>Daily Plans & Cash-flow Runway</h3>
+        <h3>How many days till money comes in?</h3>
         <p>Start with the M-Pesa, cash and bank amounts you say you have; subtract commitments due today and compare the result with your recent spending pace to estimate safe-to-spend today and how long funds may last. A 30-day projection combines held balances, entered income dates, likely payday patterns, unpaid bills and recurring costs. It plots the expected path and highlights a possible low point or date money may run short. Test what-if scenarios before changing your records. These are estimates based on saved information, not a promise of your bank balance.</p>
         <span class="f-tag">Plan the days between inflows.</span>
       </article>
@@ -1645,16 +1652,16 @@ section{position:relative}
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="sec-eyebrow">Why Different · 04</span>
-      <h2>There are plenty of ways to<br>record expenses. <span class="accent">This is different.</span></h2>
-      <p>PesaPlanner connects the money moving through your day with the plans and commitments shaping it — at home, at work, on campus, on the road and in biashara.</p>
+      <h2>Your money has receipts.<br><span class="accent">Let’s find them.</span></h2>
+      <p>It’s one thing to write down what you spent. It’s another to know what’s still available after rent, stock, fare, school costs and the “quick” errands have had their turn.</p>
     </div>
     <div class="diff-grid">
-      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">01</span><h3>It starts with financial activity you already have.</h3><p>Supported M-Pesa messages provide a starting point for building a transaction history, reducing the need to manually reconstruct every payment.</p><span class="rule">Reduce repetitive bookkeeping.</span></article>
-      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">02</span><h3>It looks beyond the balance.</h3><p>PesaPlanner is designed to help users consider spending alongside budgets and relevant financial commitments — so "KSh 5,000" is not mistaken for "KSh 5,000 to spend."</p><span class="rule">Context over confidence.</span></article>
-      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">03</span><h3>It starts from Kenyan money realities.</h3><p>M-Pesa, matatu fare, HELB, till sales, stock, school fees, household bills and irregular income can all be part of the same month.</p><span class="rule">Built around life as it happens.</span></article>
-      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">04</span><h3>It connects money with everyday life.</h3><p>Food, kitchen stock, semester planning, savings and bills all have financial implications. PesaPlanner brings these related concerns into the wider experience.</p><span class="rule">Beyond the transaction ledger.</span></article>
-      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">05</span><h3>It makes financial information more approachable.</h3><p>PesaBuddy is intended to help users explore their records conversationally, with support for English, Kiswahili and Sheng.</p><span class="rule">Ask, don't scroll.</span></article>
-      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">06</span><h3>It prioritises local operation.</h3><p>The offline-first approach reduces dependence on network availability for ordinary financial management — because financial information is personal.</p><span class="rule">Your data stays with you.</span></article>
+      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">01</span><h3>Your M-Pesa messages are doing the paperwork.</h3><p>Use supported M-Pesa messages as a starting point for your transaction history. Review the records instead of replaying last week’s spending from memory.</p><span class="rule">Less detective work. More receipts.</span></article>
+      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">02</span><h3>Your balance is not your budget.</h3><p>See spending alongside budgets and commitments, so “KSh 5,000” doesn’t accidentally get mistaken for “KSh 5,000 and no one has called dibs.”</p><span class="rule">Check the guest list first.</span></article>
+      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">03</span><h3>One Kenyan month. Ten ways to spend it.</h3><p>M-Pesa, matatu fare, HELB, till sales, stock, school fees, household bills and irregular income can all show up before the month is done.</p><span class="rule">Built for the plot as it unfolds.</span></article>
+      <article class="diff-card reveal" style="--d:0ms"><span class="d-num">04</span><h3>The kitchen has a budget too.</h3><p>Food, kitchen stock, semester planning, savings and bills all have financial implications. PesaPlanner brings these related concerns into the wider experience.</p><span class="rule">Even unga has a paper trail.</span></article>
+      <article class="diff-card reveal" style="--d:60ms"><span class="d-num">05</span><h3>Ask PesaBuddy. Retire your scroll thumb.</h3><p>PesaBuddy helps users explore their records conversationally, with support for English, Kiswahili and Sheng.</p><span class="rule">Ask, don’t scroll 74 screens.</span></article>
+      <article class="diff-card reveal" style="--d:120ms"><span class="d-num">06</span><h3>The network can leave. The bills stay.</h3><p>Offline-first operation reduces dependence on network availability for ordinary money management. Your financial information stays on your device.</p><span class="rule">Your data stays home.</span></article>
     </div>
     <div class="reveal" style="margin-top:56px;max-width:820px;margin-left:auto;margin-right:auto;text-align:center">
       <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--text)">No app can make a small budget unlimited. PesaPlanner helps you see what that budget needs to cover <span style="color:var(--yellow)">before it starts acting mysterious.</span></p>
@@ -1671,15 +1678,15 @@ section{position:relative}
       <p>Campus is one part of the picture. Meet students, workers, teachers, families and biashara owners with different plans for their money — and a third of these stories are student life.</p>
     </div>
     <div class="persona-grid">
-      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Students_at_Pwani_University,_Kenya.jpg?width=900" alt="Students learning together at Pwani University" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Students_at_Pwani_University,_Kenya.jpg" target="_blank" rel="noopener">Ms Kabintie</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">📚</div><h3>The student making upkeep last</h3><p>HELB, rent, food, fare and school costs all compete for the same semester money. Make commitments visible and plan the next stretch.</p></div></article>
-      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/MSc_student_at_Kenyatta_University.jpg?width=900" alt="A postgraduate student at Kenyatta University" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:MSc_student_at_Kenyatta_University.jpg" target="_blank" rel="noopener">Swathi Sridharan</a> · <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🎓</div><h3>The campus commuter</h3><p>Matatu fare, lunch, data and fees add up across the term. Keep daily costs in view alongside your bigger goals.</p></div></article>
-      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kenyatta_university.jpg?width=900" alt="Kenyatta University campus in Nairobi" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Kenyatta_university.jpg" target="_blank" rel="noopener">Rotsee2</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">💻</div><h3>The student with a side gig</h3><p>Freelance work and small hustles can bring money in unevenly. Track income beside campus costs and the plans you are saving for.</p></div></article>
-      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Public_classroom.jpg?width=900" alt="A Kenyan public classroom where teachers and learners spend their day" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Public_classroom.jpg" target="_blank" rel="noopener">Artelnjeru</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">📖</div><h3>The teacher planning ahead</h3><p>Salary, classroom needs, transport and family commitments all have a place in the month. Put recurring costs and goals in one view.</p></div></article>
-      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mama_Mboga_Local_Seller.jpg?width=900" alt="A woman selling fresh fruit and vegetables at a Nairobi market stall" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Mama_Mboga_Local_Seller.jpg" target="_blank" rel="noopener">Rayankobz</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🥬</div><h3>The mama mboga</h3><p>Fresh stock, daily sales and home needs share one busy day. Record sales and costs, then see what needs restocking.</p></div></article>
-      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shop-kangemi.jpg?width=900" alt="A shopkeeper and child in a neighborhood shop in Kangemi, Nairobi" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Shop-kangemi.jpg" target="_blank" rel="noopener">Biva2017</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🛒</div><h3>The duka owner</h3><p>Stock has a cost before it becomes a sale. Track buying costs, sales and low-stock points to make the shop picture clearer.</p></div></article>
-      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boda_Boda_rider_in_Nairobi.jpg?width=900" alt="A boda boda rider working on a Nairobi street" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Boda_Boda_rider_in_Nairobi.jpg" target="_blank" rel="noopener">Tmaokisa</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🏍️</div><h3>The boda boda rider</h3><p>Fuel, repairs, daily earnings and home commitments shape the week. Keep income and costs visible as they happen.</p></div></article>
-      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kenya_Office_Work.jpg?width=900" alt="A worker in a Nairobi bicycle shop reviewing business accounts" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Kenya_Office_Work.jpg" target="_blank" rel="noopener">Moritz Poll</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">💼</div><h3>The worker on payday</h3><p>Salary lands, bills line up, and savings still matter. See recurring costs and choose what you want each payday to do.</p></div></article>
-      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Keeping_the_family_together.jpg?width=900" alt="A Kenyan family preparing food together at home" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Keeping_the_family_together.jpg" target="_blank" rel="noopener">Kabukasteven</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🏡</div><h3>The household organiser</h3><p>Food, school needs, utilities and family goals all touch the same budget. Keep household costs visible and plan together at home.</p></div></article>
+      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Students_at_Pwani_University,_Kenya.jpg?width=900" alt="Students learning together at Pwani University" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Students_at_Pwani_University,_Kenya.jpg" target="_blank" rel="noopener">Ms Kabintie</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">📚</div><h3>The student making upkeep last</h3><p>HELB lands and rent, food, fare and fees are already stretching their hands. Give semester money a plan before “tuko na pesa” becomes a campus myth.</p></div></article>
+      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/MSc_student_at_Kenyatta_University.jpg?width=900" alt="A postgraduate student at Kenyatta University" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:MSc_student_at_Kenyatta_University.jpg" target="_blank" rel="noopener">Swathi Sridharan</a> · <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🎓</div><h3>The campus commuter</h3><p>Fare, lunch, data and fees quietly form a queue at your wallet. Track the daily hits before the term starts acting surprised.</p></div></article>
+      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kenyatta_university.jpg?width=900" alt="Kenyatta University campus in Nairobi" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Kenyatta_university.jpg" target="_blank" rel="noopener">Rotsee2</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">💻</div><h3>The student with a side gig</h3><p>Freelance cash arrives whenever it remembers. Track it beside campus costs—and keep “one quick revision” from becoming an unpaid sequel.</p></div></article>
+      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Public_classroom.jpg?width=900" alt="A Kenyan public classroom where teachers and learners spend their day" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Public_classroom.jpg" target="_blank" rel="noopener">Artelnjeru</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">📖</div><h3>The teacher planning ahead</h3><p>Salary, transport, family and classroom needs all want a line in the budget. Let the recurring costs stop pretending they’re surprises.</p></div></article>
+      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mama_Mboga_Local_Seller.jpg?width=900" alt="A woman selling fresh fruit and vegetables at a Nairobi market stall" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Mama_Mboga_Local_Seller.jpg" target="_blank" rel="noopener">Rayankobz</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🥬</div><h3>The mama mboga</h3><p>Tomatoes will not wait for month-end and neither will customers. Record sales and costs between the rushes; see what needs restocking.</p></div></article>
+      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shop-kangemi.jpg?width=900" alt="A shopkeeper and child in a neighborhood shop in Kangemi, Nairobi" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Shop-kangemi.jpg" target="_blank" rel="noopener">Biva2017</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🛒</div><h3>The duka owner</h3><p>Stock takes cash up front; profit likes to arrive after a long meeting. Track the buying cost, sales and what’s running low.</p></div></article>
+      <article class="persona reveal" style="--d:0ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boda_Boda_rider_in_Nairobi.jpg?width=900" alt="A boda boda rider working on a Nairobi street" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Boda_Boda_rider_in_Nairobi.jpg" target="_blank" rel="noopener">Tmaokisa</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🏍️</div><h3>The boda boda rider</h3><p>Fuel gets paid first, repairs refuse to RSVP, and home still needs its share. Keep the day’s earnings and costs in view.</p></div></article>
+      <article class="persona reveal" style="--d:60ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kenya_Office_Work.jpg?width=900" alt="A worker in a Nairobi bicycle shop reviewing business accounts" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Kenya_Office_Work.jpg" target="_blank" rel="noopener">Moritz Poll</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">💼</div><h3>The worker on payday</h3><p>Salary lands. Rent was already typing. Give the rest of payday a plan before the bills turn the inbox into a meeting invite.</p></div></article>
+      <article class="persona reveal" style="--d:120ms"><figure class="persona-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Keeping_the_family_together.jpg?width=900" alt="A Kenyan family preparing food together at home" loading="lazy" decoding="async"><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Keeping_the_family_together.jpg" target="_blank" rel="noopener">Kabukasteven</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption></figure><div class="persona-copy"><div class="p-emoji">🏡</div><h3>The household organiser</h3><p>Food, school needs, tokens and “tumeishiwa unga” can form an emergency committee at any hour. Keep the regular costs visible and plan together.</p></div></article>
     </div>
   </div>
 </section>
@@ -1689,9 +1696,9 @@ section{position:relative}
   <div class="wrap">
     <div class="vision-inner reveal">
       <span class="sec-eyebrow" style="display:inline-flex">The Bigger Vision · 06</span>
-      <p class="belief">Every Kenyan deserves to see where their money is going — and choose <em>where it goes next.</em></p>
-      <p>A boda rider, a teacher, a shop owner, a parent and a student all make money decisions under different pressures. Good planning should make room for those differences instead of squeezing everyone into one template.</p>
-      <p>PesaPlanner brings financial activity together, makes recorded commitments easier to see, and helps people plan with the information they choose to keep on their device.</p>
+      <p class="belief">Every Kenyan deserves to know where the money went — before the balance starts acting innocent.</p>
+      <p>A boda rider, teacher, shop owner, parent and student don’t share one budget or one payday. Some income comes in on schedule; some comes in when customers remember the agreement. Planning tools should make room for that actual life.</p>
+      <p>PesaPlanner brings recorded money activity together, shows the commitments you’ve entered and helps you plan with information you choose to keep on your device.</p>
       <p>No judgement for the small treats, no promises that an app can stretch an income. Just a clearer view of what came in, what is due and what choices are available now.</p>
       <p>Start with the life you have. Set a goal that matters to you. Make the next move with more clarity.</p>
       <div class="vision-close">
@@ -1708,8 +1715,8 @@ section{position:relative}
   <div class="wrap">
     <header class="plans-head">
       <span class="plans-kicker" data-copy-key="plansKicker">Plans · built around how you use PesaPlanner</span>
-      <h2 data-copy-key="plansTitle">Choose the level that fits your money life.</h2>
-      <p data-copy-key="plansIntro">Choose a plan for the tools you need. Prices are monthly; checkout is completed in the Android app.</p>
+      <h2 data-copy-key="plansTitle">Pick your tools. Your landlord already picked theirs.</h2>
+      <p data-copy-key="plansIntro">Choose the features you need for your actual money life. Prices are monthly; checkout happens in the Android app. No plan can make rent cheaper, unfortunately.</p>
     </header>
 
     <aside class="plans-status" role="status">
@@ -1865,8 +1872,8 @@ section{position:relative}
   <div class="cta-glow-2"></div>
   <div class="wrap">
     <div class="cta-inner reveal">
-      <h2>See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span></h2>
-        <p>Explore the plan tiers and see exactly what is included. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.</p>
+      <h2>Before you ask<br>“Pesa ilienda wapi?”<br><span class="accent">Give it a paper trail.</span></h2>
+        <p>See what each plan includes and choose the tools that fit your money life. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.</p>
       <div class="cta-actions">
         <a class="btn btn-primary" href="#plans">Explore plans<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
         <a class="btn btn-ghost" href="#install">Android availability</a>
@@ -2062,21 +2069,21 @@ const target = !isNaN(custom)
     visionLabel: '.vision .sec-eyebrow', reviewLabel: '.review-spotlight .sec-eyebrow', reviewTitle: '.review-spotlight h2', reviewCopy: '.review-copy', reviewButton: '.review-spotlight .btn', reviewLegend: '.review-rating-legend', reviewRatingHint: '.review-rating-hint', reviewTextLabel: '.review-text-label', reviewPlaceholder: '.review-textarea', reviewEmailLabel: '.review-email-label', reviewEmailHint: '.review-email-hint', reviewSubmit: '.review-submit', reviewFormNote: '.review-form-note', ctaTitle: '.cta h2', ctaDescription: '.cta p:not(.cta-note)', ctaNote: '.cta-note'
   };
   const locales = {
-    en: {
+      en: {
       navProblem:'The Problem',navWatch:'Watch',navFeatures:'Features',navDifference:'Why Different',navAudience:"Who It's For",navVision:'Vision',navCta:'See plans',
-      heroEyebrow:'Built for Kenya · Offline-first · Every kind of money life',heroTitle:'Every shilling<br>has a <span class="accent">next move.</span><br>Make yours count.',heroDescription:'Salary, sales, a gig or support from home — every shilling already has somewhere to go. See what is committed, plan the next move and keep your money organised, even when the internet is not.',heroPrimary:'Explore plans',heroWatch:'Watch the demo',heroTrust:['No bank login','Works offline','Your data stays yours'],
-      problemLabel:'THE EVERYDAY MONEY SQUEEZE · 01',problemTitle:'Money moves fast.<br>Make your next move <span class="accent">count.</span>',problemIntro:'Payday, biashara sales, a matatu stage, school fees, rent, stock and family support: money decisions happen everywhere. PesaPlanner helps you see the whole picture before the month starts making decisions for you.',
-      solutionLabel:'THE SOLUTION · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Your money, with a plan.',solutionIntro:'PesaPlanner is an offline-first money-management app for workers, households, students and small businesses in Kenya. Organise transactions, budgets and debts, with your records staying on your device.',
+        heroEyebrow:'Built for Kenya · Offline-first · Every kind of money life',heroTitle:'Your money<br>has <span class="accent">plans.</span><br>Do you?',heroDescription:'Biashara was busy. So where did the money go? Salary imeingia; rent has claimed first dibs. You rode since dawn; fuel and repairs took their cut. And “kesho nitakulipa” has entered another financial year. Your money has plans. Let’s see them.',heroPrimary:'Explore plans',heroWatch:'Watch the demo',heroTrust:['No bank login','Works offline','Your data stays yours'],
+      problemLabel:'THE EVERYDAY MONEY SQUEEZE · 01',problemTitle:'Sales were good.<br>So why is the till <span class="accent">empty?</span>',problemIntro:'Salary imeingia; rent has dibs. The shop needs stock. Tokens have gone. Fare is negotiating with lunch. The month is halfway through and your money has somehow attended more meetings than you have.',
+      solutionLabel:'THE SOLUTION · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Your money’s unofficial investigator.',solutionIntro:'Ever looked at your balance and thought, “Hii pesa ilienda wapi?” PesaPlanner is an offline-first money-management app for Kenyan life. Bring transactions, bills, budgets and goals into one view; your records stay on your device.',
       demoLabel:'SEE IT IN ACTION · 02.5',demoTitle:'See PesaPlanner <span class="accent">in action.</span>',demoIntro:'Start with the full walkthrough. Open the video shelf below if you want to see the short clips.',
-      featuresLabel:'FEATURES · 03',featuresTitle:'What PesaPlanner <span class="accent">can help you do.</span>',featuresIntro:'Explore tools for work, home, campus and biashara — including imports, budgets, bills, planning and stock.',
-      differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'More than a way to<br>record expenses.',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'Nine people.<br><span class="accent">Nine money lives.</span>',audienceIntro:'From campus to the market, classroom, road and home. About a third of these stories are student life; the rest show the many ways Kenyans earn, spend and plan.',
-      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaPlanner? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaPlanner and help others know what to expect.',reviewButton:'Write a review',reviewLegend:'Star rating <span aria-hidden="true">· required</span>',reviewRatingHint:'1 = needs work · 5 = excellent',reviewTextLabel:'Your review <span class="optional">(optional)</span>',reviewPlaceholder:'Tell us what you liked or what we could improve…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, only if you want a reply)</span>',reviewEmailHint:'(optional, only if you want a reply)',reviewSubmit:'Send my review',reviewFormNote:'No name needed. Please don’t include private M-Pesa or financial details.',ctaDescription:'Explore the plan tiers and see exactly what is included. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.',ctaTitle:'See your money.<br>Understand your money.<br><span class="accent">Plan your next move.</span>',ctaNote:'Prepaid plans do not auto-renew. Review the exact total in the app before paying.'
+      featuresLabel:'FEATURES · 03',featuresTitle:'When “I’ll figure it out later” <span class="accent">has become a lifestyle.</span>',featuresIntro:'Tools for finding the till, spotting the bills, planning around uneven income and answering the monthly classic: “Pesa imeenda wapi?”',
+      differenceLabel:'WHY IT IS DIFFERENT · 04',differenceTitle:'Your money has receipts.<br><span class="accent">Let’s find them.</span>',audienceLabel:'WHO IT IS FOR · 05',audienceTitle:'One Kenya.<br><span class="accent">Nine different money lives.</span>',audienceIntro:'Campus is one part of the picture. Meet students, workers, teachers, families and biashara owners; a third of these stories are student life.',
+      visionLabel:'THE BIGGER VISION · 06',reviewLabel:'YOUR VOICE COUNTS',reviewTitle:'Tried PesaPlanner? <span class="accent">Leave a review.</span>',reviewCopy:'Your honest rating and feedback help improve PesaPlanner and help others know what to expect.',reviewButton:'Write a review',reviewLegend:'Star rating <span aria-hidden="true">· required</span>',reviewRatingHint:'1 = needs work · 5 = excellent',reviewTextLabel:'Your review <span class="optional">(optional)</span>',reviewPlaceholder:'Tell us what you liked or what we could improve…',reviewEmailLabel:'Email <span class="optional review-email-hint">(optional, only if you want a reply)</span>',reviewEmailHint:'(optional, only if you want a reply)',reviewSubmit:'Send my review',reviewFormNote:'No name needed. Please don’t include private M-Pesa or financial details.',ctaDescription:'See what each plan includes and pick the tools that fit your money life. Payment happens in the Android app through Paystack; this website never collects your financial ledger or M-Pesa PIN.',ctaTitle:'Before you ask<br>“Pesa ilienda wapi?”<br><span class="accent">Give it a paper trail.</span>',ctaNote:'Prepaid plans do not auto-renew. Review the exact total in the app before paying.'
     },
     sw: {
       navProblem:'Changamoto',navWatch:'Tazama',navFeatures:'Vipengele',navDifference:'Tofauti Yake',navAudience:'Ni ya Nani',navVision:'Dira',navCta:'Angalia mipango',
-      heroEyebrow:'Imeundwa Kenya · Hufanya kazi bila intaneti · Kwa kila aina ya maisha ya pesa',heroTitle:'Kila shilingi<br>ina <span class="accent">hatua inayofuata.</span><br>Ichague kwa makini.',heroDescription:'Mshahara, mauzo, kibarua au msaada wa nyumbani — kila shilingi ina mahali pa kwenda. Ona kilichopangiwa, panga hatua inayofuata na weka pesa zako sawa hata intaneti isipokuwepo.',heroPrimary:'Angalia mipango',heroWatch:'Tazama jinsi inavyofanya kazi',heroTrust:['Hakuna kuingia kwa benki','Hufanya kazi bila intaneti','Data yako ni yako'],
-      problemLabel:'MSONGAMANO WA PESA KILA SIKU · 01',problemTitle:'Pesa hutembea haraka.<br>Panga hatua <span class="accent">inayofuata.</span>',problemIntro:'Mshahara, mauzo ya biashara, nauli, karo, kodi, bidhaa na kusaidia familia: maamuzi ya pesa hufanyika kila mahali. PesaPlanner hukusaidia kuona hali nzima kabla mwezi haujaanza kukuamulia.',
-      solutionLabel:'SULUHISHO · 02',solutionTitle:'Kutana na <span class="accent">PesaPlanner.</span><br>Pesa yako, ikiwa na mpango.',solutionIntro:'PesaPlanner ni programu ya kupanga fedha bila intaneti kwa wafanyakazi, kaya, wanafunzi na biashara ndogo nchini Kenya. Inasaidia kupanga miamala, bajeti na madeni huku rekodi zikibaki kwenye kifaa chako.',
+      heroEyebrow:'Imeundwa Kenya · Hufanya kazi bila intaneti · Kwa kila aina ya maisha ya pesa',heroTitle:'Pesa yako<br>iko na <span class="accent">mipango.</span><br>Na wewe je?',heroDescription:'Biashara ilikuwa na shughuli. Pesa zimeenda wapi? Mshahara umeingia; kodi imechukua nafasi ya kwanza. Ulifanya kazi tangu alfajiri; mafuta na matengenezo yamechukua chao. Na “nitakulipa kesho” imeingia mwaka mwingine wa fedha. Pesa yako ina mipango. Tuione.',heroPrimary:'Angalia mipango',heroWatch:'Tazama jinsi inavyofanya kazi',heroTrust:['Hakuna kuingia kwa benki','Hufanya kazi bila intaneti','Data yako ni yako'],
+      problemLabel:'MSONGAMANO WA PESA KILA SIKU · 01',problemTitle:'Mauzo yalikuwa mazuri.<br>Mbona till iko <span class="accent">tupu?</span>',problemIntro:'Mshahara umeingia; kodi imechukua nafasi. Duka linahitaji bidhaa. Tokeni zimeisha. Nauli inashindana na chakula. Mwezi bado uko katikati lakini pesa yako imehudhuria mikutano mingi kukushinda.',
+      solutionLabel:'SULUHISHO · 02',solutionTitle:'Kutana na <span class="accent">PesaPlanner.</span><br>Mpelelezi wa pesa zako.',solutionIntro:'Umewahi kuangalia salio na kuuliza, “Hii pesa ilienda wapi?” PesaPlanner ni programu ya kupanga fedha bila intaneti kwa maisha ya Kenya. Leta miamala, bili, bajeti na malengo sehemu moja huku rekodi zikibaki kwenye kifaa chako.',
       demoLabel:'ITAZAME IKIFANYA KAZI · 02.5',demoTitle:'Tazama PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Anza na video kamili. Fungua sehemu ya video hapa chini ukitaka kuona klipu fupi.',
       featuresLabel:'VIPENGELE · 03',featuresTitle:'PesaPlanner <span class="accent">inakusaidia kufanya nini?</span>',featuresIntro:'Gundua zana za kupanga pesa kazini, nyumbani, chuoni na kwenye biashara — pamoja na miamala, bajeti, bili, mipango na bidhaa.',
       differenceLabel:'TOFAUTI YAKE · 04',differenceTitle:'Zaidi ya kurekodi<br>matumizi ya pesa.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tisa.<br><span class="accent">Hali tisa za pesa.</span>',audienceIntro:'Kuanzia chuo hadi sokoni, darasani, barabarani na nyumbani. Takriban theluthi moja ya mifano ni ya wanafunzi; mingine inaonyesha jinsi Wakenya wanavyopata, kutumia na kupanga pesa.',
@@ -2084,9 +2091,9 @@ const target = !isNaN(custom)
     },
     sheng: {
       navProblem:'Shida',navWatch:'Angalia',navFeatures:'Vitu iko nazo',navDifference:'Mbona ni tofauti',navAudience:'Ni ya nani',navVision:'Dira',navCta:'Check plans',
-      heroEyebrow:'Imebuildiwa Kenya · Inawork bila net · Kila aina ya money life',heroTitle:'Kila shilling iko na<br><span class="accent">move inafuata.</span><br>Ichague poa.',heroDescription:'Salary, sales, gig ama support ya home — kila shilling iko na place ya kuenda. Ona committed nini, plan move inafuata na organize doh yako hata net ikikataa.',heroPrimary:'Explore plans',heroWatch:'Watch demo',heroTrust:['Hakuna bank login','Inawork bila net','Data ni yako'],
-      problemLabel:'SHIDA YA DOH YA KILA SIKU · 01',problemTitle:'Doh inamove haraka.<br>Panga move <span class="accent">inafuata.</span>',problemIntro:'Salary, biashara sales, fare, school fees, rent, stock na kusaidia home — money decisions ziko kila mahali. PesaPlanner inakusaidia kuona picture mzima kabla mwezi ikuamue.',
-      solutionLabel:'SULUHISHO · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Doh yako iko na plan.',solutionIntro:'PesaPlanner ni app ya kupanga doh bila net kwa workers, home, campus na biashara ndogo Kenya. Panga transactions, budget na madeni, ujue pesa iko committed wapi.',
+      heroEyebrow:'Imebuildiwa Kenya · Inawork bila net · Kila aina ya money life',heroTitle:'Doh yako iko na<br><span class="accent">plans.</span><br>Na wewe je?',heroDescription:'Biashara ilikuwa busy. Sasa doh ilienda wapi? Salary imeingia; rent imechukua first dibs. Uliride tangu asubuhi; mafuta na repairs zikachukua zao. Na “nitakulipa kesho” imeingia financial year ingine. Doh yako iko na plans. Tuangalie.',heroPrimary:'Explore plans',heroWatch:'Watch demo',heroTrust:['Hakuna bank login','Inawork bila net','Data ni yako'],
+      problemLabel:'SHIDA YA DOH YA KILA SIKU · 01',problemTitle:'Sales zilikuwa poa.<br>Mbona till iko <span class="accent">empty?</span>',problemIntro:'Salary imeingia; rent iko na dibs. Duka inahitaji stock. Tokens zimeisha. Fare inabargain na lunch. Mwezi iko halfway lakini doh yako imeenda meeting mob kukushinda.',
+      solutionLabel:'SULUHISHO · 02',solutionTitle:'Meet <span class="accent">PesaPlanner.</span><br>Detective wa doh yako.',solutionIntro:'Umewahi angalia balance ukajiuliza, “Hii pesa ilienda wapi?” PesaPlanner ni app ya kupanga doh bila net kwa life ya Kenya. Leta transactions, bills, budgets na goals pamoja; records zinabaki kwa device yako.',
       demoLabel:'ANGALIA IKIACTION · 02.5',demoTitle:'Angalia PesaPlanner <span class="accent">ikifanya kazi.</span>',demoIntro:'Anza na full walkthrough. Fungua video shelf hapa chini ukitaka kuona clips fupi.',
       featuresLabel:'FEATURES · 03',featuresTitle:'PesaPlanner <span class="accent">inaweza kusaidia aje?</span>',featuresIntro:'Angalia tools za kupanga doh kazini, home, campus na biashara — transactions, budget, bills, plans na stock.',
       differenceLabel:'MBONA NI TOFAUTI · 04',differenceTitle:'Si kurecord tu<br>venye doh imetoka.',audienceLabel:'NI YA NANI · 05',audienceTitle:'Watu tisa.<br><span class="accent">Money lives tisa.</span>',audienceIntro:'Campus hadi soko, classroom, road na home. Karibu one-third ya stories ni za students; zingine zinaonyesha vile Wakenya tofauti hupata, spend na plan doh.',
@@ -2094,9 +2101,9 @@ const target = !isNaN(custom)
     },
     fr: {
       navProblem:'Le problème',navWatch:'Voir',navFeatures:'Fonctionnalités',navDifference:'Ce qui change',navAudience:'Pour qui ?',navVision:'Notre vision',navCta:'Voir les offres',
-      heroEyebrow:'Conçu au Kenya · Hors ligne · Pour chaque vie financière',heroTitle:'Chaque shilling<br>a une <span class="accent">prochaine étape.</span><br>Choisissez-la.',heroDescription:'Salaire, ventes, petit travail ou aide de la famille : chaque shilling a déjà une destination. Voyez les dépenses prévues, préparez la suite et gardez vos finances organisées, même sans internet.',heroPrimary:'Voir les offres',heroWatch:'Voir la démonstration',heroTrust:['Sans connexion bancaire','Fonctionne hors ligne','Vos données vous appartiennent'],
-      problemLabel:'LE DÉFI DE L’ARGENT AU QUOTIDIEN · 01',problemTitle:'L’argent circule vite.<br>Préparez la <span class="accent">prochaine étape.</span>',problemIntro:'Salaire, ventes, transport, frais scolaires, loyer, stock et soutien familial : les décisions financières se prennent partout. PesaPlanner vous aide à voir l’ensemble avant que le mois ne décide pour vous.',
-      solutionLabel:'LA SOLUTION · 02',solutionTitle:'Découvrez <span class="accent">PesaPlanner.</span><br>Votre compagnon financier.',solutionIntro:'PesaPlanner est une application hors ligne de gestion financière pour les étudiants, les particuliers, les foyers et les petites entreprises au Kenya. Elle aide à organiser transactions, budgets et dettes, avec des données conservées sur votre appareil.',
+      heroEyebrow:'Conçu au Kenya · Hors ligne · Pour chaque vie financière',heroTitle:'Votre argent<br>a des <span class="accent">plans.</span><br>Et vous ?',heroDescription:'La boutique a bien tourné. Alors, où est passé l’argent ? Le salaire est arrivé ; le loyer s’est servi en premier. Vous avez roulé depuis l’aube ; carburant et réparations ont pris leur part. Et « je paie demain » vient d’entrer dans une nouvelle année fiscale. Votre argent a des plans. Voyons lesquels.',heroPrimary:'Voir les offres',heroWatch:'Voir la démonstration',heroTrust:['Sans connexion bancaire','Fonctionne hors ligne','Vos données vous appartiennent'],
+      problemLabel:'LE DÉFI DE L’ARGENT AU QUOTIDIEN · 01',problemTitle:'Les ventes étaient bonnes.<br>Pourquoi la caisse est-elle <span class="accent">vide ?</span>',problemIntro:'Le salaire est arrivé ; le loyer a pris sa part. La boutique doit renouveler son stock. Les crédits de compteur sont épuisés. Le transport négocie avec le déjeuner. Le mois n’est qu’à moitié écoulé et votre argent a déjà assisté à plus de réunions que vous.',
+      solutionLabel:'LA SOLUTION · 02',solutionTitle:'Découvrez <span class="accent">PesaPlanner.</span><br>Le détective de votre argent.',solutionIntro:'Vous est-il déjà arrivé de regarder votre solde en demandant : « Où est passé cet argent ? » PesaPlanner est une application de gestion financière hors ligne conçue pour la vie au Kenya. Rassemblez transactions, factures, budgets et objectifs, avec vos données conservées sur votre appareil.',
       demoLabel:'EN ACTION · 02.5',demoTitle:'Découvrez PesaPlanner <span class="accent">en action.</span>',demoIntro:'Commencez par la présentation complète. Ouvrez la section ci-dessous pour voir les courtes vidéos.',
       featuresLabel:'FONCTIONNALITÉS · 03',featuresTitle:'Ce que PesaPlanner <span class="accent">peut vous aider à faire.</span>',featuresIntro:'Découvrez des outils pour les finances étudiantes, personnelles, familiales et les petites entreprises : transactions, budgets, projets et stocks.',
       differenceLabel:'CE QUI CHANGE · 04',differenceTitle:'Bien plus qu’un outil pour<br>noter ses dépenses.',audienceLabel:'POUR QUI ? · 05',audienceTitle:'Neuf personnes.<br><span class="accent">Neuf réalités financières.</span>',audienceIntro:'Du campus au marché, à la salle de classe, à la route et à la maison. Environ un tiers de ces exemples concerne les étudiants; les autres reflètent les diverses façons dont les Kenyans gagnent, dépensent et planifient.',
@@ -2106,7 +2113,7 @@ const target = !isNaN(custom)
   const planLocales = {
     en: {
       videoLibraryToggle:'Want more? Browse the 8 short clips',
-      navPlans:'Plans & download',plansKicker:'Plans · built around how you use PesaPlanner',plansTitle:'Clear plans. No surprises.',plansIntro:'Choose a plan for the tools you need. Prices are monthly; checkout is completed in the Android app.',plansStatusTitle:'Checkout happens in the Android app.',plansStatusText:'This website does not collect payments. Review the full price and duration in the app before completing Paystack mobile-money checkout.',
+      navPlans:'Plans & download',plansKicker:'Plans · built around how you use PesaPlanner',plansTitle:'Pick your tools. Your landlord already picked theirs.',plansIntro:'Choose the features you need for your actual money life. Prices are monthly; checkout happens in the Android app. No plan can make rent cheaper, unfortunately.',plansStatusTitle:'Checkout happens in the Android app.',plansStatusText:'This website does not collect payments. Review the full price and duration in the app before completing Paystack mobile-money checkout.',
       freeBadge:'Personal + student',freePrice:'KSh 49 / month',freeSummary:'Personal and student money management for everyday planning.',freeFeature1:'Personal and student profiles with daily spending guidance',freeFeature2:'Budgets, bills, debts and savings goals',freeFeature3:'Campus, semester and salary planning',freeFeature4:'Offline-first records stored on your device',freeMissLabel:'Plan terms:',freeMiss:'Prepaid access does not auto-renew. Saved financial records remain available after a paid term expires.',freeAction:'Get the Android app',
       plusBadge:'For business and household money',plusPrice:'KSh 89 / month',plusSummary:'Everything in Lite, plus tools for business and household money.',plusFeature1:'Everything in Lite',plusFeature2:'Record sales, costs, stock and till cash flow.',plusFeature3:'Organise household bills and family goals on this device.',plusFeature4:'Track kitchen stock and plan meals.',plusFeature5:'Switch between personal, business and household tools.',plusFeature6:'Use the same local ledger across the features you unlock.',plusFeature7:'Unlock detailed Plus financial insights.',plusMissLabel:'Household note:',plusMiss:'Household records are organised on the device; this is not shared-account or cloud-sync access.',plusAction:'Get the Android app',
       maxBadge:'Everything in Plus, plus receipt scanning',maxPrice:'KSh 129 / month',maxSummary:'Everything in Plus, with receipt photo scanning.',maxFeature1:'Everything in Plus',maxFeature2:'Capture a receipt photo to help create an expense record.',maxFeature3:'Review and confirm extracted details before saving.',maxFeature4:'Automate repeat rules and export records for accounting (PDF, Excel, and CSV)',maxFeature5:'Manage sales, costs, stock quantities, prices and low-stock points; link M-Pesa entries to stock movements',maxFeature6:'Review duplicate or uncertain transactions, clean up records and undo supported changes',maxFeature7:'Export filtered CSVs, categorized PDF reports and full JSON backups; protect PDF exports with a PIN',maxStatusLabel:'Receipt check:',maxStatus:'Scanned details are suggestions; review them before adding the expense to your records.',maxAction:'Get the Android app',
@@ -2439,12 +2446,12 @@ const target = !isNaN(custom)
     englishPhraseElements.forEach(({ element, phrase }) => {
       if (element.isConnected) element.textContent = englishExactPhrases.get(phrase);
     });
-    document.title = 'Every Shilling Has a Next Move | PesaPlanner';
+    document.title = 'Your Money Has Plans. Do You? | PesaPlanner';
     const englishMeta = {
       description: 'Plan Kenyan everyday money offline. Organise M-Pesa, sales, salary, bills, budgets and goals for home, work, campus and biashara.',
-      'og:title': 'Every Shilling Has a Next Move | PesaPlanner',
+      'og:title': 'Your Money Has Plans. Do You? | PesaPlanner',
       'og:description': 'Organise M-Pesa, salary, sales, bills, budgets and goals for home, work, campus and biashara — offline in Kenya.',
-      'twitter:title': 'Every Shilling Has a Next Move | PesaPlanner',
+      'twitter:title': 'Your Money Has Plans. Do You? | PesaPlanner',
       'twitter:description': 'Organise M-Pesa, salary, sales, bills, budgets and goals for home, work, campus and biashara — offline in Kenya.'
     };
     document.querySelectorAll('meta[name="description"],meta[property="og:title"],meta[property="og:description"],meta[name="twitter:title"],meta[name="twitter:description"]').forEach(meta => {
@@ -2604,6 +2611,6 @@ body,:root{transition:background-color .22s ease,color .22s ease}
   });
 })();
 </script>
-</body>
+<script src="site-translate.js" defer></script></body>
 </html>
 
